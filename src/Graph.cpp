@@ -4,7 +4,28 @@
 
 #include "Graph.h"
 
-Graph::Graph(bool directed) : directed(directed), n(0) {}
+/* CONSTRUCTORS */
+Graph::Graph(bool directed, int n) : directed(directed), n(0) {
+    if (n <= 0) return;
+
+    this->n = n;
+    vertices.resize(n);
+}
+
+Graph::Graph(int n, bool directed) : Graph(directed, n) {}
+
+/* METHODS */
+bool Graph::isDirected() const{
+    return directed;
+}
+
+int Graph::numberOfVertices() const{
+    return n;
+}
+
+std::vector<Vertex> Graph::getVertices() const{
+    return vertices;
+}
 
 void Graph::addVertex(Vertex *v){
     if (v == nullptr) v = new Vertex();

@@ -16,9 +16,14 @@ class Graph {
 
 public:
     // constructors
-    explicit Graph(bool directed = true);
+    explicit Graph(bool directed = true, int n = 0);
+    explicit Graph(int n, bool directed = true);
 
     // methods
+    bool isDirected() const;
+    int numberOfVertices() const;
+    std::vector<Vertex> getVertices() const;
+
     void addVertex(Vertex* v = nullptr);
     int removeVertex(int num);
 
