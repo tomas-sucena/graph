@@ -5,14 +5,15 @@
 #ifndef GRAPH_GRAPH_H
 #define GRAPH_GRAPH_H
 
+#include <list>
 #include <vector>
 
 #include "Vertex.h"
 
 class Graph {
-    int n;
     bool directed;
     std::vector<Vertex> vertices;
+    std::list<Edge*> edges;
 
 public:
     // constructors
@@ -22,12 +23,17 @@ public:
     // methods
     bool isDirected() const;
     int numberOfVertices() const;
+    int numberOfEdges() const;
     std::vector<Vertex> getVertices() const;
 
+    bool reserve(int num);
     void addVertex(Vertex* v = nullptr);
     int removeVertex(int num);
 
     bool addEdge(int src, int dest, int weight = 1, bool valid = true);
+
+    int inDegree(int num) const;
+    int outDegree(int num) const;
 };
 
 #endif //GRAPH_GRAPH_H
