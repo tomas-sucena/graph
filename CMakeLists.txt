@@ -8,7 +8,7 @@ add_executable(graph
         src/Graph.cpp
         src/Graph.h
         src/Vertex.h
-        tests/initializationTest.cpp)
+        tests/initializationTest.cpp tests/manipulationTest.cpp)
 
 include(FetchContent)
 FetchContent_Declare(

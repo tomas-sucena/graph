@@ -172,3 +172,13 @@ int Graph::inDegree(int num) const{
 int Graph::outDegree(int num) const{
     return (int) vertices[num].adj.size();
 }
+
+bool Graph::areConnected(int src, int dest) const{
+    for (const Edge* e : vertices[src].adj){
+        if (e->dest != dest) continue;
+
+        return true;
+    }
+
+    return false;
+}

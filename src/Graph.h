@@ -34,6 +34,7 @@ public:
 
     int inDegree(int num) const;
     int outDegree(int num) const;
+    bool areConnected(int src, int dest) const;
 };
 
 #endif //GRAPH_GRAPH_H
