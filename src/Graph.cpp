@@ -4,6 +4,8 @@
 
 #include "Graph.h"
 
+#include <queue>
+
 /* CONSTRUCTORS */
 /**
  * creates a new Graph
@@ -173,6 +175,12 @@ int Graph::outDegree(int num) const{
     return (int) vertices[num].adj.size();
 }
 
+/**
+ * verifies if there exists an edge that connects two vertices
+ * @param src number of the source vertex
+ * @param dest number of the destination vertex
+ * @return 'true' if the vertices are connected, 'false' otherwise
+ */
 bool Graph::areConnected(int src, int dest) const{
     for (const Edge* e : vertices[src].adj){
         if (e->dest != dest) continue;
@@ -181,4 +189,35 @@ bool Graph::areConnected(int src, int dest) const{
     }
 
     return false;
+}
+
+int Graph::bfs(int a){
+    // reset()
+    int visitedVertices = 0;
+
+    vertices[a].valid = false;
+    vertices[a].dist = 0;
+
+    std::queue<int> q;
+    q.push(a);
+
+    while (!q.empty()){
+        int curr = q.front();
+        q.pop();
+
+        ++visitedVertices;
+
+        for (const Edge* e : vertices[curr].adj){
+            int next = e->dest;
+
+            vertices[next].dist = std::min(vertices[curr].dist + e->weight, vertices[next].dist);
+
+            if (!vertices[next].valid || !e->valid) continue;
+            vertices[next].valid = false;
+
+            q.push(next);
+        }
+    }
+
+    return visitedVertices;
 }
