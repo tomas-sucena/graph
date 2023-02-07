@@ -14,7 +14,7 @@
 #define INF INT_MAX
 
 class Vertex {
-    int num;
+    int index;
     bool valid;
     int dist;
     std::list<Edge*> adj;
@@ -24,7 +24,7 @@ class Vertex {
 public:
     // constructor
     explicit Vertex(bool valid = true)
-        : valid(valid), num(0), dist(INF) {}
+        : valid(valid), index(0), dist(INF) {}
 };
 
 #endif //GRAPH_VERTEX_H

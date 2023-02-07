@@ -12,7 +12,7 @@
  * @param directed bool that indicates if the Graph is directed
  * @param n number of vertices that the Graph will be initialized with
  */
-Graph::Graph(bool directed, int n) : directed(directed) {
+Graph::Graph(bool directed, int n) : directed(directed), vertices(1) {
     if (n <= 0) return;
 
     vertices.resize(n);
@@ -58,6 +58,10 @@ std::vector<Vertex> Graph::getVertices() const{
     return vertices;
 }
 
+Vertex& Graph::operator[](int index){
+    return vertices[index - 1];
+}
+
 /**
  * adds extra empty vertices to the Graph, by resizing the vector which stores them
  * @param num number of empty vertices that will be added to the Graph
@@ -77,20 +81,20 @@ bool Graph::reserve(int num){
 void Graph::addVertex(Vertex *v){
     if (v == nullptr) v = new Vertex();
 
-    v->num = (int) vertices.size() + 1;
+    v->index = (int) vertices.size() + 1;
     vertices.push_back(*v);
 }
 
-int Graph::removeVertex(int num){
-    if (num < 0 || num >= (int) vertices.size()) return -1;
+int Graph::removeVertex(int index){
+    if (index < 0 || index >= (int) vertices.size()) return -1;
 
     int deletedEdges = 0;
 
     // find the vertex
     auto it = vertices.begin();
-    for (int i = 0; i < num; i++){
+    for (int i = 0; i < index; i++){
         for (auto edgeIt = it->adj.begin(); edgeIt != it->adj.end();){
-            if ((*edgeIt)->dest != num){
+            if ((*edgeIt)->dest != index){
                 ++edgeIt;
                 continue;
             }
@@ -107,7 +111,7 @@ int Graph::removeVertex(int num){
 
     for (; it != vertices.end(); ++it){
         for (auto edgeIt = it->adj.begin(); edgeIt != it->adj.end();){
-            if ((*edgeIt)->dest != num){
+            if ((*edgeIt)->dest != index){
                 ++edgeIt;
                 continue;
             }
@@ -116,12 +120,12 @@ int Graph::removeVertex(int num){
             ++deletedEdges;
         }
 
-        it->num--;
+        it->index--;
     }
 
     // update the edges
     for (Edge* e : edges){
-        if (e->dest < num) continue;
+        if (e->dest < index) continue;
 
         e->dest--;
     }
@@ -151,14 +155,14 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
 /**
  * returns the number of edges in which a vertex is the destination
  * @complexity O(|E|)
- * @param num number of the vertex that is the destination of the edges
+ * @param index index of the vertex that is the destination of the edges
  * @return number of edges whose destination is the desired vertex
  */
-int Graph::inDegree(int num) const{
+int Graph::inDegree(int index) const{
     int in = 0;
 
     for (const Edge* e : edges){
-        if (e->dest != num) continue;
+        if (e->dest != index) continue;
 
         ++in;
     }
@@ -168,17 +172,17 @@ int Graph::inDegree(int num) const{
 
 /**
  * returns the number of edges in which a vertex is the source
- * @param num number of the vertex that is the source of the edges
+ * @param index index of the vertex that is the source of the edges
  * @return number of edges whose source is the desired vertex
  */
-int Graph::outDegree(int num) const{
-    return (int) vertices[num].adj.size();
+int Graph::outDegree(int index) const{
+    return (int) vertices[index].adj.size();
 }
 
 /**
  * verifies if there exists an edge that connects two vertices
- * @param src number of the source vertex
- * @param dest number of the destination vertex
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
  * @return 'true' if the vertices are connected, 'false' otherwise
  */
 bool Graph::areConnected(int src, int dest) const{
@@ -191,15 +195,20 @@ bool Graph::areConnected(int src, int dest) const{
     return false;
 }
 
-int Graph::bfs(int a){
+/**
+ * implementation of the Breadth-First Search Algorithm, which is a graph traversal algorithm
+ * @param src index of the vertex where the algorithm will start
+ * @return number of visited vertices
+ */
+int Graph::bfs(int src){
     // reset()
     int visitedVertices = 0;
 
-    vertices[a].valid = false;
-    vertices[a].dist = 0;
+    (*this)[src].valid = false;
+    (*this)[src].dist = 0;
 
     std::queue<int> q;
-    q.push(a);
+    q.push(src);
 
     while (!q.empty()){
         int curr = q.front();

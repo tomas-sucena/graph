@@ -27,18 +27,19 @@ public:
     int numberOfVertices() const;
     int numberOfEdges() const;
     std::vector<Vertex> getVertices() const;
+    Vertex& operator[](int index);
 
     bool reserve(int num);
     void addVertex(Vertex* v = nullptr);
-    int removeVertex(int num);
+    int removeVertex(int index);
 
     bool addEdge(int src, int dest, int weight = 1, bool valid = true);
 
-    int inDegree(int num) const;
-    int outDegree(int num) const;
+    int inDegree(int index) const;
+    int outDegree(int index) const;
     bool areConnected(int src, int dest) const;
 
-    int bfs(int a);
+    int bfs(int src);
 };
 
 #endif //GRAPH_GRAPH_H
