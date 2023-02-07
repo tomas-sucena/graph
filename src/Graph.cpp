@@ -12,7 +12,7 @@
  * @param directed bool that indicates if the Graph is directed
  * @param n number of vertices that the Graph will be initialized with
  */
-Graph::Graph(bool directed, int n) : directed(directed), vertices(1) {
+Graph::Graph(bool directed, int n) : directed(directed) {
     if (n <= 0) return;
 
     vertices.resize(n);
@@ -134,18 +134,18 @@ int Graph::removeVertex(int index){
 }
 
 bool Graph::addEdge(int src, int dest, int weight, bool valid){
-    if (src < 0 || src >= (int) vertices.size() || dest < 0 || dest >= (int) vertices.size())
+    if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
         return false;
 
     Edge* e = new Edge(dest, weight, valid);
 
-    vertices[src].adj.push_back(e);
+    (*this)[src].adj.push_back(e);
     edges.push_back(e);
 
     if (!directed){
         Edge* e_ = new Edge(src, weight, valid);
 
-        vertices[dest].adj.push_back(e_);
+        (*this)[dest].adj.push_back(e_);
         edges.push_back(e_);
     }
 
@@ -176,7 +176,7 @@ int Graph::inDegree(int index) const{
  * @return number of edges whose source is the desired vertex
  */
 int Graph::outDegree(int index) const{
-    return (int) vertices[index].adj.size();
+    return (int) vertices[index - 1].adj.size();
 }
 
 /**
@@ -186,7 +186,7 @@ int Graph::outDegree(int index) const{
  * @return 'true' if the vertices are connected, 'false' otherwise
  */
 bool Graph::areConnected(int src, int dest) const{
-    for (const Edge* e : vertices[src].adj){
+    for (const Edge* e : vertices[src - 1].adj){
         if (e->dest != dest) continue;
 
         return true;
@@ -196,12 +196,26 @@ bool Graph::areConnected(int src, int dest) const{
 }
 
 /**
+ * validates all the vertices and edges
+ * @complexity O(|V| + |E|)
+ */
+void Graph::reset(){
+    for (Vertex& v : vertices)
+        v.valid = true;
+
+    for (Edge* e : edges)
+        e->valid = true;
+}
+
+/**
  * implementation of the Breadth-First Search Algorithm, which is a graph traversal algorithm
+ * @complexity O(|V| + |E|)
  * @param src index of the vertex where the algorithm will start
  * @return number of visited vertices
  */
 int Graph::bfs(int src){
-    // reset()
+    reset();
+
     int visitedVertices = 0;
 
     (*this)[src].valid = false;
@@ -216,17 +230,28 @@ int Graph::bfs(int src){
 
         ++visitedVertices;
 
-        for (const Edge* e : vertices[curr].adj){
+        for (const Edge* e : (*this)[curr].adj){
             int next = e->dest;
 
-            vertices[next].dist = std::min(vertices[curr].dist + e->weight, vertices[next].dist);
+            (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
 
-            if (!vertices[next].valid || !e->valid) continue;
-            vertices[next].valid = false;
+            if (!(*this)[next].valid || !e->valid) continue;
+            (*this)[next].valid = false;
 
             q.push(next);
         }
     }
 
     return visitedVertices;
+}
+
+/**
+ * calculates the minimum distance between two vertices
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
+ * @return minimum distance between the source and the destination
+ */
+int Graph::distance(int src, int dest){
+    bfs(src);
+    return (*this)[dest].dist;
 }

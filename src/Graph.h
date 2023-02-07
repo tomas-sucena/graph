@@ -39,7 +39,10 @@ public:
     int outDegree(int index) const;
     bool areConnected(int src, int dest) const;
 
+    void reset();
+
     int bfs(int src);
+    int distance(int src, int dest);
 };
 
 #endif //GRAPH_GRAPH_H
