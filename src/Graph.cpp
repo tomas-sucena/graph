@@ -200,8 +200,10 @@ bool Graph::areConnected(int src, int dest) const{
  * @complexity O(|V| + |E|)
  */
 void Graph::reset(){
-    for (Vertex& v : vertices)
+    for (Vertex& v : vertices){
         v.valid = true;
+        v.dist = INF;
+    }
 
     for (Edge* e : edges)
         e->valid = true;
@@ -249,9 +251,13 @@ int Graph::bfs(int src){
  * calculates the minimum distance between two vertices
  * @param src index of the source vertex
  * @param dest index of the destination vertex
- * @return minimum distance between the source and the destination
+ * @return minimum distance between the source and the destination if they are connected, -1 otherwise
  */
 int Graph::distance(int src, int dest){
     bfs(src);
-    return (*this)[dest].dist;
+
+    int res = (*this)[dest].dist;
+    res = (res == INF) ? -1 : res;
+
+    return res;
 }
