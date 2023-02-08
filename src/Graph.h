@@ -19,6 +19,9 @@ class Graph {
     std::vector<Vertex> vertices;
     std::list<Edge*> edges;
 
+    // search methods
+    std::list<int> bfs(int src);
+
 public:
     // constructors
     explicit Graph(bool directed = true, int n = 0);
@@ -40,10 +43,11 @@ public:
     int inDegree(int index) const;
     int outDegree(int index) const;
     bool areConnected(int src, int dest) const;
+    std::list<std::list<int>> getConnectedComponents();
+    int countConnectedComponents();
 
     void reset();
 
-    int bfs(int src);
     std::list<Path> unweightedBFS(int src, int dest);
     int distance(int src, int dest);
 };

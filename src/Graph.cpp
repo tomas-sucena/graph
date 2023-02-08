@@ -195,6 +195,22 @@ bool Graph::areConnected(int src, int dest) const{
     return false;
 }
 
+std::list<std::list<int>> Graph::getConnectedComponents(){
+    std::list<std::list<int>> connectedComponents;
+
+    for (int i = 1; i <= vertices.size(); ++i){
+        if (!(*this)[i].valid) continue;
+
+        connectedComponents.push_back(bfs(i));
+    }
+
+    return connectedComponents;
+}
+
+int Graph::countConnectedComponents(){
+    return (int) getConnectedComponents().size();
+}
+
 /**
  * validates all the vertices and edges
  * @complexity O(|V| + |E|)
@@ -213,12 +229,12 @@ void Graph::reset(){
  * implementation of the Breadth-First Search Algorithm, which is a graph traversal algorithm
  * @complexity O(|V| + |E|)
  * @param src index of the vertex where the algorithm will start
- * @return number of visited vertices
+ * @return list containing the indices of all the visited vertices
  */
-int Graph::bfs(int src){
+std::list<int> Graph::bfs(int src){
     reset();
 
-    int visitedVertices = 0;
+    std::list<int> visitedVertices;
 
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
@@ -230,7 +246,7 @@ int Graph::bfs(int src){
         int curr = q.front();
         q.pop();
 
-        ++visitedVertices;
+        visitedVertices.push_back(curr);
 
         for (const Edge* e : (*this)[curr].adj){
             int next = e->dest;
