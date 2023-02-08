@@ -15,11 +15,11 @@ TEST(manipulation, vertex_addition){
     int n = 4;
     Graph g1(n);
 
-    ASSERT_EQ(n, g1.numberOfVertices());
+    ASSERT_EQ(n, g1.countVertices());
 
     for (int i = 0; i < 4;){
         g1.addVertex();
-        ASSERT_EQ(n + ++i, g1.numberOfVertices());
+        ASSERT_EQ(n + ++i, g1.countVertices());
     }
 }
 
@@ -32,7 +32,7 @@ TEST(manipulation, edge_addition){
     g1.addEdge(2, 4);
     g1.addEdge(3, 4);
 
-    EXPECT_EQ(4, g1.numberOfEdges());
+    EXPECT_EQ(4, g1.countEdges());
 
     EXPECT_EQ(2, g1.outDegree(1));
     EXPECT_EQ(1, g1.outDegree(2));
@@ -65,7 +65,7 @@ TEST(manipulation, edge_addition){
     g2.addEdge(2, 4);
     g2.addEdge(3, 4);
 
-    EXPECT_EQ(8, g2.numberOfEdges());
+    EXPECT_EQ(8, g2.countEdges());
 
     EXPECT_EQ(2, g2.outDegree(1));
     EXPECT_EQ(2, g2.outDegree(2));
