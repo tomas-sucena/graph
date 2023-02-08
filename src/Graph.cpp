@@ -248,6 +248,60 @@ int Graph::bfs(int src){
 }
 
 /**
+ *
+ * @complexity O(|V| + |E|)
+ * @param src
+ * @param dest
+ * @return
+ */
+std::list<Path> Graph::unweightedBFS(int src, int dest){
+    reset();
+
+    std::list<Path> allPaths = {{src}};
+
+    (*this)[src].valid = false;
+    (*this)[src].dist = 0;
+
+    std::queue<int> q;
+    q.push(src);
+
+    while (!q.empty()){
+        int curr = q.front();
+        if (curr == dest) break; // destination reached
+
+        for (const Edge* e : (*this)[curr].adj){
+            int next = e->dest;
+            Path p = allPaths.front();
+
+            (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
+
+            p.push_back(next);
+            allPaths.push_back(p);
+
+            if (!(*this)[next].valid || !e->valid) continue;
+            (*this)[next].valid = false;
+
+            q.push(next);
+        }
+
+        q.pop();
+        allPaths.pop_front();
+    }
+
+    // eliminate the paths that don't end in the destination
+    for (auto it = allPaths.begin(); it != allPaths.end();){
+        if (it->back() != dest){
+            it = allPaths.erase(it);
+            continue;
+        }
+
+        ++it;
+    }
+
+    return allPaths;
+}
+
+/**
  * calculates the minimum distance between two vertices
  * @param src index of the source vertex
  * @param dest index of the destination vertex

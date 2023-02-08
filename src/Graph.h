@@ -11,6 +11,8 @@
 #include "Vertex.h"
 
 #define INF INT_MAX
+#define Path std::list<int>
+#define WPath std::pair<Path, int> // weighted path
 
 class Graph {
     bool directed;
@@ -42,6 +44,7 @@ public:
     void reset();
 
     int bfs(int src);
+    std::list<Path> unweightedBFS(int src, int dest);
     int distance(int src, int dest);
 };
 
