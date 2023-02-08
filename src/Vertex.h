@@ -25,6 +25,11 @@ public:
     // constructor
     explicit Vertex(bool valid = true)
         : valid(valid), index(0), dist(INF) {}
+
+    // methods
+    bool operator<(const Vertex& rhs) const{
+        return dist < rhs.dist;
+    }
 };
 
 #endif //GRAPH_VERTEX_H

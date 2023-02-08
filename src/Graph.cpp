@@ -6,6 +6,98 @@
 
 #include <queue>
 
+/**
+ * implementation of the Breadth-First Search Algorithm, which is a graph traversal algorithm
+ * @complexity O(|V| + |E|)
+ * @param src index of the vertex where the algorithm will start
+ * @return list containing the indices of all the visited vertices
+ */
+list<int> Graph::bfs(int src){
+    reset();
+
+    list<int> visitedVertices;
+
+    (*this)[src].valid = false;
+    (*this)[src].dist = 0;
+
+    std::queue<int> q;
+    q.push(src);
+
+    while (!q.empty()){
+        int curr = q.front();
+        q.pop();
+
+        visitedVertices.push_back(curr);
+
+        for (const Edge* e : (*this)[curr].adj){
+            int next = e->dest;
+
+            (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
+
+            if (!(*this)[next].valid || !e->valid) continue;
+            (*this)[next].valid = false;
+
+            q.push(next);
+        }
+    }
+
+    return visitedVertices;
+}
+
+/**
+ *
+ * @complexity O(|V| + |E|)
+ * @param src
+ * @param dest
+ * @return
+ */
+list<Path> Graph::unweightedBFS(int src, int dest){
+    reset();
+
+    list<Path> allPaths = {{src}};
+
+    (*this)[src].valid = false;
+    (*this)[src].dist = 0;
+
+    std::queue<int> q;
+    q.push(src);
+
+    while (!q.empty()){
+        int curr = q.front();
+        if (curr == dest) break; // destination reached
+
+        for (const Edge* e : (*this)[curr].adj){
+            int next = e->dest;
+            Path p = allPaths.front();
+
+            (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
+
+            p.push_back(next);
+            allPaths.push_back(p);
+
+            if (!(*this)[next].valid || !e->valid) continue;
+            (*this)[next].valid = false;
+
+            q.push(next);
+        }
+
+        q.pop();
+        allPaths.pop_front();
+    }
+
+    // eliminate the paths that don't end in the destination
+    for (auto it = allPaths.begin(); it != allPaths.end();){
+        if (it->back() != dest){
+            it = allPaths.erase(it);
+            continue;
+        }
+
+        ++it;
+    }
+
+    return allPaths;
+}
+
 /* CONSTRUCTORS */
 /**
  * creates a new Graph
@@ -195,8 +287,12 @@ bool Graph::areConnected(int src, int dest) const{
     return false;
 }
 
-std::list<std::list<int>> Graph::getConnectedComponents(){
-    std::list<std::list<int>> connectedComponents;
+/**
+ * calculates all the connected components of the Graph (only applicable in undirected Graphs)
+ * @return list with all the connected components (each component is a list of indices)
+ */
+list<list<int>> Graph::getConnectedComponents(){
+    list<list<int>> connectedComponents;
 
     for (int i = 1; i <= vertices.size(); ++i){
         if (!(*this)[i].valid) continue;
@@ -207,6 +303,10 @@ std::list<std::list<int>> Graph::getConnectedComponents(){
     return connectedComponents;
 }
 
+/**
+ * calculates the number of connected components of the Graph (only applicable in undirected Graphs)
+ * @return number of connected components
+ */
 int Graph::countConnectedComponents(){
     return (int) getConnectedComponents().size();
 }
@@ -226,98 +326,6 @@ void Graph::reset(){
 }
 
 /**
- * implementation of the Breadth-First Search Algorithm, which is a graph traversal algorithm
- * @complexity O(|V| + |E|)
- * @param src index of the vertex where the algorithm will start
- * @return list containing the indices of all the visited vertices
- */
-std::list<int> Graph::bfs(int src){
-    reset();
-
-    std::list<int> visitedVertices;
-
-    (*this)[src].valid = false;
-    (*this)[src].dist = 0;
-
-    std::queue<int> q;
-    q.push(src);
-
-    while (!q.empty()){
-        int curr = q.front();
-        q.pop();
-
-        visitedVertices.push_back(curr);
-
-        for (const Edge* e : (*this)[curr].adj){
-            int next = e->dest;
-
-            (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
-
-            if (!(*this)[next].valid || !e->valid) continue;
-            (*this)[next].valid = false;
-
-            q.push(next);
-        }
-    }
-
-    return visitedVertices;
-}
-
-/**
- *
- * @complexity O(|V| + |E|)
- * @param src
- * @param dest
- * @return
- */
-std::list<Path> Graph::unweightedBFS(int src, int dest){
-    reset();
-
-    std::list<Path> allPaths = {{src}};
-
-    (*this)[src].valid = false;
-    (*this)[src].dist = 0;
-
-    std::queue<int> q;
-    q.push(src);
-
-    while (!q.empty()){
-        int curr = q.front();
-        if (curr == dest) break; // destination reached
-
-        for (const Edge* e : (*this)[curr].adj){
-            int next = e->dest;
-            Path p = allPaths.front();
-
-            (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
-
-            p.push_back(next);
-            allPaths.push_back(p);
-
-            if (!(*this)[next].valid || !e->valid) continue;
-            (*this)[next].valid = false;
-
-            q.push(next);
-        }
-
-        q.pop();
-        allPaths.pop_front();
-    }
-
-    // eliminate the paths that don't end in the destination
-    for (auto it = allPaths.begin(); it != allPaths.end();){
-        if (it->back() != dest){
-            it = allPaths.erase(it);
-            continue;
-        }
-
-        ++it;
-    }
-
-    return allPaths;
-}
-
-/**
  * calculates the minimum distance between two vertices
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -330,4 +338,17 @@ int Graph::distance(int src, int dest){
     res = (res == INF) ? -1 : res;
 
     return res;
+}
+
+/**
+ * calculates the shortest paths between two vertices
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
+ * @param weighted bool that indicates if the weight of each edge should be taken into account
+ * @return list containing the shortest paths
+ */
+list<list<int>> Graph::getShortestPath(int src, int dest, bool weighted){
+    if (!weighted) return unweightedBFS(src, dest);
+
+    return {};
 }

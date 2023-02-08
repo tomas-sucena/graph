@@ -14,13 +14,16 @@
 #define Path std::list<int>
 #define WPath std::pair<Path, int> // weighted path
 
+using std::list;
+
 class Graph {
     bool directed;
     std::vector<Vertex> vertices;
     std::list<Edge*> edges;
 
     // search methods
-    std::list<int> bfs(int src);
+    list<int> bfs(int src);
+    list<list<int>> unweightedBFS(int src, int dest);
 
 public:
     // constructors
@@ -43,13 +46,13 @@ public:
     int inDegree(int index) const;
     int outDegree(int index) const;
     bool areConnected(int src, int dest) const;
-    std::list<std::list<int>> getConnectedComponents();
+    list<list<int>> getConnectedComponents();
     int countConnectedComponents();
 
     void reset();
 
-    std::list<Path> unweightedBFS(int src, int dest);
     int distance(int src, int dest);
+    list<list<int>> getShortestPath(int src, int dest, bool weighted = true);
 };
 
 #endif //GRAPH_GRAPH_H

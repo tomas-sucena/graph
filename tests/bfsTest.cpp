@@ -159,11 +159,11 @@ TEST(bfs, distance){
     EXPECT_EQ(0, g9.distance(4,4));
 }
 
-TEST(bfs, unweighted_bfs){
+TEST(bfs, shortest_paths){
     // undirected graph
     Graph g1 = ExampleGraphs::graph1();
 
-    std::list<Path> paths = g1.unweightedBFS(1, 1);
+    std::list<Path> paths = g1.getShortestPath(1, 1, false);
 
     ASSERT_EQ(1, paths.size());
     for (auto it = paths.begin(); it != paths.end(); ++it){
@@ -172,7 +172,7 @@ TEST(bfs, unweighted_bfs){
         EXPECT_EQ(1, it->size());
     }
 
-    paths = g1.unweightedBFS(1, 4);
+    paths = g1.getShortestPath(1, 4, false);
 
     ASSERT_EQ(2, paths.size());
     for (auto it = paths.begin(); it != paths.end(); ++it){
@@ -181,7 +181,7 @@ TEST(bfs, unweighted_bfs){
         EXPECT_EQ(3, it->size());
     }
 
-    paths = g1.unweightedBFS(4, 1);
+    paths = g1.getShortestPath(4, 1, false);
 
     ASSERT_EQ(2, paths.size());
     for (auto it = paths.begin(); it != paths.end(); ++it){
