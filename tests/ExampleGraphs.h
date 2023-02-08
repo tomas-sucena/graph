@@ -12,16 +12,22 @@ using namespace std;
 class ExampleGraphs {
 
 public:
-    // ----- Some example graphs -----
+    // undirected and unweighted
     static Graph graph1();
     static Graph graph2();
     static Graph graph3();
+
+    // directed and unweighted
     static Graph graph4();
     static Graph graph5();
     static Graph graph6();
     static Graph graph7();
+
+    // undirected and weighted
     static Graph graph8();
     static Graph graph9();
+
+    // directed and weighted
     static Graph graph10();
     static Graph graph11();
 };

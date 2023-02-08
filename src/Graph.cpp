@@ -38,7 +38,7 @@ bool Graph::isDirected() const{
  * returns the number of vertices that the Graph currently has
  * @return number of vertices of the Graph
  */
-int Graph::numberOfVertices() const{
+int Graph::countVertices() const{
     return (int) vertices.size();
 }
 
@@ -46,7 +46,7 @@ int Graph::numberOfVertices() const{
  * returns the number of edges that the Graph currently has
  * @return number of edges of the Graph
  */
-int Graph::numberOfEdges() const{
+int Graph::countEdges() const{
     return (int) edges.size();
 }
 

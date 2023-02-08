@@ -26,8 +26,8 @@ public:
 
     // methods
     bool isDirected() const;
-    int numberOfVertices() const;
-    int numberOfEdges() const;
+    int countVertices() const;
+    int countEdges() const;
     std::vector<Vertex> getVertices() const;
     Vertex& operator[](int index);
 
