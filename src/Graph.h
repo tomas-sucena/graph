@@ -23,7 +23,8 @@ class Graph {
 
     // search methods
     list<int> bfs(int src);
-    list<list<int>> unweightedBFS(int src, int dest);
+    list<list<int>> bfs(int src, int dest);
+    list<int> dijkstra(int src, int dest);
 
 public:
     // constructors

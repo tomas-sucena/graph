@@ -25,8 +25,6 @@ list<int> Graph::bfs(int src){
 
     while (!q.empty()){
         int curr = q.front();
-        q.pop();
-
         visitedVertices.push_back(curr);
 
         for (const Edge* e : (*this)[curr].adj){
@@ -39,6 +37,8 @@ list<int> Graph::bfs(int src){
 
             q.push(next);
         }
+
+        q.pop();
     }
 
     return visitedVertices;
@@ -51,7 +51,7 @@ list<int> Graph::bfs(int src){
  * @param dest
  * @return
  */
-list<Path> Graph::unweightedBFS(int src, int dest){
+list<Path> Graph::bfs(int src, int dest){
     reset();
 
     list<Path> allPaths = {{src}};
@@ -98,6 +98,56 @@ list<Path> Graph::unweightedBFS(int src, int dest){
     return allPaths;
 }
 
+/**
+ * implementation of the Dijkstra algorithm, which is used for finding the shortest path between two vertices in a Graph
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
+ * @return list containing the indices of the visited vertices that comprise the shortest path
+ */
+list<int> Graph::dijkstra(int src, int dest){
+    reset();
+
+    (*this)[src].valid = false;
+    (*this)[src].dist = 0;
+
+    std::priority_queue<Vertex> pq;
+    pq.push((*this)[src]);
+
+    std::vector<int> prev(vertices.size() + 1, -1);
+    prev[src] = src;
+
+    while (!pq.empty()){
+        int curr = pq.top().index;
+        pq.pop();
+
+        if (curr == dest) break;
+
+        for (const Edge* e : (*this)[curr].adj){
+            int next = e->dest;
+
+            if ((*this)[curr].dist + e->weight < (*this)[next].dist){
+                (*this)[next].dist = (*this)[curr].dist + e->weight;
+                prev[next] = curr;
+            }
+
+            if (!(*this)[next].valid || !e->valid) continue;
+            (*this)[next].valid = false;
+
+            pq.push((*this)[next]);
+        }
+    }
+
+    // reconstruct the shortest path
+    list<int> path;
+    if (prev[dest] < 0) return path; // no path found
+
+    for (int last = dest; last != src; last = prev[last]){
+        path.push_front(last);
+    }
+
+    return path;
+}
+
 /* CONSTRUCTORS */
 /**
  * creates a new Graph
@@ -108,6 +158,8 @@ Graph::Graph(bool directed, int n) : directed(directed) {
     if (n <= 0) return;
 
     vertices.resize(n);
+    for (int i = 1; i <= n; ++i)
+        (*this)[i].index = i;
 }
 
 /**
@@ -327,12 +379,13 @@ void Graph::reset(){
 
 /**
  * calculates the minimum distance between two vertices
+ * @complexity O(|E| * log|V|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return minimum distance between the source and the destination if they are connected, -1 otherwise
  */
 int Graph::distance(int src, int dest){
-    bfs(src);
+    dijkstra(src, dest);
 
     int res = (*this)[dest].dist;
     res = (res == INF) ? -1 : res;
@@ -348,7 +401,7 @@ int Graph::distance(int src, int dest){
  * @return list containing the shortest paths
  */
 list<list<int>> Graph::getShortestPath(int src, int dest, bool weighted){
-    if (!weighted) return unweightedBFS(src, dest);
+    if (!weighted) return bfs(src, dest);
 
     return {};
 }

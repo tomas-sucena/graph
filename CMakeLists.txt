@@ -10,7 +10,7 @@ add_executable(graph
         src/Vertex.h
         tests/bfsTest.cpp
         tests/initializationTest.cpp
-        tests/manipulationTest.cpp tests/ExampleGraphs.cpp tests/ExampleGraphs.h)
+        tests/manipulationTest.cpp tests/ExampleGraphs.cpp tests/ExampleGraphs.h tests/dijkstraTest.cpp)
 
 include(FetchContent)
 FetchContent_Declare(
