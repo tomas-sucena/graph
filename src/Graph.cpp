@@ -139,10 +139,11 @@ list<int> Graph::dijkstra(int src, int dest){
 
     // reconstruct the shortest path
     list<int> path;
-    if (prev[dest] < 0) return path; // no path found
 
-    for (int last = dest; last != src; last = prev[last]){
+    for (int last = dest; prev[dest] > 0; last = prev[last]){
         path.push_front(last);
+
+        if (last == prev[last]) break;
     }
 
     return path;
@@ -394,14 +395,23 @@ int Graph::distance(int src, int dest){
 }
 
 /**
- * calculates the shortest paths between two vertices
+ * calculates (one of) the shortest path between two vertices
+ * @complexity O(|E| * log|V|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
- * @param weighted bool that indicates if the weight of each edge should be taken into account
- * @return list containing the shortest paths
+ * @return list containing the indices of the vertices that form the path
  */
-list<list<int>> Graph::getShortestPath(int src, int dest, bool weighted){
-    if (!weighted) return bfs(src, dest);
+list<int> Graph::getShortestPath(int src, int dest){
+    return dijkstra(src, dest);
+}
 
-    return {};
+/**
+ * calculates ALL the shortest paths between two vertices
+ * @complexity O(|V| + |E|)
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
+ * @return list containing the shortest paths (each path is represented by the indices of the vertices that form it)
+ */
+list<list<int>> Graph::getShortestPaths(int src, int dest){
+    return bfs(src, dest);
 }

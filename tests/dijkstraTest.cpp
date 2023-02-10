@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <set>
 
 #include "../src/Graph.h"
 #include "ExampleGraphs.h"
@@ -10,7 +11,7 @@
 using testing::Eq;
 
 TEST(dijkstra, distance){
-    // undirected and undirected graphs
+    // undirected and unweighted graphs
     Graph g1 = ExampleGraphs::graph1();
 
     EXPECT_EQ(0, g1.distance(1,1));
@@ -157,4 +158,54 @@ TEST(dijkstra, distance){
     EXPECT_EQ(3, g9.distance(4,2));
     EXPECT_EQ(4, g9.distance(4,3));
     EXPECT_EQ(0, g9.distance(4,4));
+}
+
+TEST(dijkstra, shortest_path){
+    // undirected and unweighted graphs
+    Graph g1 = ExampleGraphs::graph1();
+
+    std::set<std::list<int>> res = {{1}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,1)) != res.end());
+    res = {{1, 2}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,2)) != res.end());
+    res = {{1, 3}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,3)) != res.end());
+    res = {{1, 2, 4}, {1, 3, 4}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,4)) != res.end());
+    res = {{1, 2, 4, 5}, {1, 3, 4, 5}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,5)) != res.end());
+    res = {{1, 2, 4, 5, 6}, {1, 3, 4, 5, 6}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,6)) != res.end());
+    res = {{1, 2, 4, 5, 7}, {1, 3, 4, 5, 7}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,7)) != res.end());
+    res = {{1, 2, 4, 5, 7, 8}, {1, 3, 4, 5, 7, 8}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,8)) != res.end());
+    res = {{1, 2, 4, 5, 6, 9}, {1, 3, 4, 5, 6, 9}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(1,9)) != res.end());
+    res = {{4, 2, 1}, {4, 3, 1}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,1)) != res.end());
+    res = {{4, 2}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,2)) != res.end());
+    res = {{4, 3}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,3)) != res.end());
+    res = {{4}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,4)) != res.end());
+    res = {{4, 5}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,5)) != res.end());
+    res = {{4, 5, 6}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,6)) != res.end());
+    res = {{4, 5, 7}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,7)) != res.end());
+    res = {{4, 5, 7, 8}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,8)) != res.end());
+    res = {{4, 5, 6, 9}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(4,9)) != res.end());
+    res = {{2, 1, 3}, {2, 4, 3}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(2,3)) != res.end());
+    res = {{9, 6, 5, 7, 8}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(9,8)) != res.end());
+    res = {{8, 7, 5}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(8,5)) != res.end());
+    res = {{2, 4, 5, 7, 8}};
+    EXPECT_TRUE(res.find(g1.getShortestPath(2,8)) != res.end());
 }

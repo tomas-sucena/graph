@@ -23,8 +23,8 @@ class Graph {
 
     // search methods
     list<int> bfs(int src);
-    list<list<int>> bfs(int src, int dest);
     list<int> dijkstra(int src, int dest);
+    list<list<int>> bfs(int src, int dest);
 
 public:
     // constructors
@@ -53,7 +53,8 @@ public:
     void reset();
 
     int distance(int src, int dest);
-    list<list<int>> getShortestPath(int src, int dest, bool weighted = true);
+    list<int> getShortestPath(int src, int dest);
+    list<list<int>> getShortestPaths(int src, int dest);
 };
 
 #endif //GRAPH_GRAPH_H

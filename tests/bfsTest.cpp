@@ -13,7 +13,7 @@ TEST(bfs, shortest_path){
     // undirected graph
     Graph g1 = ExampleGraphs::graph1();
 
-    std::list<Path> paths = g1.getShortestPath(1, 1, false);
+    std::list<Path> paths = g1.getShortestPaths(1, 1);
 
     ASSERT_EQ(1, paths.size());
     for (auto it = paths.begin(); it != paths.end(); ++it){
@@ -22,7 +22,7 @@ TEST(bfs, shortest_path){
         EXPECT_EQ(1, it->size());
     }
 
-    paths = g1.getShortestPath(1, 4, false);
+    paths = g1.getShortestPaths(1, 4);
 
     ASSERT_EQ(2, paths.size());
     for (auto it = paths.begin(); it != paths.end(); ++it){
@@ -31,7 +31,7 @@ TEST(bfs, shortest_path){
         EXPECT_EQ(3, it->size());
     }
 
-    paths = g1.getShortestPath(4, 1, false);
+    paths = g1.getShortestPaths(4, 1);
 
     ASSERT_EQ(2, paths.size());
     for (auto it = paths.begin(); it != paths.end(); ++it){
