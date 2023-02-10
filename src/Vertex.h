@@ -30,6 +30,10 @@ public:
     bool operator<(const Vertex& rhs) const{
         return dist < rhs.dist;
     }
+
+    bool operator>(const Vertex& rhs) const{
+        return dist > rhs.dist;
+    }
 };
 
 #endif //GRAPH_VERTEX_H

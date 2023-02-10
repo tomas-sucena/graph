@@ -110,7 +110,7 @@ list<int> Graph::dijkstra(int src, int dest){
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
 
-    std::priority_queue<Vertex> pq;
+    std::priority_queue<Vertex, std::vector<Vertex>, std::greater<>> pq;
     pq.push((*this)[src]);
 
     std::vector<int> prev(vertices.size() + 1, -1);
