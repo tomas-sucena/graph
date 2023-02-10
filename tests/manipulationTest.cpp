@@ -91,3 +91,18 @@ TEST(manipulation, edge_addition){
         }
     }
 }
+
+TEST(manipulation, vertex_removal){
+    Graph g1(3, false);
+
+    g1.addEdge(1, 2);
+    g1.addEdge(2, 3);
+
+    EXPECT_EQ(1, g1.countConnectedComponents());
+
+    EXPECT_EQ(4, g1.removeVertex(2));
+
+    EXPECT_EQ(2, g1.countVertices());
+    EXPECT_EQ(0, g1.countEdges());
+    EXPECT_EQ(2, g1.countConnectedComponents());
+}

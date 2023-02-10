@@ -12,7 +12,6 @@
 
 #define INF INT_MAX
 #define Path std::list<int>
-#define WPath std::pair<Path, int> // weighted path
 
 using std::list;
 

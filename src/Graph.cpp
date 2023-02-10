@@ -5,6 +5,9 @@
 #include "Graph.h"
 
 #include <queue>
+#include <unordered_set>
+
+#define uSet std::unordered_set
 
 /**
  * implementation of the Breadth-First Search Algorithm, which is a graph traversal algorithm
@@ -13,8 +16,6 @@
  * @return list containing the indices of all the visited vertices
  */
 list<int> Graph::bfs(int src){
-    reset();
-
     list<int> visitedVertices;
 
     (*this)[src].valid = false;
@@ -52,8 +53,6 @@ list<int> Graph::bfs(int src){
  * @return
  */
 list<Path> Graph::bfs(int src, int dest){
-    reset();
-
     list<Path> allPaths = {{src}};
 
     (*this)[src].valid = false;
@@ -87,12 +86,12 @@ list<Path> Graph::bfs(int src, int dest){
 
     // eliminate the paths that don't end in the destination
     for (auto it = allPaths.begin(); it != allPaths.end();){
-        if (it->back() != dest){
-            it = allPaths.erase(it);
+        if (it->back() == dest){
+            ++it;
             continue;
         }
 
-        ++it;
+        it = allPaths.erase(it);
     }
 
     return allPaths;
@@ -105,8 +104,6 @@ list<Path> Graph::bfs(int src, int dest){
  * @return list containing the indices of the visited vertices that comprise the shortest path
  */
 list<int> Graph::dijkstra(int src, int dest){
-    reset();
-
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
 
@@ -230,50 +227,64 @@ void Graph::addVertex(Vertex *v){
     vertices.push_back(*v);
 }
 
+/**
+ * removes a vertex from the graph
+ * @complexity O(|V| + |E|)
+ * @param index index of the vertex that will be removed
+ * @return number of edges that were removed (those whose destination was the deleted vertex)
+ */
 int Graph::removeVertex(int index){
-    if (index < 0 || index >= (int) vertices.size()) return -1;
+    if (index <= 0 || index > (int) vertices.size()) return -1;
 
-    int deletedEdges = 0;
-
-    // find the vertex
-    auto it = vertices.begin();
-    for (int i = 0; i < index; i++){
-        for (auto edgeIt = it->adj.begin(); edgeIt != it->adj.end();){
-            if ((*edgeIt)->dest != index){
-                ++edgeIt;
-                continue;
-            }
-
-            edgeIt = it->adj.erase(edgeIt);
-            ++deletedEdges;
-        }
-
-        ++it;
-    }
-
-    // erase the vertex
-    it = vertices.erase(it);
-
-    for (; it != vertices.end(); ++it){
-        for (auto edgeIt = it->adj.begin(); edgeIt != it->adj.end();){
-            if ((*edgeIt)->dest != index){
-                ++edgeIt;
-                continue;
-            }
-
-            edgeIt = it->adj.erase(edgeIt);
-            ++deletedEdges;
-        }
-
-        it->index--;
-    }
+    uSet<int> affectedVertices;
 
     // update the edges
-    for (Edge* e : edges){
-        if (e->dest < index) continue;
+    int deletedEdges = 0;
 
-        e->dest--;
+    for (auto it = edges.begin(); it != edges.end();){
+        bool srcRemoved = ((*it)->src == index);
+        bool destRemoved = ((*it)->dest == index);
+
+        if (destRemoved)
+            affectedVertices.insert((*it)->src);
+
+        if ((*it)->dest > index)
+            (*it)->dest--;
+
+        if ((*it)->src > index)
+            (*it)->src--;
+
+        if (!srcRemoved && !destRemoved){
+            ++it;
+            continue;
+        }
+
+        (*it)->dest = -1;
+        it = edges.erase(it);
+        ++deletedEdges;
     }
+
+    // update the vertices
+    for (int i = 1; i <= vertices.size(); ++i){
+        if (i > index)
+            (*this)[i].index = i - 1;
+
+        if (affectedVertices.find(i) == affectedVertices.end()) continue;
+
+        Vertex& v = (*this)[i];
+        for (auto it = v.adj.begin(); it != v.adj.end();){
+            if ((*it)->dest > 0){
+                ++it;
+                continue;
+            }
+
+            delete (*it);
+            it = v.adj.erase(it);
+        }
+    }
+
+    // remove the vertex
+    vertices.erase(vertices.begin() + index - 1);
 
     return deletedEdges;
 }
@@ -282,13 +293,13 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
     if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
         return false;
 
-    Edge* e = new Edge(dest, weight, valid);
+    Edge* e = new Edge(src, dest, weight, valid);
 
     (*this)[src].adj.push_back(e);
     edges.push_back(e);
 
     if (!directed){
-        Edge* e_ = new Edge(src, weight, valid);
+        Edge* e_ = new Edge(dest, src, weight, valid);
 
         (*this)[dest].adj.push_back(e_);
         edges.push_back(e_);
@@ -347,6 +358,7 @@ bool Graph::areConnected(int src, int dest) const{
 list<list<int>> Graph::getConnectedComponents(){
     list<list<int>> connectedComponents;
 
+    reset();
     for (int i = 1; i <= vertices.size(); ++i){
         if (!(*this)[i].valid) continue;
 
@@ -386,6 +398,7 @@ void Graph::reset(){
  * @return minimum distance between the source and the destination if they are connected, -1 otherwise
  */
 int Graph::distance(int src, int dest){
+    reset();
     dijkstra(src, dest);
 
     int res = (*this)[dest].dist;
@@ -402,6 +415,7 @@ int Graph::distance(int src, int dest){
  * @return list containing the indices of the vertices that form the path
  */
 list<int> Graph::getShortestPath(int src, int dest){
+    reset();
     return dijkstra(src, dest);
 }
 
@@ -413,5 +427,6 @@ list<int> Graph::getShortestPath(int src, int dest){
  * @return list containing the shortest paths (each path is represented by the indices of the vertices that form it)
  */
 list<list<int>> Graph::getShortestPaths(int src, int dest){
+    reset();
     return bfs(src, dest);
 }

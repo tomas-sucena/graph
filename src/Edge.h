@@ -8,6 +8,7 @@
 #include "Graph.h"
 
 class Edge {
+    int src;
     int dest;
     int weight;
     bool valid;
@@ -15,8 +16,8 @@ class Edge {
     friend class Graph;
 
     // constructor
-    Edge(int dest, int weight, bool valid)
-        : dest(dest), weight(weight), valid(valid) {}
+    Edge(int src, int dest, int weight, bool valid)
+        : src(src), dest(dest), weight(weight), valid(valid) {}
 };
 
 #endif //GRAPH_EDGE_H
