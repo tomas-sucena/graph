@@ -7,11 +7,12 @@
 
 #include <list>
 #include <vector>
+#include <unordered_set>
 
 #include "Vertex.h"
 
 #define INF INT_MAX
-#define Path std::list<int>
+#define uSet std::unordered_set
 
 using std::list;
 
@@ -21,6 +22,7 @@ class Graph {
     std::list<Edge*> edges;
 
     // search methods
+    bool dfs(int src, uSet<int>* seen = nullptr);
     list<int> bfs(int src);
     list<int> dijkstra(int src, int dest);
     list<list<int>> bfs(int src, int dest);
@@ -40,14 +42,15 @@ public:
     bool reserve(int num);
     void addVertex(Vertex* v = nullptr);
     int removeVertex(int index);
-
     bool addEdge(int src, int dest, int weight = 1, bool valid = true);
+    bool removeEdge(int src, int dest);
 
     int inDegree(int index) const;
     int outDegree(int index) const;
     bool areConnected(int src, int dest) const;
     list<list<int>> getConnectedComponents();
     int countConnectedComponents();
+    bool isDAG();
 
     void reset();
 

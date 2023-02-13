@@ -7,13 +7,14 @@
 #include "../src/Graph.h"
 #include "ExampleGraphs.h"
 
+using std::list;
 using testing::Eq;
 
 TEST(bfs, shortest_path){
     // undirected graph
     Graph g1 = ExampleGraphs::graph1();
 
-    std::list<Path> paths = g1.getShortestPaths(1, 1);
+    list<list<int>> paths = g1.getShortestPaths(1, 1);
 
     ASSERT_EQ(1, paths.size());
     for (auto it = paths.begin(); it != paths.end(); ++it){

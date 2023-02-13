@@ -147,3 +147,15 @@ Graph ExampleGraphs::graph11() {
     g.addEdge(3,2, 1);
     return g;
 }
+
+Graph ExampleGraphs::graph12(){
+    Graph g(6, true);
+    g.addEdge(1, 2, 3);
+    g.addEdge(2, 3, 1);
+    g.addEdge(3, 1, 4);
+    g.addEdge(3, 4, 1);
+    g.addEdge(4, 5, 5);
+    g.addEdge(5, 6, 9);
+    g.addEdge(6, 4, 2);
+    return g;
+}

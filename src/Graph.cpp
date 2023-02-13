@@ -5,12 +5,34 @@
 #include "Graph.h"
 
 #include <queue>
-#include <unordered_set>
-
-#define uSet std::unordered_set
 
 /**
- * implementation of the Breadth-First Search Algorithm, which is a graph traversal algorithm
+ * recursive implementation of the Depth-First Search algorithm, which traverses the graph in search of cycles
+ * @complexity O(|V| + |E|)
+ * @param src index of the vertex where the algorithm will start
+ * @param seen set containing the indices of the vertices that have been visited
+ * @return 'true' if the a cycle is found, 'false' otherwise
+ */
+bool Graph::dfs(int src, uSet<int>* seen){
+    if (seen == nullptr){
+        seen = new uSet<int>();
+        seen->insert(src);
+    }
+
+    for (const Edge* e : (*this)[src].adj){
+        int next = e->dest;
+        if (!e->valid || !(*this)[next].valid) continue;
+
+        if (!seen->insert(next).second) return true;
+        if (dfs(next, seen)) return true;
+    }
+    (*this)[src].valid = false;
+
+    return false;
+}
+
+/**
+ * implementation of the Breadth-First Search algorithm, which traverses the graph
  * @complexity O(|V| + |E|)
  * @param src index of the vertex where the algorithm will start
  * @return list containing the indices of all the visited vertices
@@ -46,14 +68,14 @@ list<int> Graph::bfs(int src){
 }
 
 /**
- *
+ * implementation of the Breadth-First Search algorithm, which finds ALL the shortest paths between two vertices in a Graph
  * @complexity O(|V| + |E|)
- * @param src
- * @param dest
- * @return
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
+ * @return list containing all the shortest paths that unite the two vertices
  */
-list<Path> Graph::bfs(int src, int dest){
-    list<Path> allPaths = {{src}};
+list<list<int>> Graph::bfs(int src, int dest){
+    list<list<int>> allPaths = {{src}};
 
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
@@ -67,12 +89,12 @@ list<Path> Graph::bfs(int src, int dest){
 
         for (const Edge* e : (*this)[curr].adj){
             int next = e->dest;
-            Path p = allPaths.front();
+            list<int> path = allPaths.front();
 
             (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
 
-            p.push_back(next);
-            allPaths.push_back(p);
+            path.push_back(next);
+            allPaths.push_back(path);
 
             if (!(*this)[next].valid || !e->valid) continue;
             (*this)[next].valid = false;
@@ -98,7 +120,7 @@ list<Path> Graph::bfs(int src, int dest){
 }
 
 /**
- * implementation of the Dijkstra algorithm, which is used for finding the shortest path between two vertices in a Graph
+ * implementation of the Dijkstra algorithm, which finds the shortest path between two vertices in a Graph
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing the indices of the visited vertices that comprise the shortest path
@@ -228,7 +250,7 @@ void Graph::addVertex(Vertex *v){
 }
 
 /**
- * removes a vertex from the graph
+ * removes a vertex from the Graph
  * @complexity O(|V| + |E|)
  * @param index index of the vertex that will be removed
  * @return number of edges that were removed (those whose destination was the deleted vertex)
@@ -289,6 +311,14 @@ int Graph::removeVertex(int index){
     return deletedEdges;
 }
 
+/**
+ * adds an edge to the Graph, that is, a connection between two vertices
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
+ * @param weight cost of the connection
+ * @param valid bool that indicates if the edge should be considered in Graph traversals
+ * @return 'true' if the insertion occurs, 'false' otherwise
+ */
 bool Graph::addEdge(int src, int dest, int weight, bool valid){
     if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
         return false;
@@ -309,12 +339,47 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
 }
 
 /**
+ * removes an edge from the Graph, that is, eliminates the connection between two vertices
+ * @complexity O(|E|)
+ * @param src index of the source vertex
+ * @param dest index of the destination vertex
+ * @return 'true' if the removal occurs, 'false' otherwise
+ */
+bool Graph::removeEdge(int src, int dest){
+    if (!areConnected(src, dest))
+        return false;
+
+    for (auto it = edges.begin(); it != edges.end();){
+        if ((*it)->src != src || (*it)->dest != dest){
+            ++it;
+            continue;
+        }
+
+        it = edges.erase(it);
+    }
+
+    Vertex& v = (*this)[src];
+    for (auto it = v.adj.begin(); it != v.adj.end();){
+        if ((*it)->src != src || (*it)->dest != dest){
+            ++it;
+            continue;
+        }
+
+        it = edges.erase(it);
+    }
+
+    return true;
+}
+
+/**
  * returns the number of edges in which a vertex is the destination
  * @complexity O(|E|)
  * @param index index of the vertex that is the destination of the edges
- * @return number of edges whose destination is the desired vertex
+ * @return number of edges whose destination is the desired vertex (or -1 if the index is invalid)
  */
 int Graph::inDegree(int index) const{
+    if (index <= 0 || index > (int) vertices.size()) return -1;
+
     int in = 0;
 
     for (const Edge* e : edges){
@@ -329,9 +394,10 @@ int Graph::inDegree(int index) const{
 /**
  * returns the number of edges in which a vertex is the source
  * @param index index of the vertex that is the source of the edges
- * @return number of edges whose source is the desired vertex
+ * @return number of edges whose source is the desired vertex (or -1 if the index is invalid)
  */
 int Graph::outDegree(int index) const{
+    if (index <= 0 || index > (int) vertices.size()) return -1;
     return (int) vertices[index - 1].adj.size();
 }
 
@@ -342,6 +408,9 @@ int Graph::outDegree(int index) const{
  * @return 'true' if the vertices are connected, 'false' otherwise
  */
 bool Graph::areConnected(int src, int dest) const{
+    if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
+        return false;
+
     for (const Edge* e : vertices[src - 1].adj){
         if (e->dest != dest) continue;
 
@@ -374,6 +443,25 @@ list<list<int>> Graph::getConnectedComponents(){
  */
 int Graph::countConnectedComponents(){
     return (int) getConnectedComponents().size();
+}
+
+/**
+ * computes if a Graph is a Directed Acyclic Graph (DAG), by using the Depth-First Search algorithm
+ * @complexity O(|V| + |E|)
+ * @return 'true' if the Graph is a DAG, 'false' otherwise
+ */
+bool Graph::isDAG(){
+    if (!directed) return false;
+    reset();
+
+    for (int i = 1; i <= vertices.size(); ++i){
+        if (!(*this)[i].valid) continue;
+
+        bool cycleFound = dfs(i);
+        if (cycleFound) return false;
+    }
+
+    return true;
 }
 
 /**

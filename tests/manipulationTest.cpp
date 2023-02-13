@@ -98,11 +98,25 @@ TEST(manipulation, vertex_removal){
     g1.addEdge(1, 2);
     g1.addEdge(2, 3);
 
+    EXPECT_EQ(3, g1.countVertices());
+    EXPECT_EQ(4, g1.countEdges());
     EXPECT_EQ(1, g1.countConnectedComponents());
+    EXPECT_EQ(1, g1.outDegree(1));
+    EXPECT_EQ(1, g1.inDegree(1));
+    EXPECT_EQ(2, g1.outDegree(2));
+    EXPECT_EQ(2, g1.inDegree(2));
+    EXPECT_EQ(1, g1.outDegree(3));
+    EXPECT_EQ(1, g1.inDegree(3));
 
     EXPECT_EQ(4, g1.removeVertex(2));
 
     EXPECT_EQ(2, g1.countVertices());
     EXPECT_EQ(0, g1.countEdges());
     EXPECT_EQ(2, g1.countConnectedComponents());
+    EXPECT_EQ(0, g1.outDegree(1));
+    EXPECT_EQ(0, g1.inDegree(1));
+    EXPECT_EQ(0, g1.outDegree(2)); // the previous vertex 3 is now vertex 2
+    EXPECT_EQ(0, g1.inDegree(2));
+    EXPECT_EQ(-1, g1.outDegree(3));
+    EXPECT_EQ(-1, g1.inDegree(3));
 }

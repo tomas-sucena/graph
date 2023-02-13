@@ -30,6 +30,7 @@ public:
     // directed and weighted
     static Graph graph10();
     static Graph graph11();
+    static Graph graph12();
 };
 
 
