@@ -17,7 +17,8 @@ class Vertex {
     int index;
     bool valid;
     int dist;
-    std::list<Edge*> adj;
+    std::list<Edge*> out;
+    std::list<Edge*> in;
 
     friend class Graph;
 

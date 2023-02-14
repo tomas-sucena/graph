@@ -19,7 +19,7 @@ bool Graph::dfs(int src, uSet<int>* seen){
         seen->insert(src);
     }
 
-    for (const Edge* e : (*this)[src].adj){
+    for (const Edge* e : (*this)[src].out){
         int next = e->dest;
         if (!e->valid || !(*this)[next].valid) continue;
 
@@ -50,7 +50,7 @@ list<int> Graph::bfs(int src){
         int curr = q.front();
         visitedVertices.push_back(curr);
 
-        for (const Edge* e : (*this)[curr].adj){
+        for (const Edge* e : (*this)[curr].out){
             int next = e->dest;
 
             (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
@@ -87,7 +87,7 @@ list<list<int>> Graph::bfs(int src, int dest){
         int curr = q.front();
         if (curr == dest) break; // destination reached
 
-        for (const Edge* e : (*this)[curr].adj){
+        for (const Edge* e : (*this)[curr].out){
             int next = e->dest;
             list<int> path = allPaths.front();
 
@@ -141,7 +141,7 @@ list<int> Graph::dijkstra(int src, int dest){
 
         if (curr == dest) break;
 
-        for (const Edge* e : (*this)[curr].adj){
+        for (const Edge* e : (*this)[curr].out){
             int next = e->dest;
 
             if ((*this)[curr].dist + e->weight < (*this)[next].dist){
@@ -294,14 +294,24 @@ int Graph::removeVertex(int index){
         if (affectedVertices.find(i) == affectedVertices.end()) continue;
 
         Vertex& v = (*this)[i];
-        for (auto it = v.adj.begin(); it != v.adj.end();){
+        for (auto it = v.out.begin(); it != v.out.end();){
             if ((*it)->dest > 0){
                 ++it;
                 continue;
             }
 
             delete (*it);
-            it = v.adj.erase(it);
+            it = v.out.erase(it);
+        }
+
+        for (auto it = v.in.begin(); it != v.in.end();){
+            if ((*it)->dest > 0){
+                ++it;
+                continue;
+            }
+
+            delete (*it);
+            it = v.in.erase(it);
         }
     }
 
@@ -325,13 +335,15 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
 
     Edge* e = new Edge(src, dest, weight, valid);
 
-    (*this)[src].adj.push_back(e);
+    (*this)[src].out.push_back(e);
+    (*this)[dest].in.push_back(e);
     edges.push_back(e);
 
     if (!directed){
         Edge* e_ = new Edge(dest, src, weight, valid);
 
-        (*this)[dest].adj.push_back(e_);
+        (*this)[dest].out.push_back(e_);
+        (*this)[src].in.push_back(e_);
         edges.push_back(e_);
     }
 
@@ -358,8 +370,18 @@ bool Graph::removeEdge(int src, int dest){
         it = edges.erase(it);
     }
 
-    Vertex& v = (*this)[src];
-    for (auto it = v.adj.begin(); it != v.adj.end();){
+    // remove the edge from the outgoing edges list of the source vertex
+    for (auto it = (*this)[src].out.begin(); it != (*this)[src].out.end();){
+        if ((*it)->src != src || (*it)->dest != dest){
+            ++it;
+            continue;
+        }
+
+        it = edges.erase(it);
+    }
+
+    // remove the edge from the ingoing edges list of the destination vertex
+    for (auto it = (*this)[dest].in.begin(); it != (*this)[dest].in.end();){
         if ((*it)->src != src || (*it)->dest != dest){
             ++it;
             continue;
@@ -373,22 +395,12 @@ bool Graph::removeEdge(int src, int dest){
 
 /**
  * returns the number of edges in which a vertex is the destination
- * @complexity O(|E|)
  * @param index index of the vertex that is the destination of the edges
  * @return number of edges whose destination is the desired vertex (or -1 if the index is invalid)
  */
 int Graph::inDegree(int index) const{
     if (index <= 0 || index > (int) vertices.size()) return -1;
-
-    int in = 0;
-
-    for (const Edge* e : edges){
-        if (e->dest != index) continue;
-
-        ++in;
-    }
-
-    return in;
+    return (int) vertices[index - 1].in.size();
 }
 
 /**
@@ -398,11 +410,12 @@ int Graph::inDegree(int index) const{
  */
 int Graph::outDegree(int index) const{
     if (index <= 0 || index > (int) vertices.size()) return -1;
-    return (int) vertices[index - 1].adj.size();
+    return (int) vertices[index - 1].out.size();
 }
 
 /**
  * verifies if there exists an edge that connects two vertices
+ * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return 'true' if the vertices are connected, 'false' otherwise
@@ -411,7 +424,7 @@ bool Graph::areConnected(int src, int dest) const{
     if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
         return false;
 
-    for (const Edge* e : vertices[src - 1].adj){
+    for (const Edge* e : vertices[src - 1].out){
         if (e->dest != dest) continue;
 
         return true;
