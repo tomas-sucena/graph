@@ -10,7 +10,7 @@
 
 using testing::Eq;
 
-TEST(other_methods, isDAG){
+TEST(dfs, isDAG){
     // DAG
     Graph g4 = ExampleGraphs::graph4();
     Graph g6 = ExampleGraphs::graph6();

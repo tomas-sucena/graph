@@ -33,17 +33,17 @@ public:
     explicit Graph(int n, bool directed = true);
 
     // methods
-    bool isDirected() const;
-    int countVertices() const;
-    int countEdges() const;
-    std::vector<Vertex> getVertices() const;
-    Vertex& operator[](int index);
-
     bool reserve(int num);
     void addVertex(Vertex* v = nullptr);
     int removeVertex(int index);
     bool addEdge(int src, int dest, int weight = 1, bool valid = true);
     bool removeEdge(int src, int dest);
+
+    bool isDirected() const;
+    int countVertices() const;
+    int countEdges() const;
+    std::vector<Vertex> getVertices() const;
+    Vertex& operator[](int index);
 
     int inDegree(int index) const;
     int outDegree(int index) const;
@@ -51,6 +51,7 @@ public:
     list<list<int>> getConnectedComponents();
     int countConnectedComponents();
     bool isDAG();
+    list<int> topologicalSort();
 
     void reset();
 

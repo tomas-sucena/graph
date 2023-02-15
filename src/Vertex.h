@@ -29,10 +29,16 @@ public:
 
     // methods
     bool operator<(const Vertex& rhs) const{
+        if (dist == rhs.dist)
+            return index < rhs.index;
+
         return dist < rhs.dist;
     }
 
     bool operator>(const Vertex& rhs) const{
+        if (dist == rhs.dist)
+            return index > rhs.index;
+
         return dist > rhs.dist;
     }
 };

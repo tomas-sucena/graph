@@ -4,6 +4,7 @@
 
 #include "Graph.h"
 
+#include <algorithm>
 #include <queue>
 
 /**
@@ -191,42 +192,6 @@ Graph::Graph(int n, bool directed) : Graph(directed, n) {}
 
 /* METHODS */
 /**
- * indicates if the Graph is directed
- * @return 'true' if the Graph is directed, 'false' otherwise
- */
-bool Graph::isDirected() const{
-    return directed;
-}
-
-/**
- * returns the number of vertices that the Graph currently has
- * @return number of vertices of the Graph
- */
-int Graph::countVertices() const{
-    return (int) vertices.size();
-}
-
-/**
- * returns the number of edges that the Graph currently has
- * @return number of edges of the Graph
- */
-int Graph::countEdges() const{
-    return (int) edges.size();
-}
-
-/**
- * returns the vector which stores the vertices of the Graph
- * @return std::vector that stores the vertices of the Graph
- */
-std::vector<Vertex> Graph::getVertices() const{
-    return vertices;
-}
-
-Vertex& Graph::operator[](int index){
-    return vertices[index - 1];
-}
-
-/**
  * adds extra empty vertices to the Graph, by resizing the vector which stores them
  * @param num number of empty vertices that will be added to the Graph
  * @return 'true' if the resize occurs, 'false' otherwise
@@ -394,6 +359,42 @@ bool Graph::removeEdge(int src, int dest){
 }
 
 /**
+ * indicates if the Graph is directed
+ * @return 'true' if the Graph is directed, 'false' otherwise
+ */
+bool Graph::isDirected() const{
+    return directed;
+}
+
+/**
+ * returns the number of vertices that the Graph currently has
+ * @return number of vertices of the Graph
+ */
+int Graph::countVertices() const{
+    return (int) vertices.size();
+}
+
+/**
+ * returns the number of edges that the Graph currently has
+ * @return number of edges of the Graph
+ */
+int Graph::countEdges() const{
+    return (int) edges.size();
+}
+
+/**
+ * returns the vector which stores the vertices of the Graph
+ * @return std::vector that stores the vertices of the Graph
+ */
+std::vector<Vertex> Graph::getVertices() const{
+    return vertices;
+}
+
+Vertex& Graph::operator[](int index){
+    return vertices[index - 1];
+}
+
+/**
  * returns the number of edges in which a vertex is the destination
  * @param index index of the vertex that is the destination of the edges
  * @return number of edges whose destination is the desired vertex (or -1 if the index is invalid)
@@ -434,11 +435,14 @@ bool Graph::areConnected(int src, int dest) const{
 }
 
 /**
- * calculates all the connected components of the Graph (only applicable in undirected Graphs)
+ * calculates all the connected components of the Graph<br>
+ * <strong>NOTE:</strong> only applicable in undirected graphs
+ * @complexity O(|V| + |E|)
  * @return list with all the connected components (each component is a list of indices)
  */
 list<list<int>> Graph::getConnectedComponents(){
     list<list<int>> connectedComponents;
+    if (directed) return connectedComponents;
 
     reset();
     for (int i = 1; i <= vertices.size(); ++i){
@@ -451,7 +455,9 @@ list<list<int>> Graph::getConnectedComponents(){
 }
 
 /**
- * calculates the number of connected components of the Graph (only applicable in undirected Graphs)
+ * calculates the number of connected components of the Graph<br>
+ * <strong>NOTE:</strong> only applicable in undirected graphs
+ * @complexity O(|V| + |E|)
  * @return number of connected components
  */
 int Graph::countConnectedComponents(){
@@ -475,6 +481,43 @@ bool Graph::isDAG(){
     }
 
     return true;
+}
+
+/**
+ * computes one of the possible topological orders of the Graph, using Kahn's algorithm<br>
+ * <strong>NOTE:</strong> only applicable in DAGs
+ * @complexity O(|V| + |E|)
+ * @return list containing the topologically sorted indices of the vertices
+ */
+list<int> Graph::topologicalSort(){
+    list<int> res;
+    if (!isDAG()) return res;
+
+    reset();
+    std::vector<int> in_degrees(vertices.size() + 1);
+
+    std::queue<int> q;
+    for (int i = 1; i <= (int) vertices.size(); ++i){
+        if ((in_degrees[i] = inDegree(i)) > 0) continue;
+
+        q.push(i);
+    }
+
+    while (!q.empty()){
+        int curr = q.front();
+        q.pop();
+
+        for (const Edge* e : (*this)[curr].out){
+            int next = e->dest;
+            if (!e->valid || !(*this)[next].valid) continue;
+
+            if (!--in_degrees[next]) q.push(next);
+        }
+
+        res.push_back(curr);
+    }
+
+    return res;
 }
 
 /**
