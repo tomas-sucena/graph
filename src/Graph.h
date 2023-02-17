@@ -57,6 +57,7 @@ public:
     double distance(int src, int dest);
     list<int> getShortestPath(int src, int dest);
     list<list<int>> getShortestPaths(int src, int dest);
+    list<int> getReachable(int src, double dist, bool weighted = true);
 };
 
 #endif //GRAPH_GRAPH_H

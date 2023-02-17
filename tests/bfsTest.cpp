@@ -110,3 +110,24 @@ TEST(bfs, topological_sort){
     }
 
 }
+
+TEST(bfs, reachable){
+    list<int> res;
+
+    // undirected and unweighted graph
+    Graph g1 = ExampleGraphs::graph1();
+
+    for (int i = 1; i <= g1.countVertices(); ++i){
+        res = {i};
+        EXPECT_EQ(res, g1.getReachable(i, 0));
+    }
+
+    res = {1, 2, 3};
+    EXPECT_EQ(res, g1.getReachable(1, 1));
+
+    res = {2, 1, 4};
+    EXPECT_EQ(res, g1.getReachable(2, 1));
+
+    res = {2, 1, 4};
+    EXPECT_EQ(res, g1.getReachable(2, 1));
+}

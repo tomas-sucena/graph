@@ -300,15 +300,15 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
 
     Edge* e = new Edge(src, dest, weight, valid);
 
-    (*this)[src].out.push_back(e);
-    (*this)[dest].in.push_back(e);
+    (*this)[src].out.insert(e);
+    (*this)[dest].in.insert(e);
     edges.push_back(e);
 
     if (!directed){
         Edge* e_ = new Edge(dest, src, weight, valid);
 
-        (*this)[dest].out.push_back(e_);
-        (*this)[src].in.push_back(e_);
+        (*this)[dest].out.insert(e_);
+        (*this)[src].in.insert(e_);
         edges.push_back(e_);
     }
 
@@ -342,7 +342,7 @@ bool Graph::removeEdge(int src, int dest){
             continue;
         }
 
-        it = edges.erase(it);
+        it = (*this)[src].out.erase(it);
     }
 
     // remove the edge from the ingoing edges list of the destination vertex
@@ -352,7 +352,7 @@ bool Graph::removeEdge(int src, int dest){
             continue;
         }
 
-        it = edges.erase(it);
+        it = (*this)[dest].in.erase(it);
     }
 
     return true;
@@ -573,4 +573,48 @@ list<int> Graph::getShortestPath(int src, int dest){
 list<list<int>> Graph::getShortestPaths(int src, int dest){
     reset();
     return bfs(src, dest);
+}
+
+/**
+ * calculates which vertices can be reached in a given distance from a source vertex, using an implementation of the
+ * Breadth-First Search algorithm
+ * @complexity O(|V| + |E|)
+ * @param src index of the source vertex
+ * @param dist distance
+ * @param weighted bool that specifies if the given distance is referring to the weight of the edges ('true') or the
+ * total number of edges ('false')
+ * @return list containing the indices of the reachable vertices
+ */
+list<int> Graph::getReachable(int src, double dist, bool weighted){
+    reset();
+    list<int> reachableVertices;
+
+    (*this)[src].valid = false;
+    (*this)[src].dist = 0;
+
+    std::queue<std::pair<int, double>> q;
+    q.push({src, dist});
+
+    while (!q.empty()){
+        int currIndex = q.front().first;
+        double currDistance = q.front().second;
+        q.pop();
+
+        if (currDistance < 0) continue;
+        reachableVertices.push_back(currIndex);
+
+        for (const Edge* e : (*this)[currIndex].out){
+            int nextIndex = e->dest;
+            double nextDistance = currDistance - (weighted ? e->weight : 1);
+
+            (*this)[nextIndex].dist = std::min((*this)[currIndex].dist + e->weight, (*this)[nextIndex].dist);
+
+            if (!e->valid || !(*this)[nextIndex].valid) continue;
+            (*this)[nextIndex].valid = false;
+
+            q.push({nextIndex, nextDistance});
+        }
+    }
+
+    return reachableVertices;
 }
