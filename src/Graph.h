@@ -11,7 +11,6 @@
 
 #include "Vertex.h"
 
-#define INF INT_MAX
 #define uSet std::unordered_set
 
 using std::list;
@@ -55,7 +54,7 @@ public:
 
     void reset();
 
-    int distance(int src, int dest);
+    double distance(int src, int dest);
     list<int> getShortestPath(int src, int dest);
     list<list<int>> getShortestPaths(int src, int dest);
 };

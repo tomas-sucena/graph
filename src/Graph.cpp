@@ -541,11 +541,11 @@ void Graph::reset(){
  * @param dest index of the destination vertex
  * @return minimum distance between the source and the destination if they are connected, -1 otherwise
  */
-int Graph::distance(int src, int dest){
+double Graph::distance(int src, int dest){
     reset();
     dijkstra(src, dest);
 
-    int res = (*this)[dest].dist;
+    double res = (*this)[dest].dist;
     res = (res == INF) ? -1 : res;
 
     return res;

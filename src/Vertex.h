@@ -5,18 +5,18 @@
 #ifndef GRAPH_VERTEX_H
 #define GRAPH_VERTEX_H
 
-#include <climits>
+#include <limits>
 #include <list>
 
 #include "Edge.h"
 #include "Graph.h"
 
-#define INF INT_MAX
+#define INF std::numeric_limits<double>::max()
 
 class Vertex {
     int index;
     bool valid;
-    int dist;
+    double dist;
     std::list<Edge*> out;
     std::list<Edge*> in;
 
