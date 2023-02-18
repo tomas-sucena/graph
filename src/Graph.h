@@ -20,6 +20,8 @@ class Graph {
     std::vector<Vertex> vertices;
     std::list<Edge*> edges;
 
+    void reset();
+
     // search methods
     bool dfs(int src, uSet<int>* seen = nullptr);
     list<int> bfs(int src);
@@ -51,9 +53,7 @@ public:
     int countConnectedComponents();
     bool isDAG();
     list<int> topologicalSort();
-
-    void reset();
-
+    
     double distance(int src, int dest);
     list<int> getShortestPath(int src, int dest);
     list<list<int>> getShortestPaths(int src, int dest);

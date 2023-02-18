@@ -9,7 +9,7 @@
 
 /**
  * recursive implementation of the Depth-First Search algorithm, which traverses the graph in search of cycles
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @param src index of the vertex where the algorithm will start
  * @param seen set containing the indices of the vertices that have been visited
  * @return 'true' if the a cycle is found, 'false' otherwise
@@ -34,7 +34,7 @@ bool Graph::dfs(int src, uSet<int>* seen){
 
 /**
  * implementation of the Breadth-First Search algorithm, which traverses the graph
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @param src index of the vertex where the algorithm will start
  * @return list containing the indices of all the visited vertices
  */
@@ -70,7 +70,7 @@ list<int> Graph::bfs(int src){
 
 /**
  * implementation of the Breadth-First Search algorithm, which finds ALL the shortest paths between two vertices in a Graph
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing all the shortest paths that unite the two vertices
@@ -216,7 +216,7 @@ void Graph::addVertex(Vertex *v){
 
 /**
  * removes a vertex from the Graph
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @param index index of the vertex that will be removed
  * @return number of edges that were removed (those whose destination was the deleted vertex)
  */
@@ -317,7 +317,7 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
 
 /**
  * removes an edge from the Graph, that is, eliminates the connection between two vertices
- * @complexity O(|E|)
+ * @complexity O(E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return 'true' if the removal occurs, 'false' otherwise
@@ -416,7 +416,7 @@ int Graph::outDegree(int index) const{
 
 /**
  * verifies if there exists an edge that connects two vertices
- * @complexity O(|E|)
+ * @complexity O(E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return 'true' if the vertices are connected, 'false' otherwise
@@ -437,7 +437,7 @@ bool Graph::areConnected(int src, int dest) const{
 /**
  * calculates all the connected components of the Graph<br>
  * <strong>NOTE:</strong> only applicable in undirected graphs
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @return list with all the connected components (each component is a list of indices)
  */
 list<list<int>> Graph::getConnectedComponents(){
@@ -457,7 +457,7 @@ list<list<int>> Graph::getConnectedComponents(){
 /**
  * calculates the number of connected components of the Graph<br>
  * <strong>NOTE:</strong> only applicable in undirected graphs
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @return number of connected components
  */
 int Graph::countConnectedComponents(){
@@ -466,7 +466,7 @@ int Graph::countConnectedComponents(){
 
 /**
  * computes if a Graph is a Directed Acyclic Graph (DAG), by using the Depth-First Search algorithm
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @return 'true' if the Graph is a DAG, 'false' otherwise
  */
 bool Graph::isDAG(){
@@ -486,7 +486,7 @@ bool Graph::isDAG(){
 /**
  * computes one of the possible topological orders of the Graph, using Kahn's algorithm<br>
  * <strong>NOTE:</strong> only applicable in DAGs
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @return list containing the topologically sorted indices of the vertices
  */
 list<int> Graph::topologicalSort(){
@@ -522,7 +522,7 @@ list<int> Graph::topologicalSort(){
 
 /**
  * validates all the vertices and edges
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  */
 void Graph::reset(){
     for (Vertex& v : vertices){
@@ -536,7 +536,7 @@ void Graph::reset(){
 
 /**
  * calculates the minimum distance between two vertices
- * @complexity O(|E| * log|V|)
+ * @complexity O(E * logV)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return minimum distance between the source and the destination if they are connected, -1 otherwise
@@ -553,7 +553,7 @@ double Graph::distance(int src, int dest){
 
 /**
  * calculates (one of) the shortest path between two vertices
- * @complexity O(|E| * log|V|)
+ * @complexity O(E * logV)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing the indices of the vertices that form the path
@@ -565,7 +565,7 @@ list<int> Graph::getShortestPath(int src, int dest){
 
 /**
  * calculates ALL the shortest paths between two vertices
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing the shortest paths (each path is represented by the indices of the vertices that form it)
@@ -578,7 +578,7 @@ list<list<int>> Graph::getShortestPaths(int src, int dest){
 /**
  * calculates which vertices can be reached in a given distance from a source vertex, using an implementation of the
  * Breadth-First Search algorithm
- * @complexity O(|V| + |E|)
+ * @complexity O(V + E)
  * @param src index of the source vertex
  * @param dist distance
  * @param weighted bool that specifies if the given distance is referring to the weight of the edges ('true') or the
