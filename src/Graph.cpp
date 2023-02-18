@@ -300,15 +300,15 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
 
     Edge* e = new Edge(src, dest, weight, valid);
 
-    (*this)[src].out.insert(e);
-    (*this)[dest].in.insert(e);
+    (*this)[src].out.push_back(e);
+    (*this)[dest].in.push_back(e);
     edges.push_back(e);
 
     if (!directed){
         Edge* e_ = new Edge(dest, src, weight, valid);
 
-        (*this)[dest].out.insert(e_);
-        (*this)[src].in.insert(e_);
+        (*this)[dest].out.push_back(e_);
+        (*this)[src].in.push_back(e_);
         edges.push_back(e_);
     }
 

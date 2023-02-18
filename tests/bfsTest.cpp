@@ -128,6 +128,6 @@ TEST(bfs, reachable){
     res = {2, 1, 4};
     EXPECT_EQ(res, g1.getReachable(2, 1));
 
-    res = {2, 1, 4};
-    EXPECT_EQ(res, g1.getReachable(2, 1));
+    res = {4, 2, 3, 5};
+    EXPECT_EQ(res, g1.getReachable(4, 1));
 }

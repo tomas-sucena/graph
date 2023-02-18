@@ -6,7 +6,7 @@
 #define GRAPH_VERTEX_H
 
 #include <limits>
-#include <set>
+#include <list>
 
 #include "Edge.h"
 #include "Graph.h"
@@ -17,8 +17,8 @@ class Vertex {
     int index;
     bool valid;
     double dist;
-    std::set<Edge*> out;
-    std::set<Edge*> in;
+    std::list<Edge*> out;
+    std::list<Edge*> in;
 
     friend class Graph;
 
