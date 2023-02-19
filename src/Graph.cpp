@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <queue>
+#include <stack>
 
 /**
  * recursive implementation of the Depth-First Search algorithm, which traverses the graph in search of cycles
@@ -122,6 +123,7 @@ list<list<int>> Graph::bfs(int src, int dest){
 
 /**
  * implementation of the Dijkstra algorithm, which finds the shortest path between two vertices in a Graph
+ * @complexity O(E * logV)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing the indices of the visited vertices that comprise the shortest path
@@ -216,7 +218,7 @@ void Graph::addVertex(Vertex *v){
 
 /**
  * removes a vertex from the Graph
- * @complexity O(V + E)
+ * @complexity O(V * E)
  * @param index index of the vertex that will be removed
  * @return number of edges that were removed (those whose destination was the deleted vertex)
  */
@@ -288,6 +290,7 @@ int Graph::removeVertex(int index){
 
 /**
  * adds an edge to the Graph, that is, a connection between two vertices
+ * @complexity O(logE)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @param weight cost of the connection
@@ -302,14 +305,14 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
 
     (*this)[src].out.push_back(e);
     (*this)[dest].in.push_back(e);
-    edges.push_back(e);
+    edges.insert(e);
 
     if (!directed){
         Edge* e_ = new Edge(dest, src, weight, valid);
 
         (*this)[dest].out.push_back(e_);
         (*this)[src].in.push_back(e_);
-        edges.push_back(e_);
+        edges.insert(e_);
     }
 
     return true;
@@ -617,4 +620,26 @@ list<int> Graph::getReachable(int src, double dist, bool weighted){
     }
 
     return reachableVertices;
+}
+
+list<int> Graph::getArticulationPoints(){
+    list<int> articulationPoints;
+    reset();
+
+    // setup
+    std::vector<int> order(vertices.size() + 1), low(vertices.size() + 1);
+
+    std::stack<int> s;
+    s.push(1);
+
+    uSet<int> onStack;
+    onStack.insert(1);
+
+
+
+    return articulationPoints;
+}
+
+int Graph::countArticulationPoints(){
+    return (int) getArticulationPoints().size();
 }

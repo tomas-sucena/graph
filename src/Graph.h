@@ -6,8 +6,9 @@
 #define GRAPH_GRAPH_H
 
 #include <list>
-#include <vector>
+#include <set>
 #include <unordered_set>
+#include <vector>
 
 #include "Vertex.h"
 
@@ -18,7 +19,7 @@ using std::list;
 class Graph {
     bool directed;
     std::vector<Vertex> vertices;
-    std::list<Edge*> edges;
+    std::set<Edge*> edges;
 
     void reset();
 
@@ -58,6 +59,9 @@ public:
     list<int> getShortestPath(int src, int dest);
     list<list<int>> getShortestPaths(int src, int dest);
     list<int> getReachable(int src, double dist, bool weighted = true);
+
+    list<int> getArticulationPoints();
+    int countArticulationPoints();
 };
 
 #endif //GRAPH_GRAPH_H
