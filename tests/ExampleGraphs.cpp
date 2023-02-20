@@ -5,8 +5,8 @@
 
 #include "ExampleGraphs.h"
 
-Graph ExampleGraphs::graph1() {
-    Graph g(9, false);
+UGraph ExampleGraphs::graph1() {
+    UGraph g(9);
     g.addEdge(1,2);
     g.addEdge(1,3);
     g.addEdge(2,4);
@@ -19,8 +19,8 @@ Graph ExampleGraphs::graph1() {
     return g;
 }
 
-Graph ExampleGraphs::graph2() {
-    Graph g(12, false);
+UGraph ExampleGraphs::graph2() {
+    UGraph g(12);
     g.addEdge(1,2);
     g.addEdge(2,3);
     g.addEdge(3,4);
@@ -39,8 +39,8 @@ Graph ExampleGraphs::graph2() {
     return g;
 }
 
-Graph ExampleGraphs::graph3() {
-    Graph g(10, false);
+UGraph ExampleGraphs::graph3() {
+    UGraph g(10);
     g.addEdge(1,2);
     g.addEdge(2,3);
     g.addEdge(3,4);
@@ -56,8 +56,8 @@ Graph ExampleGraphs::graph3() {
     return g;
 }
 
-Graph ExampleGraphs::graph4() {
-    Graph g(9, true);
+DGraph ExampleGraphs::graph4() {
+    DGraph g(9);
     g.addEdge(1,2);
     g.addEdge(1,3);
     g.addEdge(2,4);
@@ -70,8 +70,8 @@ Graph ExampleGraphs::graph4() {
     return g;
 }
 
-Graph ExampleGraphs::graph5() {
-    Graph g(4, true);
+DGraph ExampleGraphs::graph5() {
+    DGraph g(4);
     g.addEdge(1,2);
     g.addEdge(2,4);
     g.addEdge(4,3);
@@ -79,8 +79,8 @@ Graph ExampleGraphs::graph5() {
     return g;
 }
 
-Graph ExampleGraphs::graph6() {
-    Graph g(8, true);
+DGraph ExampleGraphs::graph6() {
+    DGraph g(8);
     g.addEdge(1,2);
     g.addEdge(2,4);
     g.addEdge(3,1);
@@ -92,8 +92,8 @@ Graph ExampleGraphs::graph6() {
     return g;
 }
 
-Graph ExampleGraphs::graph7() {
-    Graph g(3, true);
+DGraph ExampleGraphs::graph7() {
+    DGraph g(3);
     g.addEdge(1,2);
     g.addEdge(2,1);
     g.addEdge(1,3);
@@ -103,8 +103,8 @@ Graph ExampleGraphs::graph7() {
     return g;
 }
 
-Graph ExampleGraphs::graph8() {
-    Graph g(9, false);
+UGraph ExampleGraphs::graph8() {
+    UGraph g(9);
     g.addEdge(1,2, 5);
     g.addEdge(1,3, 4);
     g.addEdge(2,4, 8);
@@ -118,8 +118,8 @@ Graph ExampleGraphs::graph8() {
     return g;
 }
 
-Graph ExampleGraphs::graph9() {
-    Graph g(4, false);
+UGraph ExampleGraphs::graph9() {
+    UGraph g(4);
     g.addEdge(1,2, 3);
     g.addEdge(1,3, 4);
     g.addEdge(2,4, 3);
@@ -127,8 +127,8 @@ Graph ExampleGraphs::graph9() {
     return g;
 }
 
-Graph ExampleGraphs::graph10() {
-    Graph g(8, true);
+DGraph ExampleGraphs::graph10() {
+    DGraph g(8);
     g.addEdge(1,3, 3);
     g.addEdge(2,1, 2);
     g.addEdge(4,2, 1);
@@ -140,16 +140,16 @@ Graph ExampleGraphs::graph10() {
     return g;
 }
 
-Graph ExampleGraphs::graph11() {
-    Graph g(3, true);
+DGraph ExampleGraphs::graph11() {
+    DGraph g(3);
     g.addEdge(2,1, 2);
     g.addEdge(1,3, 8);
     g.addEdge(3,2, 1);
     return g;
 }
 
-Graph ExampleGraphs::graph12(){
-    Graph g(6, true);
+DGraph ExampleGraphs::graph12(){
+    DGraph g(6);
     g.addEdge(1, 2, 3);
     g.addEdge(2, 3, 1);
     g.addEdge(3, 1, 4);

@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 
-#include "../src/Graph.h"
-#include "ExampleGraphs.h"
+#include "../../src/Graph.h"
+#include "../ExampleGraphs.h"
 
 using testing::Eq;
 
@@ -36,7 +36,6 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g1.distance(8,5));
     EXPECT_EQ(4, g1.distance(2,8));
 
-    std::cout << "  . graph2" << std::endl;
     Graph g2 = ExampleGraphs::graph2();
 
     EXPECT_EQ(1, g2.distance(1,2));
@@ -52,7 +51,6 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g2.distance(10,6));
     EXPECT_EQ(1, g2.distance(5,12));
 
-    std::cout << "  . graph3" << std::endl;
     Graph g3 = ExampleGraphs::graph3();
 
     EXPECT_EQ(4, g3.distance(5,1));

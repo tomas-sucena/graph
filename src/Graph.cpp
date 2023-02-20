@@ -1,37 +1,11 @@
 //
-// Created by tosul on 05/02/2023.
+// Created by Tomás Sucena Lopes on 05/02/2023.
 //
 
 #include "Graph.h"
 
 #include <algorithm>
 #include <queue>
-#include <stack>
-
-/**
- * recursive implementation of the Depth-First Search algorithm, which traverses the graph in search of cycles
- * @complexity O(V + E)
- * @param src index of the vertex where the algorithm will start
- * @param seen set containing the indices of the vertices that have been visited
- * @return 'true' if the a cycle is found, 'false' otherwise
- */
-bool Graph::dfs(int src, uSet<int>* seen){
-    if (seen == nullptr){
-        seen = new uSet<int>();
-        seen->insert(src);
-    }
-
-    for (const Edge* e : (*this)[src].out){
-        int next = e->dest;
-        if (!e->valid || !(*this)[next].valid) continue;
-
-        if (!seen->insert(next).second) return true;
-        if (dfs(next, seen)) return true;
-    }
-    (*this)[src].valid = false;
-
-    return false;
-}
 
 /**
  * implementation of the Breadth-First Search algorithm, which traverses the graph
@@ -171,26 +145,18 @@ list<int> Graph::dijkstra(int src, int dest){
     return path;
 }
 
-/* CONSTRUCTORS */
+/* CONSTRUCTOR */
 /**
  * creates a new Graph
- * @param directed bool that indicates if the Graph is directed
  * @param n number of vertices that the Graph will be initialized with
  */
-Graph::Graph(bool directed, int n) : directed(directed) {
+Graph::Graph(int n) : weighted(false) {
     if (n <= 0) return;
 
     vertices.resize(n);
     for (int i = 1; i <= n; ++i)
         (*this)[i].index = i;
 }
-
-/**
- * creates a new Graph
- * @param directed bool that indicates if the Graph is directed
- * @param n number of empty vertices that the Graph will be initialized with
- */
-Graph::Graph(int n, bool directed) : Graph(directed, n) {}
 
 /* METHODS */
 /**
@@ -297,7 +263,7 @@ int Graph::removeVertex(int index){
  * @param valid bool that indicates if the edge should be considered in Graph traversals
  * @return 'true' if the insertion occurs, 'false' otherwise
  */
-bool Graph::addEdge(int src, int dest, int weight, bool valid){
+bool Graph::addEdge(int src, int dest, double weight, bool valid){
     if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
         return false;
 
@@ -307,13 +273,7 @@ bool Graph::addEdge(int src, int dest, int weight, bool valid){
     (*this)[dest].in.push_back(e);
     edges.insert(e);
 
-    if (!directed){
-        Edge* e_ = new Edge(dest, src, weight, valid);
-
-        (*this)[dest].out.push_back(e_);
-        (*this)[src].in.push_back(e_);
-        edges.insert(e_);
-    }
+    weighted |= (weight != 1);
 
     return true;
 }
@@ -362,11 +322,11 @@ bool Graph::removeEdge(int src, int dest){
 }
 
 /**
- * indicates if the Graph is directed
- * @return 'true' if the Graph is directed, 'false' otherwise
+ * indicates if the Graph is weighted
+ * @return 'true' if the Graph is weighted, 'false' otherwise
  */
-bool Graph::isDirected() const{
-    return directed;
+bool Graph::isWeighted() const{
+    return weighted;
 }
 
 /**
@@ -437,91 +397,6 @@ bool Graph::areConnected(int src, int dest) const{
     return false;
 }
 
-/**
- * calculates all the connected components of the Graph<br>
- * <strong>NOTE:</strong> only applicable in undirected graphs
- * @complexity O(V + E)
- * @return list with all the connected components (each component is a list of indices)
- */
-list<list<int>> Graph::getConnectedComponents(){
-    list<list<int>> connectedComponents;
-    if (directed) return connectedComponents;
-
-    reset();
-    for (int i = 1; i <= vertices.size(); ++i){
-        if (!(*this)[i].valid) continue;
-
-        connectedComponents.push_back(bfs(i));
-    }
-
-    return connectedComponents;
-}
-
-/**
- * calculates the number of connected components of the Graph<br>
- * <strong>NOTE:</strong> only applicable in undirected graphs
- * @complexity O(V + E)
- * @return number of connected components
- */
-int Graph::countConnectedComponents(){
-    return (int) getConnectedComponents().size();
-}
-
-/**
- * computes if a Graph is a Directed Acyclic Graph (DAG), by using the Depth-First Search algorithm
- * @complexity O(V + E)
- * @return 'true' if the Graph is a DAG, 'false' otherwise
- */
-bool Graph::isDAG(){
-    if (!directed) return false;
-    reset();
-
-    for (int i = 1; i <= vertices.size(); ++i){
-        if (!(*this)[i].valid) continue;
-
-        bool cycleFound = dfs(i);
-        if (cycleFound) return false;
-    }
-
-    return true;
-}
-
-/**
- * computes one of the possible topological orders of the Graph, using Kahn's algorithm<br>
- * <strong>NOTE:</strong> only applicable in DAGs
- * @complexity O(V + E)
- * @return list containing the topologically sorted indices of the vertices
- */
-list<int> Graph::topologicalSort(){
-    list<int> res;
-    if (!isDAG()) return res;
-
-    reset();
-    std::vector<int> in_degrees(vertices.size() + 1);
-
-    std::queue<int> q;
-    for (int i = 1; i <= (int) vertices.size(); ++i){
-        if ((in_degrees[i] = inDegree(i)) > 0) continue;
-
-        q.push(i);
-    }
-
-    while (!q.empty()){
-        int curr = q.front();
-        q.pop();
-
-        for (const Edge* e : (*this)[curr].out){
-            int next = e->dest;
-            if (!e->valid || !(*this)[next].valid) continue;
-
-            if (!--in_degrees[next]) q.push(next);
-        }
-
-        res.push_back(curr);
-    }
-
-    return res;
-}
 
 /**
  * validates all the vertices and edges
@@ -620,26 +495,4 @@ list<int> Graph::getReachable(int src, double dist, bool weighted){
     }
 
     return reachableVertices;
-}
-
-list<int> Graph::getArticulationPoints(){
-    list<int> articulationPoints;
-    reset();
-
-    // setup
-    std::vector<int> order(vertices.size() + 1), low(vertices.size() + 1);
-
-    std::stack<int> s;
-    s.push(1);
-
-    uSet<int> onStack;
-    onStack.insert(1);
-
-
-
-    return articulationPoints;
-}
-
-int Graph::countArticulationPoints(){
-    return (int) getArticulationPoints().size();
 }

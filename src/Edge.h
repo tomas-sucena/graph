@@ -5,21 +5,21 @@
 #ifndef GRAPH_EDGE_H
 #define GRAPH_EDGE_H
 
-#include "Graph.h"
-
 class Edge {
     int src;
     int dest;
-    int weight;
+    double weight;
     bool valid;
 
     friend class Graph;
-    friend class std::less<Edge*>;
+    friend class DGraph;
+    friend class UGraph;
 
     // constructor
-    Edge(int src, int dest, int weight, bool valid)
+    Edge(int src, int dest, double weight, bool valid)
         : src(src), dest(dest), weight(weight), valid(valid) {}
 
+public:
     // methods
     bool operator<(const Edge& e) const{
         if (weight != e.weight)

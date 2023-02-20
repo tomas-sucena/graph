@@ -9,7 +9,6 @@
 #include <list>
 
 #include "Edge.h"
-#include "Graph.h"
 
 #define INF std::numeric_limits<double>::max()
 
@@ -21,6 +20,8 @@ class Vertex {
     std::list<Edge*> in;
 
     friend class Graph;
+    friend class DGraph;
+    friend class UGraph;
 
 public:
     // constructor

@@ -5,12 +5,25 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(graph
         src/Edge.h
+        src/DGraph.cpp
+        src/DGraph.h
         src/Graph.cpp
         src/Graph.h
+        src/UGraph.cpp
+        src/UGraph.h
         src/Vertex.h
-        tests/bfsTest.cpp
-        tests/initializationTest.cpp
-        tests/manipulationTest.cpp tests/ExampleGraphs.cpp tests/ExampleGraphs.h tests/dijkstraTest.cpp tests/dfsTest.cpp)
+        tests/directed/bfsTest.cpp
+        tests/directed/dfsTest.cpp
+        tests/directed/dijkstraTest.cpp
+        tests/directed/initializationTest.cpp
+        tests/directed/manipulationTest.cpp
+        tests/ExampleGraphs.cpp
+        tests/ExampleGraphs.h
+        tests/undirected/bfsTest.cpp
+        tests/undirected/dfsTest.cpp
+        tests/undirected/dijkstraTest.cpp
+        tests/undirected/initializationTest.cpp
+        tests/undirected/manipulationTest.cpp)
 
 include(FetchContent)
 FetchContent_Declare(
