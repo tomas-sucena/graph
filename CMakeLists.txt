@@ -12,18 +12,13 @@ add_executable(graph
         src/UGraph.cpp
         src/UGraph.h
         src/Vertex.h
-        tests/directed/bfsTest.cpp
-        tests/directed/dfsTest.cpp
-        tests/directed/dijkstraTest.cpp
-        tests/directed/initializationTest.cpp
-        tests/directed/manipulationTest.cpp
+        tests/bfsTest.cpp
+        tests/dfsTest.cpp
+        tests/dijkstraTest.cpp
         tests/ExampleGraphs.cpp
         tests/ExampleGraphs.h
-        tests/undirected/bfsTest.cpp
-        tests/undirected/dfsTest.cpp
-        tests/undirected/dijkstraTest.cpp
-        tests/undirected/initializationTest.cpp
-        tests/undirected/manipulationTest.cpp)
+        tests/initializationTest.cpp
+        tests/manipulationTest.cpp)
 
 include(FetchContent)
 FetchContent_Declare(

@@ -1,17 +1,18 @@
 //
-// Created by tosul on 10/02/2023.
+// Created by Tomás Sucena Lopes on 10/02/2023.
 //
 
 #include <gtest/gtest.h>
 
-#include "../../src/Graph.h"
-#include "../ExampleGraphs.h"
+#include "../src/DGraph.h"
+#include "../src/UGraph.h"
+#include "ExampleGraphs.h"
 
 using testing::Eq;
 
 TEST(dijkstra, distance){
     // undirected and unweighted graphs
-    Graph g1 = ExampleGraphs::graph1();
+    UGraph g1 = ExampleGraphs::graph1();
 
     EXPECT_EQ(0, g1.distance(1,1));
     EXPECT_EQ(1, g1.distance(1,2));
@@ -36,7 +37,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g1.distance(8,5));
     EXPECT_EQ(4, g1.distance(2,8));
 
-    Graph g2 = ExampleGraphs::graph2();
+    UGraph g2 = ExampleGraphs::graph2();
 
     EXPECT_EQ(1, g2.distance(1,2));
     EXPECT_EQ(2, g2.distance(1,3));
@@ -51,7 +52,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g2.distance(10,6));
     EXPECT_EQ(1, g2.distance(5,12));
 
-    Graph g3 = ExampleGraphs::graph3();
+    UGraph g3 = ExampleGraphs::graph3();
 
     EXPECT_EQ(4, g3.distance(5,1));
     EXPECT_EQ(3, g3.distance(5,2));
@@ -67,7 +68,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(4, g3.distance(3,8));
 
     // directed and unweighted graphs
-    Graph g4 = ExampleGraphs::graph4();
+    DGraph g4 = ExampleGraphs::graph4();
 
     EXPECT_EQ(0, g4.distance(1,1));
     EXPECT_EQ(1, g4.distance(1,2));
@@ -92,7 +93,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g4.distance(8,5));
     EXPECT_EQ(-1, g4.distance(2,8));
 
-    Graph g5 = ExampleGraphs::graph5();
+    DGraph g5 = ExampleGraphs::graph5();
 
     EXPECT_EQ(0, g5.distance(1,1));
     EXPECT_EQ(1, g5.distance(1,2));
@@ -112,7 +113,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(0, g5.distance(4,4));
 
     // undirected and weighted graphs
-    Graph g8 = ExampleGraphs::graph8();
+    UGraph g8 = ExampleGraphs::graph8();
 
     EXPECT_EQ(0, g8.distance(1,1));
     EXPECT_EQ(5, g8.distance(1,2));
@@ -137,7 +138,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(11, g8.distance(8,5));
     EXPECT_EQ(22, g8.distance(2,8));
 
-    Graph g9 = ExampleGraphs::graph9();
+    UGraph g9 = ExampleGraphs::graph9();
 
     EXPECT_EQ(0, g9.distance(1,1));
     EXPECT_EQ(3, g9.distance(1,2));
@@ -159,71 +160,71 @@ TEST(dijkstra, distance){
 
 TEST(dijkstra, shortest_path){
     // undirected and unweighted graphs
-    Graph g1 = ExampleGraphs::graph1();
+    UGraph g1 = ExampleGraphs::graph1();
 
     std::list<int> res = {1};
     EXPECT_EQ(res, g1.getShortestPath(1,1));
-    
+
     res = {1, 2};
     EXPECT_EQ(res, g1.getShortestPath(1,2));
-    
+
     res = {1, 3};
     EXPECT_EQ(res, g1.getShortestPath(1,3));
-    
+
     res = {1, 2, 4};
     EXPECT_EQ(res, g1.getShortestPath(1,4));
-    
+
     res = {1, 2, 4, 5};
     EXPECT_EQ(res, g1.getShortestPath(1,5));
-    
+
     res = {1, 2, 4, 5, 6};
     EXPECT_EQ(res, g1.getShortestPath(1,6));
-    
+
     res = {1, 2, 4, 5, 7};
     EXPECT_EQ(res, g1.getShortestPath(1,7));
-    
+
     res = {1, 2, 4, 5, 7, 8};
     EXPECT_EQ(res, g1.getShortestPath(1,8));
-    
+
     res = {1, 2, 4, 5, 6, 9};
     EXPECT_EQ(res, g1.getShortestPath(1,9));
-    
+
     res = {4, 2, 1};
     EXPECT_EQ(res, g1.getShortestPath(4,1));
-    
+
     res = {4, 2};
     EXPECT_EQ(res, g1.getShortestPath(4,2));
-    
+
     res = {4, 3};
     EXPECT_EQ(res, g1.getShortestPath(4,3));
-    
+
     res = {4};
     EXPECT_EQ(res, g1.getShortestPath(4,4));
-    
+
     res = {4, 5};
     EXPECT_EQ(res, g1.getShortestPath(4,5));
-    
+
     res = {4, 5, 6};
     EXPECT_EQ(res, g1.getShortestPath(4,6));
-    
+
     res = {4, 5, 7};
     EXPECT_EQ(res, g1.getShortestPath(4,7));
-    
+
     res = {4, 5, 7, 8};
     EXPECT_EQ(res, g1.getShortestPath(4,8));
-    
+
     res = {4, 5, 6, 9};
     EXPECT_EQ(res, g1.getShortestPath(4,9));
-    
+
     res = {2, 1, 3};
     EXPECT_EQ(res, g1.getShortestPath(2,3));
-    
+
     res = {9, 6, 5, 7, 8};
     EXPECT_EQ(res, g1.getShortestPath(9,8));
-    
+
     res = {8, 7, 5};
     EXPECT_EQ(res, g1.getShortestPath(8,5));
-    
+
     res = {2, 4, 5, 7, 8};
     EXPECT_EQ(res, g1.getShortestPath(2,8));
 }

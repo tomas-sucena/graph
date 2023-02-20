@@ -5,15 +5,17 @@
 #include <gtest/gtest.h>
 #include <set>
 
-#include "../src/Graph.h"
+#include "../src/DGraph.h"
+#include "../src/UGraph.h"
 
 #define VertexPair std::pair<int, int>
 
 using testing::Eq;
 
 TEST(manipulation, vertex_addition){
+    // directed graph
     int n = 4;
-    Graph g1(n);
+    DGraph g1(n);
 
     ASSERT_EQ(n, g1.countVertices());
 
@@ -21,11 +23,21 @@ TEST(manipulation, vertex_addition){
         g1.addVertex();
         ASSERT_EQ(n + ++i, g1.countVertices());
     }
+    
+    // undirected graph
+    UGraph g2(n);
+
+    ASSERT_EQ(n, g2.countVertices());
+
+    for (int i = 0; i < 4;){
+        g2.addVertex();
+        ASSERT_EQ(n + ++i, g2.countVertices());
+    }
 }
 
 TEST(manipulation, edge_addition){
     // directed graph
-    Graph g1(4, true);
+    DGraph g1(4);
 
     g1.addEdge(1, 2);
     g1.addEdge(1, 3);
@@ -58,7 +70,7 @@ TEST(manipulation, edge_addition){
     }
 
     // undirected graph
-    Graph g2(4, false);
+    UGraph g2(4);
 
     g2.addEdge(1, 2);
     g2.addEdge(1, 3);
@@ -93,7 +105,8 @@ TEST(manipulation, edge_addition){
 }
 
 TEST(manipulation, vertex_removal){
-    Graph g1(3, false);
+    // undirected graph
+    UGraph g1(3);
 
     g1.addEdge(1, 2);
     g1.addEdge(2, 3);

@@ -1,17 +1,18 @@
 //
-// Created by tosul on 12/02/2023.
+// Created by Tomás Sucena Lopes on 12/02/2023.
 //
 
 #include <gtest/gtest.h>
 #include <set>
 
-#include "../../src/DGraph.h"
-#include "../ExampleGraphs.h"
+#include "../src/DGraph.h"
+#include "../src/UGraph.h"
+#include "ExampleGraphs.h"
 
 using testing::Eq;
 
 TEST(dfs, isDAG){
-    // DAG
+    // DAGs
     DGraph g4 = ExampleGraphs::graph4();
     DGraph g6 = ExampleGraphs::graph6();
     DGraph g10 = ExampleGraphs::graph10();

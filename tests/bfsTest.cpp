@@ -1,11 +1,12 @@
 //
-// Created by tosul on 06/02/2023.
+// Created by Tomás Sucena Lopes on 06/02/2023.
 //
 
 #include <algorithm>
 #include <gtest/gtest.h>
 
-#include "../src/Graph.h"
+#include "../src/DGraph.h"
+#include "../src/UGraph.h"
 #include "ExampleGraphs.h"
 
 using std::list;
@@ -13,7 +14,7 @@ using testing::Eq;
 
 TEST(bfs, shortest_path){
     // undirected graph
-    Graph g1 = ExampleGraphs::graph1();
+    UGraph g1 = ExampleGraphs::graph1();
 
     list<list<int>> paths = g1.getShortestPaths(1, 1);
 
@@ -44,23 +45,10 @@ TEST(bfs, shortest_path){
 }
 
 TEST(bfs, topological_sort){
-    // undirected graphs
-    Graph g1 = ExampleGraphs::graph1();
-    Graph g2 = ExampleGraphs::graph2();
-    Graph g3 = ExampleGraphs::graph3();
-    Graph g8 = ExampleGraphs::graph8();
-    Graph g9 = ExampleGraphs::graph9();
-
-    EXPECT_TRUE(g1.topologicalSort().empty());
-    EXPECT_TRUE(g2.topologicalSort().empty());
-    EXPECT_TRUE(g3.topologicalSort().empty());
-    EXPECT_TRUE(g8.topologicalSort().empty());
-    EXPECT_TRUE(g9.topologicalSort().empty());
-    
     // directed graphs with cycles
-    Graph g5 = ExampleGraphs::graph5();
-    Graph g7 = ExampleGraphs::graph7();
-    Graph g11 = ExampleGraphs::graph11();
+    DGraph g5 = ExampleGraphs::graph5();
+    DGraph g7 = ExampleGraphs::graph7();
+    DGraph g11 = ExampleGraphs::graph11();
 
     EXPECT_TRUE(g5.topologicalSort().empty());
     EXPECT_TRUE(g7.topologicalSort().empty());
@@ -68,7 +56,7 @@ TEST(bfs, topological_sort){
 
     // DAGs
     /* TESTES DO PROF PEDRO RIBEIRO */
-    Graph g4 = ExampleGraphs::graph4();
+    DGraph g4 = ExampleGraphs::graph4();
     list<int> order = g4.topologicalSort();
 
     EXPECT_EQ(9, order.size()); // size of order
@@ -82,7 +70,7 @@ TEST(bfs, topological_sort){
     }
 
 
-    Graph g6 = ExampleGraphs::graph6();
+    DGraph g6 = ExampleGraphs::graph6();
     order = g6.topologicalSort();
 
     EXPECT_EQ(8, order.size()); // size of order
@@ -96,7 +84,7 @@ TEST(bfs, topological_sort){
     }
 
 
-    Graph g10 = ExampleGraphs::graph10();
+    DGraph g10 = ExampleGraphs::graph10();
     order = g10.topologicalSort();
 
     EXPECT_EQ(8, order.size()); // size of order
@@ -115,7 +103,7 @@ TEST(bfs, reachable){
     list<int> res;
 
     // undirected and unweighted graph
-    Graph g1 = ExampleGraphs::graph1();
+    UGraph g1 = ExampleGraphs::graph1();
 
     for (int i = 1; i <= g1.countVertices(); ++i){
         res = {i};
