@@ -1,5 +1,5 @@
 //
-// Created by Tomas on 20/02/2023.
+// Created by Tomás Sucena Lopes on 20/02/2023.
 //
 
 #include "DGraph.h"

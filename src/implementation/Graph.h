@@ -1,5 +1,5 @@
 //
-// Created by tosul on 05/02/2023.
+// Created by Tomás Sucena Lopes on 05/02/2023.
 //
 
 #ifndef GRAPH_GRAPH_H
@@ -18,7 +18,7 @@ using std::list;
 
 class Graph {
 protected:
-    bool weighted;
+    int weighted;
     std::vector<Vertex> vertices;
     std::set<Edge*> edges;
 

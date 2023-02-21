@@ -4,14 +4,14 @@ project(graph)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(graph
-        src/Edge.h
         src/DGraph.cpp
         src/DGraph.h
-        src/Graph.cpp
-        src/Graph.h
+        src/implementation/Edge.h
+        src/implementation/Graph.cpp
+        src/implementation/Graph.h
+        src/implementation/Vertex.h
         src/UGraph.cpp
         src/UGraph.h
-        src/Vertex.h
         tests/bfsTest.cpp
         tests/dfsTest.cpp
         tests/dijkstraTest.cpp

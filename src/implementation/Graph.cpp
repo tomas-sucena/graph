@@ -273,7 +273,7 @@ bool Graph::addEdge(int src, int dest, double weight, bool valid){
     (*this)[dest].in.push_back(e);
     edges.insert(e);
 
-    weighted |= (weight != 1);
+    weighted += (weight != 1);
 
     return true;
 }
@@ -295,6 +295,7 @@ bool Graph::removeEdge(int src, int dest){
             continue;
         }
 
+        weighted -= ((*it)->weight != 1);
         it = edges.erase(it);
     }
 
@@ -326,7 +327,7 @@ bool Graph::removeEdge(int src, int dest){
  * @return 'true' if the Graph is weighted, 'false' otherwise
  */
 bool Graph::isWeighted() const{
-    return weighted;
+    return (bool) weighted;
 }
 
 /**

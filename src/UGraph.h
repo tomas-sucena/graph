@@ -5,7 +5,7 @@
 #ifndef GRAPH_UGRAPH_H
 #define GRAPH_UGRAPH_H
 
-#include "Graph.h"
+#include "implementation/Graph.h"
 
 class UGraph : public Graph {
 public:
@@ -23,6 +23,8 @@ public:
 
     list<int> getArticulationPoints();
     int countArticulationPoints();
+
+    list<Edge*> getMST();
 };
 
 #endif //GRAPH_UGRAPH_H

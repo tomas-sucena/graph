@@ -1,5 +1,5 @@
 //
-// Created by tosul on 07/02/2023.
+// Created by Tomás Sucena Lopes on 07/02/2023.
 //
 
 #ifndef GRAPH_EXAMPLEGRAPHS_H
@@ -11,7 +11,6 @@
 using namespace std;
 
 class ExampleGraphs {
-
 public:
     // undirected and unweighted
     static UGraph graph1();
@@ -33,6 +32,5 @@ public:
     static DGraph graph11();
     static DGraph graph12();
 };
-
 
 #endif //GRAPH_EXAMPLEGRAPHS_H

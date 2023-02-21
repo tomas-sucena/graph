@@ -1,5 +1,5 @@
 //
-// Created by tosul on 07/02/2023.
+// Created by Tomás Sucena Lopes on 07/02/2023.
 // Graphs by Pedro Ribeiro (DCC/FCUP) [last update: 27/11/2022]
 //
 

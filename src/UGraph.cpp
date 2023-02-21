@@ -4,6 +4,7 @@
 
 #include "UGraph.h"
 
+#include <queue>
 #include <stack>
 
 /**
@@ -98,4 +99,54 @@ list<int> UGraph::getArticulationPoints(){
 
 int UGraph::countArticulationPoints(){
     return (int) getArticulationPoints().size();
+}
+
+/**
+ * computes a Minimum Spanning Tree (MST) of the Graph, using an implementation of Prim's algorithm
+ * @complexity O(E * logV)
+ * @return list containing the edges that belong to the MST
+ */
+list<Edge*> UGraph::getMST(){
+    list<Edge*> MST;
+    reset();
+
+    uSet<int> notInMST;
+    for (int i = 1; i <= (int) vertices.size(); ++i)
+        notInMST.insert(i);
+
+    (*this)[1].dist = 0;
+
+    std::priority_queue<Vertex, std::vector<Vertex>, std::greater<>> pq;
+    pq.push((*this)[1]);
+
+    list<Edge*> prevEdges;
+
+    while (!notInMST.empty()){
+        int curr = pq.top().index;
+        pq.pop();
+
+        notInMST.erase(curr);
+        (*this)[curr].valid = false;
+
+        for (Edge* e : prevEdges){
+            if (e->dest != curr) continue;
+
+            MST.push_back(e);
+            break;
+        }
+
+        for (Edge* e : (*this)[curr].out){
+            int next = e->dest;
+
+            if (!e->valid || !(*this)[next].valid) continue;
+
+            if ((*this)[curr].dist + e->weight < (*this)[next].dist)
+                (*this)[next].dist = (*this)[curr].dist + e->weight;
+
+            pq.push((*this)[next]);
+            prevEdges.push_back(e);
+        }
+    }
+
+    return MST;
 }

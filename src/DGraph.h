@@ -5,7 +5,7 @@
 #ifndef GRAPH_DGRAPH_H
 #define GRAPH_DGRAPH_H
 
-#include "Graph.h"
+#include "implementation/Graph.h"
 
 class DGraph : public Graph {
     // search methods

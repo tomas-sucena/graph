@@ -1,5 +1,5 @@
 //
-// Created by tosul on 05/02/2023.
+// Created by Tomás Sucena Lopes on 05/02/2023.
 //
 
 #ifndef GRAPH_VERTEX_H
