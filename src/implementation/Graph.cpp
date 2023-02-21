@@ -136,7 +136,7 @@ list<int> Graph::dijkstra(int src, int dest){
     // reconstruct the shortest path
     list<int> path;
 
-    for (int last = dest; prev[dest] > 0; last = prev[last]){
+    for (int last = dest; prev[last] > 0; last = prev[last]){
         path.push_front(last);
 
         if (last == prev[last]) break;
@@ -165,7 +165,8 @@ Graph::Graph(int n) : weighted(false) {
  * @return 'true' if the resize occurs, 'false' otherwise
  */
 bool Graph::reserve(int num){
-    if ((int) vertices.size() >= num) return false;
+    if (num <= 0)
+        return false;
 
     vertices.resize(vertices.size() + num);
     return true;

@@ -97,6 +97,27 @@ TEST(bfs, topological_sort){
         EXPECT_LT(distance(order.begin(), u), distance(order.begin(), v)); // pos(u) < pos(v)
     }
 
+    // special case - graph constituted by more than one DAG
+    DGraph g(3);
+
+    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+
+    std::list<int> res = {1, 2, 3};
+    EXPECT_EQ(res, g.topologicalSort());
+
+    g.reserve(3);
+    g.addEdge(4, 5);
+    g.addEdge(5, 6);
+
+    res = {1, 4, 2, 5, 3, 6};
+    EXPECT_EQ(res, g.topologicalSort());
+
+    g.addEdge(2, 4);
+    g.addEdge(3, 5);
+
+    res = {1, 2, 3, 4, 5, 6};
+    EXPECT_EQ(res, g.topologicalSort());
 }
 
 TEST(bfs, reachable){

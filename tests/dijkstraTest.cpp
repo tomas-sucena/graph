@@ -156,6 +156,14 @@ TEST(dijkstra, distance){
     EXPECT_EQ(3, g9.distance(4,2));
     EXPECT_EQ(4, g9.distance(4,3));
     EXPECT_EQ(0, g9.distance(4,4));
+
+    // directed and weighted graphs
+    DGraph g10 = TestGraphs::graph10();
+
+    EXPECT_EQ(4, g10.distance(5, 7));
+    EXPECT_EQ(7, g10.distance(5, 3));
+    EXPECT_EQ(-1, g10.distance(7, 5));
+    EXPECT_EQ(-1, g10.distance(3, 5));
 }
 
 TEST(dijkstra, shortest_path){
@@ -227,4 +235,145 @@ TEST(dijkstra, shortest_path){
 
     res = {2, 4, 5, 7, 8};
     EXPECT_EQ(res, g1.getShortestPath(2,8));
+
+    // directed and unweighted graphs
+    DGraph g4 = TestGraphs::graph4();
+
+    res = {1};
+    EXPECT_EQ(res, g4.getShortestPath(1,1));
+
+    res = {1, 2};
+    EXPECT_EQ(res, g4.getShortestPath(1,2));
+
+    res = {1, 3};
+    EXPECT_EQ(res, g4.getShortestPath(1,3));
+
+    res = {1, 2, 4};
+    EXPECT_EQ(res, g4.getShortestPath(1,4));
+
+    res = {1, 2, 4, 5};
+    EXPECT_EQ(res, g4.getShortestPath(1,5));
+
+    res = {1, 2, 4, 5, 6};
+    EXPECT_EQ(res, g4.getShortestPath(1,6));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(1,7));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(1,8));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(1,9));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(4,1));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(4,2));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(4,3));
+
+    res = {4};
+    EXPECT_EQ(res, g4.getShortestPath(4,4));
+
+    res = {4, 5};
+    EXPECT_EQ(res, g4.getShortestPath(4,5));
+
+    res = {4, 5, 6};
+    EXPECT_EQ(res, g4.getShortestPath(4,6));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(4,7));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(4,8));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(4,9));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(2,3));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(9,8));
+
+    res = {8, 7, 5};
+    EXPECT_EQ(res, g4.getShortestPath(8,5));
+
+    res = {};
+    EXPECT_EQ(res, g4.getShortestPath(2,8));
+
+    res = {9, 6};
+    EXPECT_EQ(res, g4.getShortestPath(9,6));
+    
+    // undirected and weighted graphs
+    UGraph g8 = TestGraphs::graph8();
+
+    res = {1};
+    EXPECT_EQ(res, g8.getShortestPath(1,1));
+
+    res = {1, 2};
+    EXPECT_EQ(res, g8.getShortestPath(1,2));
+
+    res = {1, 3};
+    EXPECT_EQ(res, g8.getShortestPath(1,3));
+
+    res = {1, 3, 4};
+    EXPECT_EQ(res, g8.getShortestPath(1,4));
+
+    res = {1, 3, 4, 5};
+    EXPECT_EQ(res, g8.getShortestPath(1,5));
+
+    res = {1, 3, 4, 5, 6};
+    EXPECT_EQ(res, g8.getShortestPath(1,6));
+
+    res = {1, 3, 4, 5, 7};
+    EXPECT_EQ(res, g8.getShortestPath(1,7));
+
+    res = {1, 3, 4, 5, 7, 8};
+    EXPECT_EQ(res, g8.getShortestPath(1,8));
+
+    res = {1, 3, 4, 5, 6, 9};
+    EXPECT_EQ(res, g8.getShortestPath(1,9));
+
+    res = {4, 3, 1};
+    EXPECT_EQ(res, g8.getShortestPath(4,1));
+
+    res = {4, 2};
+    EXPECT_EQ(res, g8.getShortestPath(4,2));
+
+    res = {4, 3};
+    EXPECT_EQ(res, g8.getShortestPath(4,3));
+
+    res = {4};
+    EXPECT_EQ(res, g8.getShortestPath(4,4));
+
+    res = {4, 5};
+    EXPECT_EQ(res, g8.getShortestPath(4,5));
+
+    res = {4, 5, 6};
+    EXPECT_EQ(res, g8.getShortestPath(4,6));
+
+    res = {4, 5, 7};
+    EXPECT_EQ(res, g8.getShortestPath(4,7));
+
+    res = {4, 5, 7, 8};
+    EXPECT_EQ(res, g8.getShortestPath(4,8));
+
+    res = {4, 5, 6, 9};
+    EXPECT_EQ(res, g8.getShortestPath(4,9));
+
+    res = {2, 1, 3};
+    EXPECT_EQ(res, g8.getShortestPath(2,3));
+
+    res = {9, 6, 5, 7, 8};
+    EXPECT_EQ(res, g8.getShortestPath(9,8));
+
+    res = {8, 7, 5};
+    EXPECT_EQ(res, g8.getShortestPath(8,5));
+
+    res = {2, 4, 5, 7, 8};
+    EXPECT_EQ(res, g8.getShortestPath(2,8));
 }
