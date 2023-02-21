@@ -6,13 +6,13 @@
 
 #include "../src/DGraph.h"
 #include "../src/UGraph.h"
-#include "ExampleGraphs.h"
+#include "TestGraphs.h"
 
 using testing::Eq;
 
 TEST(dijkstra, distance){
     // undirected and unweighted graphs
-    UGraph g1 = ExampleGraphs::graph1();
+    UGraph g1 = TestGraphs::graph1();
 
     EXPECT_EQ(0, g1.distance(1,1));
     EXPECT_EQ(1, g1.distance(1,2));
@@ -37,7 +37,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g1.distance(8,5));
     EXPECT_EQ(4, g1.distance(2,8));
 
-    UGraph g2 = ExampleGraphs::graph2();
+    UGraph g2 = TestGraphs::graph2();
 
     EXPECT_EQ(1, g2.distance(1,2));
     EXPECT_EQ(2, g2.distance(1,3));
@@ -52,7 +52,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g2.distance(10,6));
     EXPECT_EQ(1, g2.distance(5,12));
 
-    UGraph g3 = ExampleGraphs::graph3();
+    UGraph g3 = TestGraphs::graph3();
 
     EXPECT_EQ(4, g3.distance(5,1));
     EXPECT_EQ(3, g3.distance(5,2));
@@ -68,7 +68,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(4, g3.distance(3,8));
 
     // directed and unweighted graphs
-    DGraph g4 = ExampleGraphs::graph4();
+    DGraph g4 = TestGraphs::graph4();
 
     EXPECT_EQ(0, g4.distance(1,1));
     EXPECT_EQ(1, g4.distance(1,2));
@@ -93,7 +93,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(2, g4.distance(8,5));
     EXPECT_EQ(-1, g4.distance(2,8));
 
-    DGraph g5 = ExampleGraphs::graph5();
+    DGraph g5 = TestGraphs::graph5();
 
     EXPECT_EQ(0, g5.distance(1,1));
     EXPECT_EQ(1, g5.distance(1,2));
@@ -113,7 +113,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(0, g5.distance(4,4));
 
     // undirected and weighted graphs
-    UGraph g8 = ExampleGraphs::graph8();
+    UGraph g8 = TestGraphs::graph8();
 
     EXPECT_EQ(0, g8.distance(1,1));
     EXPECT_EQ(5, g8.distance(1,2));
@@ -138,7 +138,7 @@ TEST(dijkstra, distance){
     EXPECT_EQ(11, g8.distance(8,5));
     EXPECT_EQ(22, g8.distance(2,8));
 
-    UGraph g9 = ExampleGraphs::graph9();
+    UGraph g9 = TestGraphs::graph9();
 
     EXPECT_EQ(0, g9.distance(1,1));
     EXPECT_EQ(3, g9.distance(1,2));
@@ -160,7 +160,7 @@ TEST(dijkstra, distance){
 
 TEST(dijkstra, shortest_path){
     // undirected and unweighted graphs
-    UGraph g1 = ExampleGraphs::graph1();
+    UGraph g1 = TestGraphs::graph1();
 
     std::list<int> res = {1};
     EXPECT_EQ(res, g1.getShortestPath(1,1));

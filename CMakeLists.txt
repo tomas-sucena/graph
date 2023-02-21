@@ -15,8 +15,8 @@ add_executable(graph
         tests/bfsTest.cpp
         tests/dfsTest.cpp
         tests/dijkstraTest.cpp
-        tests/ExampleGraphs.cpp
-        tests/ExampleGraphs.h
+        tests/TestGraphs.cpp
+        tests/TestGraphs.h
         tests/initializationTest.cpp
         tests/manipulationTest.cpp)
 

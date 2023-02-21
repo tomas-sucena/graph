@@ -2,15 +2,15 @@
 // Created by Tomás Sucena Lopes on 07/02/2023.
 //
 
-#ifndef GRAPH_EXAMPLEGRAPHS_H
-#define GRAPH_EXAMPLEGRAPHS_H
+#ifndef GRAPH_TESTGRAPHS_H
+#define GRAPH_TESTGRAPHS_H
 
 #include "../src/DGraph.h"
 #include "../src/UGraph.h"
 
 using namespace std;
 
-class ExampleGraphs {
+class TestGraphs {
 public:
     // undirected and unweighted
     static UGraph graph1();
@@ -33,4 +33,4 @@ public:
     static DGraph graph12();
 };
 
-#endif //GRAPH_EXAMPLEGRAPHS_H
+#endif //GRAPH_TESTGRAPHS_H

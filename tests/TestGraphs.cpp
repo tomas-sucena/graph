@@ -3,9 +3,9 @@
 // Graphs by Pedro Ribeiro (DCC/FCUP) [last update: 27/11/2022]
 //
 
-#include "ExampleGraphs.h"
+#include "TestGraphs.h"
 
-UGraph ExampleGraphs::graph1() {
+UGraph TestGraphs::graph1() {
     UGraph g(9);
     g.addEdge(1,2);
     g.addEdge(1,3);
@@ -19,7 +19,7 @@ UGraph ExampleGraphs::graph1() {
     return g;
 }
 
-UGraph ExampleGraphs::graph2() {
+UGraph TestGraphs::graph2() {
     UGraph g(12);
     g.addEdge(1,2);
     g.addEdge(2,3);
@@ -39,7 +39,7 @@ UGraph ExampleGraphs::graph2() {
     return g;
 }
 
-UGraph ExampleGraphs::graph3() {
+UGraph TestGraphs::graph3() {
     UGraph g(10);
     g.addEdge(1,2);
     g.addEdge(2,3);
@@ -56,7 +56,7 @@ UGraph ExampleGraphs::graph3() {
     return g;
 }
 
-DGraph ExampleGraphs::graph4() {
+DGraph TestGraphs::graph4() {
     DGraph g(9);
     g.addEdge(1,2);
     g.addEdge(1,3);
@@ -70,7 +70,7 @@ DGraph ExampleGraphs::graph4() {
     return g;
 }
 
-DGraph ExampleGraphs::graph5() {
+DGraph TestGraphs::graph5() {
     DGraph g(4);
     g.addEdge(1,2);
     g.addEdge(2,4);
@@ -79,7 +79,7 @@ DGraph ExampleGraphs::graph5() {
     return g;
 }
 
-DGraph ExampleGraphs::graph6() {
+DGraph TestGraphs::graph6() {
     DGraph g(8);
     g.addEdge(1,2);
     g.addEdge(2,4);
@@ -92,7 +92,7 @@ DGraph ExampleGraphs::graph6() {
     return g;
 }
 
-DGraph ExampleGraphs::graph7() {
+DGraph TestGraphs::graph7() {
     DGraph g(3);
     g.addEdge(1,2);
     g.addEdge(2,1);
@@ -103,7 +103,7 @@ DGraph ExampleGraphs::graph7() {
     return g;
 }
 
-UGraph ExampleGraphs::graph8() {
+UGraph TestGraphs::graph8() {
     UGraph g(9);
     g.addEdge(1,2, 5);
     g.addEdge(1,3, 4);
@@ -118,7 +118,7 @@ UGraph ExampleGraphs::graph8() {
     return g;
 }
 
-UGraph ExampleGraphs::graph9() {
+UGraph TestGraphs::graph9() {
     UGraph g(4);
     g.addEdge(1,2, 3);
     g.addEdge(1,3, 4);
@@ -127,7 +127,7 @@ UGraph ExampleGraphs::graph9() {
     return g;
 }
 
-DGraph ExampleGraphs::graph10() {
+DGraph TestGraphs::graph10() {
     DGraph g(8);
     g.addEdge(1,3, 3);
     g.addEdge(2,1, 2);
@@ -140,7 +140,7 @@ DGraph ExampleGraphs::graph10() {
     return g;
 }
 
-DGraph ExampleGraphs::graph11() {
+DGraph TestGraphs::graph11() {
     DGraph g(3);
     g.addEdge(2,1, 2);
     g.addEdge(1,3, 8);
@@ -148,7 +148,7 @@ DGraph ExampleGraphs::graph11() {
     return g;
 }
 
-DGraph ExampleGraphs::graph12(){
+DGraph TestGraphs::graph12(){
     DGraph g(6);
     g.addEdge(1, 2, 3);
     g.addEdge(2, 3, 1);
