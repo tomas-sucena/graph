@@ -6,9 +6,10 @@
 
 #include <algorithm>
 #include <queue>
+#include <stdexcept>
 
 /**
- * implementation of the Breadth-First Search algorithm, which traverses the graph
+ * @brief implementation of the Breadth-First Search algorithm, which traverses the graph
  * @complexity O(V + E)
  * @param src index of the vertex where the algorithm will start
  * @return list containing the indices of all the visited vertices
@@ -44,7 +45,7 @@ list<int> Graph::bfs(int src){
 }
 
 /**
- * implementation of the Breadth-First Search algorithm, which finds ALL the shortest paths between two vertices in a Graph
+ * @brief implementation of the Breadth-First Search algorithm, which finds ALL the shortest paths between two vertices in a Graph
  * @complexity O(V + E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -96,7 +97,7 @@ list<list<int>> Graph::bfs(int src, int dest){
 }
 
 /**
- * implementation of the Dijkstra algorithm, which finds the shortest path between two vertices in a Graph
+ * @brief implementation of the Dijkstra algorithm, which finds the shortest path between two vertices in a Graph
  * @complexity O(E * logV)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -147,7 +148,7 @@ list<int> Graph::dijkstra(int src, int dest){
 
 /* CONSTRUCTOR */
 /**
- * creates a new Graph
+ * @brief creates a new Graph
  * @param n number of vertices that the Graph will be initialized with
  */
 Graph::Graph(int n) : weighted(false) {
@@ -160,7 +161,7 @@ Graph::Graph(int n) : weighted(false) {
 
 /* METHODS */
 /**
- * adds extra empty vertices to the Graph, by resizing the vector which stores them
+ * @brief adds extra empty vertices to the Graph, by resizing the vector which stores them
  * @param num number of empty vertices that will be added to the Graph
  * @return 'true' if the resize occurs, 'false' otherwise
  */
@@ -173,7 +174,7 @@ bool Graph::reserve(int num){
 }
 
 /**
- * adds a vertex to the Graph
+ * @brief adds a vertex to the Graph
  * @param v pointer to the vertex that will be added
  */
 void Graph::addVertex(Vertex *v){
@@ -184,7 +185,7 @@ void Graph::addVertex(Vertex *v){
 }
 
 /**
- * removes a vertex from the Graph
+ * @brief removes a vertex from the Graph
  * @complexity O(V * E)
  * @param index index of the vertex that will be removed
  * @return number of edges that were removed (those whose destination was the deleted vertex)
@@ -256,7 +257,7 @@ int Graph::removeVertex(int index){
 }
 
 /**
- * adds an edge to the Graph, that is, a connection between two vertices
+ * @brief adds an edge to the Graph, that is, a connection between two vertices
  * @complexity O(logE)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -280,7 +281,7 @@ bool Graph::addEdge(int src, int dest, double weight, bool valid){
 }
 
 /**
- * removes an edge from the Graph, that is, eliminates the connection between two vertices
+ * @brief removes an edge from the Graph, that is, eliminates the connection between two vertices
  * @complexity O(E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -324,7 +325,7 @@ bool Graph::removeEdge(int src, int dest){
 }
 
 /**
- * indicates if the Graph is weighted
+ * @brief indicates if the Graph is weighted
  * @return 'true' if the Graph is weighted, 'false' otherwise
  */
 bool Graph::isWeighted() const{
@@ -332,7 +333,7 @@ bool Graph::isWeighted() const{
 }
 
 /**
- * returns the number of vertices that the Graph currently has
+ * @brief returns the number of vertices that the Graph currently has
  * @return number of vertices of the Graph
  */
 int Graph::countVertices() const{
@@ -340,7 +341,7 @@ int Graph::countVertices() const{
 }
 
 /**
- * returns the number of edges that the Graph currently has
+ * @brief returns the number of edges that the Graph currently has
  * @return number of edges of the Graph
  */
 int Graph::countEdges() const{
@@ -348,19 +349,27 @@ int Graph::countEdges() const{
 }
 
 /**
- * returns the vector which stores the vertices of the Graph
+ * @brief returns the vector which stores the vertices of the Graph
  * @return std::vector that stores the vertices of the Graph
  */
 std::vector<Vertex> Graph::getVertices() const{
     return vertices;
 }
 
+/**
+ * @brief accesses a vertex of the Graph and allows modifications to be made to it
+ * @param index index of the vertex
+ * @return reference of the vertex
+ */
 Vertex& Graph::operator[](int index){
+    if (index <= 0)
+        throw std::invalid_argument("Invalid index!");
+
     return vertices[index - 1];
 }
 
 /**
- * returns the number of edges in which a vertex is the destination
+ * @brief returns the number of edges in which a vertex is the destination
  * @param index index of the vertex that is the destination of the edges
  * @return number of edges whose destination is the desired vertex (or -1 if the index is invalid)
  */
@@ -370,7 +379,7 @@ int Graph::inDegree(int index) const{
 }
 
 /**
- * returns the number of edges in which a vertex is the source
+ * @brief returns the number of edges in which a vertex is the source
  * @param index index of the vertex that is the source of the edges
  * @return number of edges whose source is the desired vertex (or -1 if the index is invalid)
  */
@@ -380,7 +389,7 @@ int Graph::outDegree(int index) const{
 }
 
 /**
- * verifies if there exists an edge that connects two vertices
+ * @brief verifies if there exists an edge that connects two vertices
  * @complexity O(E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -401,7 +410,7 @@ bool Graph::areConnected(int src, int dest) const{
 
 
 /**
- * validates all the vertices and edges
+ * @brief validates all the vertices and edges
  * @complexity O(V + E)
  */
 void Graph::reset(){
@@ -415,7 +424,7 @@ void Graph::reset(){
 }
 
 /**
- * calculates the minimum distance between two vertices
+ * @brief calculates the minimum distance between two vertices
  * @complexity O(E * logV)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -432,7 +441,7 @@ double Graph::distance(int src, int dest){
 }
 
 /**
- * calculates (one of) the shortest path between two vertices
+ * @brief calculates (one of) the shortest path between two vertices
  * @complexity O(E * logV)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -444,7 +453,7 @@ list<int> Graph::getShortestPath(int src, int dest){
 }
 
 /**
- * calculates ALL the shortest paths between two vertices
+ * @brief calculates ALL the shortest paths between two vertices
  * @complexity O(V + E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -456,7 +465,7 @@ list<list<int>> Graph::getShortestPaths(int src, int dest){
 }
 
 /**
- * calculates which vertices can be reached in a given distance from a source vertex, using an implementation of the
+ * @brief calculates which vertices can be reached in a given distance from a source vertex, using an implementation of the
  * Breadth-First Search algorithm
  * @complexity O(V + E)
  * @param src index of the source vertex
