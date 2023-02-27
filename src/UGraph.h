@@ -17,6 +17,7 @@ public:
     bool removeEdge(int src, int dest) override;
 
     bool isDirected() const override;
+    UGraph getSubgraph(list<int> vertexIndices);
 
     list<list<int>> getConnectedComponents();
     int countConnectedComponents();
