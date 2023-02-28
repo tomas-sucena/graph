@@ -59,54 +59,67 @@ bool UGraph::removeEdge(int src, int dest){
 }
 
 /**
- * returns a subgraph that only contains specific vertices
+ * @brief returns a subgraph that only contains specific vertices
+ * @complexity O(V + E)
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only
  */
 UGraph UGraph::getSubgraph(const list<int>& vertexIndices){
-    UGraph g;
+    UGraph sub;
     uMap<int, int> newIndices;
 
-    int acc = 1;
-    for (int index : vertexIndices){
-        if (index <= 0 || index > (int) vertices.size())
+    int currIndex = 1;
+    for (auto rit = vertexIndices.rbegin(); rit != vertexIndices.rend(); ++rit){
+        if (*rit <= 0 || *rit > (int) vertices.size())
             throw std::invalid_argument("Invalid index!");
 
-        if (newIndices.insert({index, acc}).second)
-            ++acc;
+        if (newIndices.insert({*rit, currIndex}).second)
+            ++currIndex;
     }
 
     for (auto& p : newIndices){
         Vertex* v = new Vertex(vertices[p.first - 1]);
         v->index = newIndices[p.first];
 
-        for (auto it = v->out.begin(); it != v->out.end();){
-            if (newIndices.find((*it)->dest) == newIndices.end()){
-                it = v->out.erase(it);
+        int i = (int) v->out.size();
+        for (auto it = v->out.begin(); i > 0; --i){
+            Edge* e = new Edge((*it)); // copy the edge
+            it = v->out.erase(it);
+
+            if (newIndices.find(e->dest) == newIndices.end()){
+                delete e;
                 continue;
             }
 
-            (*it)->src = v->index;
-            (*it)->dest = newIndices[(*it)->dest];
+            e->src = v->index;
+            e->dest = newIndices[e->dest];
+
+            v->out.push_back(e);
 
             // add the edge to the subgraph
-            g.edges.insert((*it++));
+            sub.edges.insert(e);
         }
 
-        for (auto it = v->in.begin(); it != v->in.end();){
-            if (newIndices.find((*it)->src) == newIndices.end()){
-                it = v->in.erase(it);
+        i = (int) v->in.size();
+        for (auto it = v->in.begin(); i > 0; --i){
+            Edge* e = new Edge((*it)); // copy the edge
+            it = v->in.erase(it);
+
+            if (newIndices.find(e->src) == newIndices.end()){
+                delete e;
                 continue;
             }
 
-            (*it)->src = newIndices[(*it)->src];
-            (*it++)->dest = v->index;
+            e->src = newIndices[e->src];
+            e->dest = v->index;
+
+            v->in.push_back(e);
         }
 
-        g.addVertex(v);
+        sub.addVertex(v);
     }
 
-    return g;
+    return sub;
 }
 
 /**

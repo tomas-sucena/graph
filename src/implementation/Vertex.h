@@ -28,16 +28,6 @@ public:
     explicit Vertex(bool valid = true)
         : valid(valid), index(0), dist(INF) {}
 
-    Vertex(const Vertex& v) : valid(v.valid), index(0), dist(v.dist) {
-        // copy the ingoing edges
-        for (const Edge* e : v.in)
-            in.push_back(new Edge(e));
-
-        // copy the outgoing edges
-        for (const Edge* e : v.out)
-            out.push_back(new Edge(e));
-    }
-
     // methods
     bool operator<(const Vertex& rhs) const{
         if (dist == rhs.dist)

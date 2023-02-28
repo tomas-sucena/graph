@@ -11,7 +11,7 @@
 #define uMap std::unordered_map
 
 /**
- * recursive implementation of the Depth-First Search algorithm, which traverses the graph in search of cycles
+ * @brief recursive implementation of the Depth-First Search algorithm, which traverses the graph in search of cycles
  * @complexity O(V + E)
  * @param src index of the vertex where the algorithm will start
  * @param seen set containing the indices of the vertices that have been visited
@@ -37,14 +37,14 @@ bool DGraph::dfs(int src, uSet<int>* seen){
 
 /* CONSTRUCTOR */
 /**
- * creates a new directed Graph
+ * @brief creates a new directed Graph
  * @param n number of vertices that the Graph will be initialized with
  */
 DGraph::DGraph(int n) : Graph(n) {}
 
 /* METHODS */
 /**
- * indicates if the Graph is directed
+ * @brief indicates if the Graph is directed
  * @return 'true' (because this is an directed Graph)
  */
 bool DGraph::isDirected() const{
@@ -52,7 +52,7 @@ bool DGraph::isDirected() const{
 }
 
 /**
- * adds an edge to the Graph, that is, a connection between two vertices
+ * @brief adds an edge to the Graph, that is, a connection between two vertices
  * @complexity O(logE)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -65,7 +65,7 @@ bool DGraph::addEdge(int src, int dest, double weight, bool valid){
 }
 
 /**
- * removes an edge from the Graph, that is, eliminates the connection between two vertices
+ * @brief removes an edge from the Graph, that is, eliminates the connection between two vertices
  * @complexity O(E)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
@@ -76,58 +76,71 @@ bool DGraph::removeEdge(int src, int dest){
 }
 
 /**
- * returns a subgraph that only contains specific vertices
+ * @brief returns a subgraph that only contains specific vertices
+ * @complexity O(V + E)
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only
  */
 DGraph DGraph::getSubgraph(const list<int>& vertexIndices){
-    DGraph g;
+    DGraph sub;
     uMap<int, int> newIndices;
 
-    int acc = 1;
-    for (int index : vertexIndices){
-        if (index <= 0 || index > (int) vertices.size())
+    int currIndex = 1;
+    for (auto rit = vertexIndices.rbegin(); rit != vertexIndices.rend(); ++rit){
+        if (*rit <= 0 || *rit > (int) vertices.size())
             throw std::invalid_argument("Invalid index!");
 
-        if (newIndices.insert({index, acc}).second)
-            ++acc;
+        if (newIndices.insert({*rit, currIndex}).second)
+            ++currIndex;
     }
 
     for (auto& p : newIndices){
         Vertex* v = new Vertex(vertices[p.first - 1]);
         v->index = newIndices[p.first];
 
-        for (auto it = v->out.begin(); it != v->out.end();){
-            if (newIndices.find((*it)->dest) == newIndices.end()){
-                it = v->out.erase(it);
+        int i = (int) v->out.size();
+        for (auto it = v->out.begin(); i > 0; --i){
+            Edge* e = new Edge((*it)); // copy the edge
+            it = v->out.erase(it);
+            
+            if (newIndices.find(e->dest) == newIndices.end()){
+                delete e;
                 continue;
             }
 
-            (*it)->src = v->index;
-            (*it)->dest = newIndices[(*it)->dest];
+            e->src = v->index;
+            e->dest = newIndices[e->dest];
 
+            v->out.push_back(e);
+            
             // add the edge to the subgraph
-            g.edges.insert((*it++));
+            sub.edges.insert(e);
         }
 
-        for (auto it = v->in.begin(); it != v->in.end();){
-            if (newIndices.find((*it)->src) == newIndices.end()){
-                it = v->in.erase(it);
+        i = (int) v->in.size();
+        for (auto it = v->in.begin(); i > 0; --i){
+            Edge* e = new Edge((*it)); // copy the edge
+            it = v->in.erase(it);
+            
+            if (newIndices.find(e->src) == newIndices.end()){
+                delete e;
                 continue;
             }
 
-            (*it)->src = newIndices[(*it)->src];
-            (*it++)->dest = v->index;
+            e->src = newIndices[e->src];
+            e->dest = v->index;
+
+            v->in.push_back(e);
         }
 
-        g.addVertex(v);
+        sub.addVertex(v);
     }
 
-    return g;
+    return sub;
 }
 
 /**
- * computes if a Graph is a Directed Acyclic Graph (DAG), by using the Depth-First Search algorithm
+ * @brief computes if a Graph is a Directed Acyclic Graph (DAG), by using the Depth-First Search algorithm
  * @complexity O(V + E)
  * @return 'true' if the Graph is a DAG, 'false' otherwise
  */
@@ -145,7 +158,7 @@ bool DGraph::isDAG(){
 }
 
 /**
- * computes one of the possible topological orders of the Graph, using Kahn's algorithm
+ * @brief computes one of the possible topological orders of the Graph, using Kahn's algorithm
  * @complexity O(V + E)
  * @return list containing the topologically sorted indices of the vertices
  */

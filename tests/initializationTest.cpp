@@ -53,6 +53,11 @@ TEST(initialization, subgraph){
     DGraph g4 = TestGraphs::graph4();
     EXPECT_EQ(9, g4.countVertices());
 
-    /*DGraph sub2 = g4.getSubgraph({1, 2, 3, 4});
-    EXPECT_EQ(4, sub2.countVertices());*/
+    DGraph sub2 = g4.getSubgraph({1, 2, 3, 4});
+    EXPECT_EQ(4, sub2.countVertices());
+
+    EXPECT_TRUE(sub2.areConnected(1, 2));
+    EXPECT_TRUE(sub2.areConnected(1, 3));
+    EXPECT_FALSE(sub2.areConnected(1, 4));
+    EXPECT_FALSE(sub2.areConnected(2, 3));
 }
