@@ -5,7 +5,11 @@
 #ifndef GRAPH_DGRAPH_H
 #define GRAPH_DGRAPH_H
 
+#include <unordered_set>
+
 #include "implementation/Graph.h"
+
+#define uSet std::unordered_set
 
 class DGraph : public Graph {
     // search methods
@@ -18,10 +22,9 @@ public:
     // methods
     bool addEdge(int src, int dest, double weight = 1, bool valid = true) override;
     bool removeEdge(int src, int dest) override;
-
     bool isDirected() const override;
-    DGraph getSubgraph(list<int> vertexIndices);
 
+    DGraph getSubgraph(const list<int>& vertexIndices);
     bool isDAG();
     list<int> topologicalSort();
 };

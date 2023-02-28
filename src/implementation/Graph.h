@@ -7,12 +7,9 @@
 
 #include <list>
 #include <set>
-#include <unordered_set>
 #include <vector>
 
 #include "Vertex.h"
-
-#define uSet std::unordered_set
 
 using std::list;
 

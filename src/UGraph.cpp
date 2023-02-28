@@ -6,6 +6,12 @@
 
 #include <queue>
 #include <stack>
+#include <stdexcept>
+#include <unordered_map>
+#include <unordered_set>
+
+#define uMap std::unordered_map
+#define uSet std::unordered_set
 
 /**
  * creates a new undirected Graph
@@ -50,6 +56,57 @@ bool UGraph::removeEdge(int src, int dest){
         return false;
 
     return Graph::removeEdge(dest, src);
+}
+
+/**
+ * returns a subgraph that only contains specific vertices
+ * @param vertexIndices list containing indices of the vertices to be included in the subgraph
+ * @return subgraph containing only
+ */
+UGraph UGraph::getSubgraph(const list<int>& vertexIndices){
+    UGraph g;
+    uMap<int, int> newIndices;
+
+    int acc = 1;
+    for (int index : vertexIndices){
+        if (index <= 0 || index > (int) vertices.size())
+            throw std::invalid_argument("Invalid index!");
+
+        if (newIndices.insert({index, acc}).second)
+            ++acc;
+    }
+
+    for (auto& p : newIndices){
+        Vertex* v = new Vertex(vertices[p.first - 1]);
+        v->index = newIndices[p.first];
+
+        for (auto it = v->out.begin(); it != v->out.end();){
+            if (newIndices.find((*it)->dest) == newIndices.end()){
+                it = v->out.erase(it);
+                continue;
+            }
+
+            (*it)->src = v->index;
+            (*it)->dest = newIndices[(*it)->dest];
+
+            // add the edge to the subgraph
+            g.edges.insert((*it++));
+        }
+
+        for (auto it = v->in.begin(); it != v->in.end();){
+            if (newIndices.find((*it)->src) == newIndices.end()){
+                it = v->in.erase(it);
+                continue;
+            }
+
+            (*it)->src = newIndices[(*it)->src];
+            (*it++)->dest = v->index;
+        }
+
+        g.addVertex(v);
+    }
+
+    return g;
 }
 
 /**

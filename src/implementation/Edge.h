@@ -15,11 +15,14 @@ class Edge {
     friend class DGraph;
     friend class UGraph;
 
-    // constructor
+public:
+    // constructors
     Edge(int src, int dest, double weight, bool valid)
         : src(src), dest(dest), weight(weight), valid(valid) {}
 
-public:
+    explicit Edge(const Edge* e)
+            : src(e->src), dest(e->dest), weight(e->weight), valid(e->valid) {}
+
     // methods
     bool operator<(const Edge& e) const{
         if (weight != e.weight)

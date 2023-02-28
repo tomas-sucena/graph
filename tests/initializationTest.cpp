@@ -6,6 +6,7 @@
 
 #include "../src/DGraph.h"
 #include "../src/UGraph.h"
+#include "TestGraphs.h"
 
 using testing::Eq;
 
@@ -45,4 +46,13 @@ TEST(initialization, parametrized_constructor){
     EXPECT_TRUE(g2.isDAG());
     ASSERT_EQ(g2.countVertices(), g2.getVertices().size());
     EXPECT_EQ(5, g2.countVertices());
+}
+
+TEST(initialization, subgraph){
+    // directed graph
+    DGraph g4 = TestGraphs::graph4();
+    EXPECT_EQ(9, g4.countVertices());
+
+    /*DGraph sub2 = g4.getSubgraph({1, 2, 3, 4});
+    EXPECT_EQ(4, sub2.countVertices());*/
 }

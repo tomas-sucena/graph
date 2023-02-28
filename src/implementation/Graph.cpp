@@ -7,6 +7,9 @@
 #include <algorithm>
 #include <queue>
 #include <stdexcept>
+#include <unordered_set>
+
+#define uSet std::unordered_set
 
 /**
  * @brief implementation of the Breadth-First Search algorithm, which traverses the graph
@@ -362,7 +365,7 @@ std::vector<Vertex> Graph::getVertices() const{
  * @return reference of the vertex
  */
 Vertex& Graph::operator[](int index){
-    if (index <= 0)
+    if (index <= 0 || index > (int) vertices.size())
         throw std::invalid_argument("Invalid index!");
 
     return vertices[index - 1];
