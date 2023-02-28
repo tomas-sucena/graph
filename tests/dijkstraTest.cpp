@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <list>
 
 #include "../src/DGraph.h"
 #include "../src/UGraph.h"

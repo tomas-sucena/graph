@@ -3,10 +3,14 @@
 //
 
 #include <gtest/gtest.h>
+#include <list>
+#include <unordered_set>
 
 #include "../src/DGraph.h"
 #include "../src/UGraph.h"
 #include "TestGraphs.h"
+
+#define uSet std::unordered_set
 
 using testing::Eq;
 
@@ -63,10 +67,31 @@ TEST(initialization, subgraph){
     EXPECT_EQ(1, sub2.countConnectedComponents());
 
     sub2 = g2.getSubgraph({1, 2, 3, 8, 5, 6, 11, 12});
+                                   // 1, 2, 3, 4, 5, 6, 7, 8
     EXPECT_EQ(8, sub2.countVertices());
     EXPECT_EQ(2, sub2.countConnectedComponents());
-    EXPECT_FALSE(sub2.areConnected(4, 5)); // 4 -> 8, 5 -> 5
-    
+
+    std::list<int> indices = {1, 2, 3, 5, 6, 8, 11, 12};
+    uSet<int> cc1 = {1, 2, 3, 8}, cc2 = {5, 6, 11, 12};
+
+    for (int i : indices){
+        for (int j : indices){
+            if (i == j) continue;
+
+            int IinCC1 = (cc1.find(i) != cc1.end());
+            int IinCC2 = (cc2.find(i) != cc2.end());
+            int JinCC1 = (cc1.find(j) != cc1.end());
+            int JinCC2 = (cc2.find(j) != cc2.end());
+
+            if ((IinCC1 && JinCC1) || (IinCC2 && JinCC2)){
+                EXPECT_TRUE(sub2.areConnected(i, j));
+                continue;
+            }
+
+            EXPECT_FALSE(sub2.areConnected(i, j));
+        }
+    }
+
     // directed graph
     DGraph g4 = TestGraphs::graph4();
     EXPECT_EQ(9, g4.countVertices());
