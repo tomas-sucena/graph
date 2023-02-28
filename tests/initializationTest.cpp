@@ -49,15 +49,33 @@ TEST(initialization, parametrized_constructor){
 }
 
 TEST(initialization, subgraph){
+    // undirected graph
+    UGraph g2 = TestGraphs::graph2();
+    EXPECT_EQ(12, g2.countVertices());
+    EXPECT_EQ(2, g2.countConnectedComponents());
+
+    UGraph sub2 = g2.getSubgraph({1, 2, 3, 4, 7, 8, 9});
+    EXPECT_EQ(7, sub2.countVertices());
+    EXPECT_EQ(1, sub2.countConnectedComponents());
+
+    sub2 = g2.getSubgraph({5, 6, 10, 11, 12});
+    EXPECT_EQ(5, sub2.countVertices());
+    EXPECT_EQ(1, sub2.countConnectedComponents());
+
+    sub2 = g2.getSubgraph({1, 2, 3, 8, 5, 6, 11, 12});
+    EXPECT_EQ(8, sub2.countVertices());
+    EXPECT_EQ(2, sub2.countConnectedComponents());
+    EXPECT_FALSE(sub2.areConnected(4, 5)); // 4 -> 8, 5 -> 5
+    
     // directed graph
     DGraph g4 = TestGraphs::graph4();
     EXPECT_EQ(9, g4.countVertices());
 
-    DGraph sub2 = g4.getSubgraph({1, 2, 3, 4});
-    EXPECT_EQ(4, sub2.countVertices());
+    DGraph sub4 = g4.getSubgraph({1, 2, 3, 4});
+    EXPECT_EQ(4, sub4.countVertices());
 
-    EXPECT_TRUE(sub2.areConnected(1, 2));
-    EXPECT_TRUE(sub2.areConnected(1, 3));
-    EXPECT_FALSE(sub2.areConnected(1, 4));
-    EXPECT_FALSE(sub2.areConnected(2, 3));
+    EXPECT_TRUE(sub4.areConnected(1, 2));
+    EXPECT_TRUE(sub4.areConnected(1, 3));
+    EXPECT_FALSE(sub4.areConnected(1, 4));
+    EXPECT_FALSE(sub4.areConnected(2, 3));
 }

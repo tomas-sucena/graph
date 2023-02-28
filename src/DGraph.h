@@ -24,7 +24,7 @@ public:
     bool removeEdge(int src, int dest) override;
     bool isDirected() const override;
 
-    DGraph getSubgraph(const list<int>& vertexIndices);
+    DGraph getSubgraph(list<int> vertexIndices);
     bool isDAG();
     list<int> topologicalSort();
 };

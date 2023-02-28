@@ -64,22 +64,28 @@ bool UGraph::removeEdge(int src, int dest){
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only
  */
-UGraph UGraph::getSubgraph(const list<int>& vertexIndices){
+UGraph UGraph::getSubgraph(list<int> vertexIndices){
     UGraph sub;
     uMap<int, int> newIndices;
 
+    // calculate the new indices
     int currIndex = 1;
-    for (auto rit = vertexIndices.rbegin(); rit != vertexIndices.rend(); ++rit){
-        if (*rit <= 0 || *rit > (int) vertices.size())
+    for (auto it = vertexIndices.begin(); it != vertexIndices.end();){
+        if (*it <= 0 || *it > (int) vertices.size())
             throw std::invalid_argument("Invalid index!");
 
-        if (newIndices.insert({*rit, currIndex}).second)
-            ++currIndex;
+        if (newIndices.insert({*it, currIndex}).second){
+            ++it; ++currIndex;
+            continue;
+        }
+
+        it = vertexIndices.erase(it);
     }
 
-    for (auto& p : newIndices){
-        Vertex* v = new Vertex(vertices[p.first - 1]);
-        v->index = newIndices[p.first];
+    // create the subgraph
+    for (int index : vertexIndices){
+        Vertex* v = new Vertex(vertices[index - 1]);
+        v->index = newIndices[index];
 
         int i = (int) v->out.size();
         for (auto it = v->out.begin(); i > 0; --i){
@@ -117,6 +123,7 @@ UGraph UGraph::getSubgraph(const list<int>& vertexIndices){
         }
 
         sub.addVertex(v);
+        delete v;
     }
 
     return sub;

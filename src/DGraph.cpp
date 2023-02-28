@@ -81,28 +81,34 @@ bool DGraph::removeEdge(int src, int dest){
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only
  */
-DGraph DGraph::getSubgraph(const list<int>& vertexIndices){
+DGraph DGraph::getSubgraph(list<int> vertexIndices){
     DGraph sub;
     uMap<int, int> newIndices;
 
+    // calculate the new indices
     int currIndex = 1;
-    for (auto rit = vertexIndices.rbegin(); rit != vertexIndices.rend(); ++rit){
-        if (*rit <= 0 || *rit > (int) vertices.size())
+    for (auto it = vertexIndices.begin(); it != vertexIndices.end();){
+        if (*it <= 0 || *it > (int) vertices.size())
             throw std::invalid_argument("Invalid index!");
 
-        if (newIndices.insert({*rit, currIndex}).second)
-            ++currIndex;
+        if (newIndices.insert({*it, currIndex}).second){
+            ++it; ++currIndex;
+            continue;
+        }
+
+        it = vertexIndices.erase(it);
     }
 
-    for (auto& p : newIndices){
-        Vertex* v = new Vertex(vertices[p.first - 1]);
-        v->index = newIndices[p.first];
+    // create the subgraph
+    for (int index : vertexIndices){
+        Vertex* v = new Vertex(vertices[index - 1]);
+        v->index = newIndices[index];
 
         int i = (int) v->out.size();
         for (auto it = v->out.begin(); i > 0; --i){
             Edge* e = new Edge((*it)); // copy the edge
             it = v->out.erase(it);
-            
+
             if (newIndices.find(e->dest) == newIndices.end()){
                 delete e;
                 continue;
@@ -112,7 +118,7 @@ DGraph DGraph::getSubgraph(const list<int>& vertexIndices){
             e->dest = newIndices[e->dest];
 
             v->out.push_back(e);
-            
+
             // add the edge to the subgraph
             sub.edges.insert(e);
         }
@@ -121,7 +127,7 @@ DGraph DGraph::getSubgraph(const list<int>& vertexIndices){
         for (auto it = v->in.begin(); i > 0; --i){
             Edge* e = new Edge((*it)); // copy the edge
             it = v->in.erase(it);
-            
+
             if (newIndices.find(e->src) == newIndices.end()){
                 delete e;
                 continue;
@@ -134,6 +140,7 @@ DGraph DGraph::getSubgraph(const list<int>& vertexIndices){
         }
 
         sub.addVertex(v);
+        delete v;
     }
 
     return sub;
