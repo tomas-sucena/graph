@@ -5,12 +5,14 @@
 #include <gtest/gtest.h>
 #include <list>
 #include <unordered_set>
+#include <unordered_map>
 
 #include "../src/DGraph.h"
 #include "../src/UGraph.h"
 #include "TestGraphs.h"
 
 #define uSet std::unordered_set
+#define uMap std::unordered_map
 
 using testing::Eq;
 
@@ -71,24 +73,26 @@ TEST(initialization, subgraph){
     EXPECT_EQ(8, sub2.countVertices());
     EXPECT_EQ(2, sub2.countConnectedComponents());
 
-    std::list<int> indices = {1, 2, 3, 5, 6, 8, 11, 12};
+    uMap<int, int> indices = {{1, 1}, {2, 2}, {3, 3}, {8, 4}, {5, 5}, {6, 6}, {11, 7}, {12, 8}};
     uSet<int> cc1 = {1, 2, 3, 8}, cc2 = {5, 6, 11, 12};
 
-    for (int i : indices){
-        for (int j : indices){
-            if (i == j) continue;
+    for (auto& p1 : indices){
+        int i = p1.first, indexI = p1.second;
 
+        for (auto& p2 : indices){
+            int j = p2.first, indexJ = p2.second;
+            
             int IinCC1 = (cc1.find(i) != cc1.end());
             int IinCC2 = (cc2.find(i) != cc2.end());
             int JinCC1 = (cc1.find(j) != cc1.end());
             int JinCC2 = (cc2.find(j) != cc2.end());
 
             if ((IinCC1 && JinCC1) || (IinCC2 && JinCC2)){
-                EXPECT_TRUE(sub2.areConnected(i, j));
+                EXPECT_TRUE(sub2.distance(indexI, indexJ) >= 0);
                 continue;
             }
 
-            EXPECT_FALSE(sub2.areConnected(i, j));
+            EXPECT_FALSE(sub2.distance(indexI, indexJ) >= 0);
         }
     }
 
