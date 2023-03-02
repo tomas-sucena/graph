@@ -15,6 +15,9 @@ class DGraph : public Graph {
     // search methods
     bool dfs(int src, uSet<int>* seen = nullptr);
 
+    // flow methods
+    double edmondsKarp(int src, int sink);
+
 public:
     // constructor
     explicit DGraph(int n = 0);
@@ -27,6 +30,7 @@ public:
     DGraph getSubgraph(list<int> vertexIndices);
     bool isDAG();
     list<int> topologicalSort();
+    double maximumFlow(int src, int sink);
 };
 
 #endif //GRAPH_DGRAPH_H

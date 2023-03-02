@@ -35,6 +35,58 @@ bool DGraph::dfs(int src, uSet<int>* seen){
     return false;
 }
 
+/**
+ * @brief implementation of the Edmonds-Karp algorithm, which computes the maximum flow between two vertices
+ * @complexity O(V * E^2)
+ * @param src index of the source vertex
+ * @param sink index of the sink vertex
+ * @return maximum flow
+ */
+double DGraph::edmondsKarp(int src, int sink){
+    double flow = 0;
+
+    uMap<Edge*, double> edgeFlow;
+    std::vector<Edge*> prev(vertices.size() + 1, nullptr);
+
+    while (prev[sink] != nullptr){
+        // BFS
+        std::queue<int> q;
+        q.push(src);
+
+        while (!q.empty()){
+            int curr = q.front();
+            q.pop();
+
+            if (curr == sink) break;
+
+            for (Edge* e : (*this)[curr].out){
+                int next = e->dest;
+
+                if (prev[next] != nullptr || next == src || edgeFlow[e] >= e->weight)
+                    continue;
+
+                prev[next] = e;
+                q.push(next);
+            }
+        }
+
+        if (prev[sink] == nullptr) continue;
+
+        double df = INF;
+        for (Edge* e = prev[sink]; e != nullptr; e = prev[e->src])
+            df = std::min(df, e->weight - edgeFlow[e]);
+
+        for (Edge* e = prev[sink]; e != nullptr; e = prev[e->src]){
+            edgeFlow[e] += df;
+            // take care of reverse edge
+        }
+
+        flow += df;
+    }
+
+    return flow;
+}
+
 /* CONSTRUCTOR */
 /**
  * @brief creates a new directed Graph
@@ -198,4 +250,18 @@ list<int> DGraph::topologicalSort(){
     }
 
     return res;
+}
+
+/**
+ * @brief computes the maximum flow between two vertices using an implementation of the Edmonds-Karp algorithm
+ * @complexity O(V * E^2)
+ * @param src index of the source vertex
+ * @param sink index of the sink vertex
+ * @return maximum flow
+ */
+double DGraph::maximumFlow(int src, int sink){
+    if (src <= 0 || src > (int) vertices.size() || sink <= 0 || sink > (int) vertices.size())
+        return -1;
+
+    return edmondsKarp(src, sink);
 }
