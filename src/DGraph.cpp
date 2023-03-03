@@ -12,7 +12,7 @@
 
 /**
  * @brief recursive implementation of the Depth-First Search algorithm, which traverses the graph in search of cycles
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @param src index of the vertex where the algorithm will start
  * @param seen set containing the indices of the vertices that have been visited
  * @return 'true' if the a cycle is found, 'false' otherwise
@@ -37,14 +37,13 @@ bool DGraph::dfs(int src, uSet<int>* seen){
 
 /**
  * @brief implementation of the Edmonds-Karp algorithm, which computes the maximum flow between two vertices
- * @complexity O(V * E^2)
+ * @complexity O(|V| * |E|^2)
  * @param src index of the source vertex
  * @param sink index of the sink vertex
  * @return maximum flow
  */
 double DGraph::edmondsKarp(int src, int sink){
     double flow = 0;
-
     uMap<Edge*, double> edgeFlow;
 
     while (true){
@@ -67,7 +66,9 @@ double DGraph::edmondsKarp(int src, int sink){
                 if (prev[next] != nullptr || next == src || edgeFlow[e] >= e->weight)
                     continue;
 
+                e->valid = true;
                 prev[next] = e;
+
                 q.push(next);
             }
 
@@ -75,23 +76,36 @@ double DGraph::edmondsKarp(int src, int sink){
             for (Edge* e : (*this)[curr].in){
                 int next = e->src;
 
-                if (prev[next] != nullptr || next == src || edgeFlow[e] >= e->weight)
+                if (prev[next] != nullptr || next == src || edgeFlow[e] <= 0)
                     continue;
 
+                e->valid = false;
                 prev[next] = e;
+
                 q.push(next);
             }
         }
 
         if (prev[sink] == nullptr) break;
 
+        // path augmentation
         double df = INF;
 
-        for (Edge* e = prev[sink]; e != nullptr; e = prev[e->src])
+        int currSink = sink;
+        for (Edge* e = prev[currSink]; e != nullptr; e = prev[currSink]){
             df = std::min(df, e->weight - edgeFlow[e]);
+            currSink = (e->valid) ? e->src : e->dest;
+        }
 
-        for (Edge* e = prev[sink]; e != nullptr; e = prev[e->src])
-            edgeFlow[e] += df;
+        currSink = sink;
+        for (Edge* e = prev[currSink]; e != nullptr; e = prev[currSink]){
+            if (e->valid){
+                edgeFlow[e] += df; currSink = e->src;
+                continue;
+            }
+
+            edgeFlow[e] -= df; currSink = e->dest;
+        }
 
         flow += df;
     }
@@ -117,7 +131,7 @@ bool DGraph::isDirected() const{
 
 /**
  * @brief adds an edge to the Graph, that is, a connection between two vertices
- * @complexity O(logE)
+ * @complexity O(log|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @param weight cost of the connection
@@ -130,7 +144,7 @@ bool DGraph::addEdge(int src, int dest, double weight, bool valid){
 
 /**
  * @brief removes an edge from the Graph, that is, eliminates the connection between two vertices
- * @complexity O(E)
+ * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return 'true' if the removal occurs, 'false' otherwise
@@ -141,7 +155,7 @@ bool DGraph::removeEdge(int src, int dest){
 
 /**
  * @brief returns a subgraph that only contains specific vertices
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only
  */
@@ -212,7 +226,7 @@ DGraph DGraph::getSubgraph(list<int> vertexIndices){
 
 /**
  * @brief computes if a Graph is a Directed Acyclic Graph (DAG), by using the Depth-First Search algorithm
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @return 'true' if the Graph is a DAG, 'false' otherwise
  */
 bool DGraph::isDAG(){
@@ -230,7 +244,7 @@ bool DGraph::isDAG(){
 
 /**
  * @brief computes one of the possible topological orders of the Graph, using Kahn's algorithm
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @return list containing the topologically sorted indices of the vertices
  */
 list<int> DGraph::topologicalSort(){
@@ -266,7 +280,7 @@ list<int> DGraph::topologicalSort(){
 
 /**
  * @brief computes the maximum flow between two vertices using an implementation of the Edmonds-Karp algorithm
- * @complexity O(V * E^2)
+ * @complexity O(|V| * |E|^2)
  * @param src index of the source vertex
  * @param sink index of the sink vertex
  * @return maximum flow

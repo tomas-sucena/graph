@@ -13,7 +13,7 @@
 
 /**
  * @brief implementation of the Breadth-First Search algorithm, which traverses the graph
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @param src index of the vertex where the algorithm will start
  * @return list containing the indices of all the visited vertices
  */
@@ -49,7 +49,7 @@ list<int> Graph::bfs(int src){
 
 /**
  * @brief implementation of the Breadth-First Search algorithm, which finds ALL the shortest paths between two vertices in a Graph
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing all the shortest paths that unite the two vertices
@@ -101,7 +101,7 @@ list<list<int>> Graph::bfs(int src, int dest){
 
 /**
  * @brief implementation of the Dijkstra algorithm, which finds the shortest path between two vertices in a Graph
- * @complexity O(E * logV)
+ * @complexity O(|E| * log|V|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing the indices of the visited vertices that comprise the shortest path
@@ -189,7 +189,7 @@ void Graph::addVertex(Vertex *v){
 
 /**
  * @brief removes a vertex from the Graph
- * @complexity O(V * E)
+ * @complexity O(|V| * |E|)
  * @param index index of the vertex that will be removed
  * @return number of edges that were removed (those whose destination was the deleted vertex)
  */
@@ -261,7 +261,7 @@ int Graph::removeVertex(int index){
 
 /**
  * @brief adds an edge to the Graph, that is, a connection between two vertices
- * @complexity O(logE)
+ * @complexity O(log|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @param weight cost of the connection
@@ -273,10 +273,10 @@ bool Graph::addEdge(int src, int dest, double weight, bool valid){
         return false;
 
     Edge* e = new Edge(src, dest, weight, valid);
+    if (!edges.insert(e).second) return false;
 
     (*this)[src].out.push_back(e);
     (*this)[dest].in.push_back(e);
-    edges.insert(e);
 
     weighted += (weight != 1);
 
@@ -285,7 +285,7 @@ bool Graph::addEdge(int src, int dest, double weight, bool valid){
 
 /**
  * @brief removes an edge from the Graph, that is, eliminates the connection between two vertices
- * @complexity O(E)
+ * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return 'true' if the removal occurs, 'false' otherwise
@@ -393,7 +393,7 @@ int Graph::outDegree(int index) const{
 
 /**
  * @brief verifies if there exists an edge that connects two vertices
- * @complexity O(E)
+ * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return 'true' if the vertices are connected, 'false' otherwise
@@ -414,7 +414,7 @@ bool Graph::areConnected(int src, int dest) const{
 
 /**
  * @brief validates all the vertices and edges
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  */
 void Graph::reset(){
     for (Vertex& v : vertices){
@@ -428,7 +428,7 @@ void Graph::reset(){
 
 /**
  * @brief calculates the minimum distance between two vertices
- * @complexity O(E * logV)
+ * @complexity O(|E| * log|V|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return minimum distance between the source and the destination if they are connected, -1 otherwise
@@ -445,7 +445,7 @@ double Graph::distance(int src, int dest){
 
 /**
  * @brief calculates (one of) the shortest path between two vertices
- * @complexity O(E * logV)
+ * @complexity O(|E| * log|V|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing the indices of the vertices that form the path
@@ -457,7 +457,7 @@ list<int> Graph::getShortestPath(int src, int dest){
 
 /**
  * @brief calculates ALL the shortest paths between two vertices
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return list containing the shortest paths (each path is represented by the indices of the vertices that form it)
@@ -470,7 +470,7 @@ list<list<int>> Graph::getShortestPaths(int src, int dest){
 /**
  * @brief calculates which vertices can be reached in a given distance from a source vertex, using an implementation of the
  * Breadth-First Search algorithm
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @param src index of the source vertex
  * @param dist distance
  * @param weighted bool that specifies if the given distance is referring to the weight of the edges ('true') or the

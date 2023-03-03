@@ -30,7 +30,7 @@ bool UGraph::isDirected() const{
 
 /**
  * adds an edge to the Graph, that is, a connection between two vertices
- * @complexity O(logE)
+ * @complexity O(log|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @param weight cost of the connection
@@ -46,7 +46,7 @@ bool UGraph::addEdge(int src, int dest, double weight, bool valid){
 
 /**
  * removes an edge from the Graph, that is, eliminates the connection between two vertices
- * @complexity O(E)
+ * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @return 'true' if the removal occurs, 'false' otherwise
@@ -60,7 +60,7 @@ bool UGraph::removeEdge(int src, int dest){
 
 /**
  * @brief returns a subgraph that only contains specific vertices
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only
  */
@@ -131,7 +131,7 @@ UGraph UGraph::getSubgraph(list<int> vertexIndices){
 
 /**
  * calculates all the connected components of the Graph
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @return list with all the connected components (each component is a list of indices)
  */
 list<list<int>> UGraph::getConnectedComponents(){
@@ -149,7 +149,7 @@ list<list<int>> UGraph::getConnectedComponents(){
 
 /**
  * calculates the number of connected components of the Graph
- * @complexity O(V + E)
+ * @complexity O(|V| + |E|)
  * @return number of connected components
  */
 int UGraph::countConnectedComponents(){
@@ -180,7 +180,7 @@ int UGraph::countArticulationPoints(){
 
 /**
  * computes a Minimum Spanning Tree (MST) of the Graph, using an implementation of Prim's algorithm
- * @complexity O(E * logV)
+ * @complexity O(|E| * log|V|)
  * @return list containing the edges that belong to the MST
  */
 list<Edge*> UGraph::getMST(){
