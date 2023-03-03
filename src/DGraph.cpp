@@ -46,9 +46,10 @@ double DGraph::edmondsKarp(int src, int sink){
     double flow = 0;
 
     uMap<Edge*, double> edgeFlow;
-    std::vector<Edge*> prev(vertices.size() + 1, nullptr);
 
-    while (prev[sink] != nullptr){
+    while (true){
+        std::vector<Edge*> prev(vertices.size() + 1, nullptr);
+
         // BFS
         std::queue<int> q;
         q.push(src);
@@ -59,6 +60,7 @@ double DGraph::edmondsKarp(int src, int sink){
 
             if (curr == sink) break;
 
+            // edges
             for (Edge* e : (*this)[curr].out){
                 int next = e->dest;
 
@@ -68,18 +70,28 @@ double DGraph::edmondsKarp(int src, int sink){
                 prev[next] = e;
                 q.push(next);
             }
+
+            // reverse edges
+            for (Edge* e : (*this)[curr].in){
+                int next = e->src;
+
+                if (prev[next] != nullptr || next == src || edgeFlow[e] >= e->weight)
+                    continue;
+
+                prev[next] = e;
+                q.push(next);
+            }
         }
 
-        if (prev[sink] == nullptr) continue;
+        if (prev[sink] == nullptr) break;
 
         double df = INF;
+
         for (Edge* e = prev[sink]; e != nullptr; e = prev[e->src])
             df = std::min(df, e->weight - edgeFlow[e]);
 
-        for (Edge* e = prev[sink]; e != nullptr; e = prev[e->src]){
+        for (Edge* e = prev[sink]; e != nullptr; e = prev[e->src])
             edgeFlow[e] += df;
-            // take care of reverse edge
-        }
 
         flow += df;
     }
