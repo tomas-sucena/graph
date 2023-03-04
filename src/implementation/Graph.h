@@ -42,6 +42,7 @@ public:
     int countVertices() const;
     int countEdges() const;
     std::vector<Vertex> getVertices() const;
+    std::set<Edge*> getEdges() const;
     Vertex& operator[](int index);
 
     int inDegree(int index) const;

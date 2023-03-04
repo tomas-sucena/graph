@@ -10,6 +10,7 @@ class Edge {
     int dest;
     double weight;
     bool valid;
+    double flow;
 
     friend class Graph;
     friend class DGraph;
@@ -18,10 +19,10 @@ class Edge {
 public:
     // constructors
     Edge(int src, int dest, double weight, bool valid)
-        : src(src), dest(dest), weight(weight), valid(valid) {}
+        : src(src), dest(dest), weight(weight), valid(valid), flow(0) {}
 
     explicit Edge(const Edge* e)
-            : src(e->src), dest(e->dest), weight(e->weight), valid(e->valid) {}
+            : src(e->src), dest(e->dest), weight(e->weight), valid(e->valid), flow(e->flow) {}
 
     // methods
     bool operator<(const Edge& e) const{

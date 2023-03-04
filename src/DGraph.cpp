@@ -44,7 +44,6 @@ bool DGraph::dfs(int src, uSet<int>* seen){
  */
 double DGraph::edmondsKarp(int src, int sink){
     double flow = 0;
-    uMap<Edge*, double> edgeFlow;
 
     while (true){
         std::vector<Edge*> prev(vertices.size() + 1, nullptr);
@@ -63,7 +62,7 @@ double DGraph::edmondsKarp(int src, int sink){
             for (Edge* e : (*this)[curr].out){
                 int next = e->dest;
 
-                if (prev[next] != nullptr || next == src || edgeFlow[e] >= e->weight)
+                if (prev[next] != nullptr || next == src || e->flow >= e->weight)
                     continue;
 
                 e->valid = true;
@@ -76,7 +75,7 @@ double DGraph::edmondsKarp(int src, int sink){
             for (Edge* e : (*this)[curr].in){
                 int next = e->src;
 
-                if (prev[next] != nullptr || next == src || edgeFlow[e] <= 0)
+                if (prev[next] != nullptr || next == src || e->flow <= 0)
                     continue;
 
                 e->valid = false;
@@ -91,20 +90,20 @@ double DGraph::edmondsKarp(int src, int sink){
         // path augmentation
         double df = INF;
 
-        int currSink = sink;
-        for (Edge* e = prev[currSink]; e != nullptr; e = prev[currSink]){
-            df = std::min(df, e->weight - edgeFlow[e]);
-            currSink = (e->valid) ? e->src : e->dest;
+        int last = sink;
+        for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
+            df = std::min(df, e->weight - e->flow);
+            last = (e->valid) ? e->src : e->dest;
         }
 
-        currSink = sink;
-        for (Edge* e = prev[currSink]; e != nullptr; e = prev[currSink]){
+        last = sink;
+        for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
             if (e->valid){
-                edgeFlow[e] += df; currSink = e->src;
+                e->flow += df; last = e->src;
                 continue;
             }
 
-            edgeFlow[e] -= df; currSink = e->dest;
+            e->flow -= df; last = e->dest;
         }
 
         flow += df;
@@ -289,5 +288,6 @@ double DGraph::maximumFlow(int src, int sink){
     if (src <= 0 || src > (int) vertices.size() || sink <= 0 || sink > (int) vertices.size())
         return -1;
 
+    reset();
     return edmondsKarp(src, sink);
 }

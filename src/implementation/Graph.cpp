@@ -360,6 +360,14 @@ std::vector<Vertex> Graph::getVertices() const{
 }
 
 /**
+ * @brief returns the set which stores the edges of the Graph
+ * @return std::set that stores the edges of the Graph
+ */
+std::set<Edge*> Graph::getEdges() const{
+    return edges;
+}
+
+/**
  * @brief accesses a vertex of the Graph and allows modifications to be made to it
  * @param index index of the vertex
  * @return reference of the vertex
@@ -422,8 +430,10 @@ void Graph::reset(){
         v.dist = INF;
     }
 
-    for (Edge* e : edges)
+    for (Edge* e : edges){
         e->valid = true;
+        e->flow = 0;
+    }
 }
 
 /**

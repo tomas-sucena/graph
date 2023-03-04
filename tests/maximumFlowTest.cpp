@@ -52,4 +52,24 @@ TEST(maximum_flow, edmonds_karp){
 
     EXPECT_EQ(5, g3.maximumFlow(1, 7));
     EXPECT_EQ(0, g3.maximumFlow(7, 1));
+
+    // example from DA TP exercises
+    DGraph g4(6);
+
+    g4.addEdge(1, 2, 3);
+    g4.addEdge(1, 3, 2);
+    g4.addEdge(2, 5, 4);
+    g4.addEdge(2, 4, 3);
+    g4.addEdge(2, 3, 1);
+    g4.addEdge(3, 5, 2);
+    g4.addEdge(4, 6, 2);
+    g4.addEdge(5, 6, 3);
+
+    EXPECT_EQ(5, g4.maximumFlow(1, 6));
+
+    std::stringstream ss;
+    for (const Edge* e : g4.getEdges())
+        ss << " (" << e->getSrc() << ',' << e->getDest() << ")->" << e->getFlow() << ' ';
+
+    EXPECT_EQ(" (2,3)->0  (1,3)->2  (3,5)->2  (4,6)->2  (1,2)->3  (2,4)->2  (5,6)->3  (2,5)->1 ", ss.str());
 }
