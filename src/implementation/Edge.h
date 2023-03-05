@@ -25,6 +25,18 @@ public:
             : src(e->src), dest(e->dest), weight(e->weight), valid(e->valid), flow(e->flow) {}
 
     // methods
+    int getSrc() const{
+        return src;
+    }
+
+    int getDest() const{
+        return dest;
+    }
+
+    double getFlow() const{
+        return flow;
+    }
+
     bool operator<(const Edge& e) const{
         if (weight != e.weight)
             return weight < e.weight;

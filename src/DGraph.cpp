@@ -88,25 +88,25 @@ double DGraph::edmondsKarp(int src, int sink){
         if (prev[sink] == nullptr) break;
 
         // path augmentation
-        double df = INF;
+        double pathFlow = INF;
 
         int last = sink;
         for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
-            df = std::min(df, e->weight - e->flow);
+            pathFlow = std::min(pathFlow, e->weight - e->flow);
             last = (e->valid) ? e->src : e->dest;
         }
 
         last = sink;
         for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
             if (e->valid){
-                e->flow += df; last = e->src;
+                e->flow += pathFlow; last = e->src;
                 continue;
             }
 
-            e->flow -= df; last = e->dest;
+            e->flow -= pathFlow; last = e->dest;
         }
 
-        flow += df;
+        flow += pathFlow;
     }
 
     return flow;
