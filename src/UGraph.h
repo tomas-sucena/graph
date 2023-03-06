@@ -5,7 +5,10 @@
 #ifndef GRAPH_UGRAPH_H
 #define GRAPH_UGRAPH_H
 
+#include <list>
 #include "implementation/Graph.h"
+
+using std::list;
 
 class UGraph : public Graph {
 public:

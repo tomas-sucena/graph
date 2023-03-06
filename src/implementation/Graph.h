@@ -9,9 +9,9 @@
 #include <set>
 #include <vector>
 
+#include "Edge.h"
+#include "Path.h"
 #include "Vertex.h"
-
-using std::list;
 
 class Graph {
 protected:
@@ -22,9 +22,9 @@ protected:
     void reset();
 
     // search methods
-    list<int> bfs(int src);
-    list<int> dijkstra(int src, int dest);
-    list<list<int>> bfs(int src, int dest);
+    std::list<int> bfs(int src);
+    Path dijkstra(int src, int dest);
+    std::list<Path> bfs(int src, int dest);
 
 public:
     // constructors
@@ -50,9 +50,9 @@ public:
     bool areConnected(int src, int dest) const;
 
     double distance(int src, int dest);
-    list<int> getShortestPath(int src, int dest);
-    list<list<int>> getShortestPaths(int src, int dest);
-    list<int> getReachable(int src, double dist, bool weighted = true);
+    Path getShortestPath(int src, int dest);
+    std::list<Path> getShortestPaths(int src, int dest);
+    std::list<int> getReachable(int src, double dist, bool weighted = true);
 };
 
 #endif //GRAPH_GRAPH_H

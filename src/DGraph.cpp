@@ -158,7 +158,7 @@ bool DGraph::removeEdge(int src, int dest){
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only
  */
-DGraph DGraph::getSubgraph(list<int> vertexIndices){
+DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
     DGraph sub;
     uMap<int, int> newIndices;
 
@@ -246,8 +246,8 @@ bool DGraph::isDAG(){
  * @complexity O(|V| + |E|)
  * @return list containing the topologically sorted indices of the vertices
  */
-list<int> DGraph::topologicalSort(){
-    list<int> res;
+std::list<int> DGraph::topologicalSort(){
+    std::list<int> res;
     if (!isDAG()) return res;
 
     reset();

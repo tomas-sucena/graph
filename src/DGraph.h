@@ -5,6 +5,7 @@
 #ifndef GRAPH_DGRAPH_H
 #define GRAPH_DGRAPH_H
 
+#include <list>
 #include <unordered_set>
 
 #include "implementation/Graph.h"
@@ -27,9 +28,9 @@ public:
     bool removeEdge(int src, int dest) override;
     bool isDirected() const override;
 
-    DGraph getSubgraph(list<int> vertexIndices);
+    DGraph getSubgraph(std::list<int> vertexIndices);
     bool isDAG();
-    list<int> topologicalSort();
+    std::list<int> topologicalSort();
     double maximumFlow(int src, int sink);
 };
 

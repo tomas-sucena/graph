@@ -9,38 +9,43 @@
 #include "../src/UGraph.h"
 #include "TestGraphs.h"
 
-using std::list;
 using testing::Eq;
 
 TEST(bfs, shortest_path){
     // undirected graph
     UGraph g1 = TestGraphs::graph1();
 
-    list<list<int>> paths = g1.getShortestPaths(1, 1);
-
+    std::list<Path> paths = g1.getShortestPaths(1, 1);
     ASSERT_EQ(1, paths.size());
-    for (auto it = paths.begin(); it != paths.end(); ++it){
-        EXPECT_EQ(1, it->front());
-        EXPECT_EQ(1, it->back());
-        EXPECT_EQ(1, it->size());
+    
+    for (const Path& path : paths){
+        std::list<int> indices = path.getIndices();
+        
+        EXPECT_EQ(1, indices.front());
+        EXPECT_EQ(1, indices.back());
+        EXPECT_EQ(1, indices.size());
     }
 
     paths = g1.getShortestPaths(1, 4);
-
     ASSERT_EQ(2, paths.size());
-    for (auto it = paths.begin(); it != paths.end(); ++it){
-        EXPECT_EQ(1, it->front());
-        EXPECT_EQ(4, it->back());
-        EXPECT_EQ(3, it->size());
+
+    for (const Path& path : paths){
+        std::list<int> indices = path.getIndices();
+        
+        EXPECT_EQ(1, indices.front());
+        EXPECT_EQ(4, indices.back());
+        EXPECT_EQ(3, indices.size());
     }
 
     paths = g1.getShortestPaths(4, 1);
-
     ASSERT_EQ(2, paths.size());
-    for (auto it = paths.begin(); it != paths.end(); ++it){
-        EXPECT_EQ(4, it->front());
-        EXPECT_EQ(1, it->back());
-        EXPECT_EQ(3, it->size());
+
+    for (const Path& path : paths){
+        std::list<int> indices = path.getIndices();
+        
+        EXPECT_EQ(4, indices.front());
+        EXPECT_EQ(1, indices.back());
+        EXPECT_EQ(3, indices.size());
     }
 }
 

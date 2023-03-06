@@ -17,8 +17,8 @@
  * @param src index of the vertex where the algorithm will start
  * @return list containing the indices of all the visited vertices
  */
-list<int> Graph::bfs(int src){
-    list<int> visitedVertices;
+std::list<int> Graph::bfs(int src){
+    std::list<int> visitedVertices;
 
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
@@ -54,11 +54,13 @@ list<int> Graph::bfs(int src){
  * @param dest index of the destination vertex
  * @return list containing all the shortest paths that unite the two vertices
  */
-list<list<int>> Graph::bfs(int src, int dest){
-    list<list<int>> allPaths = {{src}};
+std::list<Path> Graph::bfs(int src, int dest){
+    std::list<Path> allPaths = {Path(src)};
 
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
+
+    if (src == dest) return allPaths; // special case
 
     std::queue<int> q;
     q.push(src);
@@ -69,11 +71,11 @@ list<list<int>> Graph::bfs(int src, int dest){
 
         for (const Edge* e : (*this)[curr].out){
             int next = e->dest;
-            list<int> path = allPaths.front();
+            Path path = allPaths.front();
 
             (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
 
-            path.push_back(next);
+            path.push_back(e);
             allPaths.push_back(path);
 
             if (!(*this)[next].valid || !e->valid) continue;
@@ -88,7 +90,7 @@ list<list<int>> Graph::bfs(int src, int dest){
 
     // eliminate the paths that don't end in the destination
     for (auto it = allPaths.begin(); it != allPaths.end();){
-        if (it->back() == dest){
+        if (it->back()->dest == dest){
             ++it;
             continue;
         }
@@ -104,17 +106,18 @@ list<list<int>> Graph::bfs(int src, int dest){
  * @complexity O(|E| * log|V|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
- * @return list containing the indices of the visited vertices that comprise the shortest path
+ * @return shortest path that unites the two vertices
  */
-list<int> Graph::dijkstra(int src, int dest){
+Path Graph::dijkstra(int src, int dest){
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
+
+    if (src == dest) return Path(src); // special case
 
     std::priority_queue<Vertex, std::vector<Vertex>, std::greater<>> pq;
     pq.push((*this)[src]);
 
-    std::vector<int> prev(vertices.size() + 1, -1);
-    prev[src] = src;
+    std::vector<const Edge*> prev(vertices.size() + 1, nullptr);
 
     while (!pq.empty()){
         int curr = pq.top().index;
@@ -127,7 +130,7 @@ list<int> Graph::dijkstra(int src, int dest){
 
             if ((*this)[curr].dist + e->weight < (*this)[next].dist){
                 (*this)[next].dist = (*this)[curr].dist + e->weight;
-                prev[next] = curr;
+                prev[next] = e;
             }
 
             if (!(*this)[next].valid || !e->valid) continue;
@@ -138,13 +141,10 @@ list<int> Graph::dijkstra(int src, int dest){
     }
 
     // reconstruct the shortest path
-    list<int> path;
+    Path path;
 
-    for (int last = dest; prev[last] > 0; last = prev[last]){
-        path.push_front(last);
-
-        if (last == prev[last]) break;
-    }
+    for (const Edge* e = prev[dest]; e != nullptr; e = prev[e->src])
+        path.push_front(e);
 
     return path;
 }
@@ -460,7 +460,7 @@ double Graph::distance(int src, int dest){
  * @param dest index of the destination vertex
  * @return list containing the indices of the vertices that form the path
  */
-list<int> Graph::getShortestPath(int src, int dest){
+Path Graph::getShortestPath(int src, int dest){
     reset();
     return dijkstra(src, dest);
 }
@@ -472,7 +472,7 @@ list<int> Graph::getShortestPath(int src, int dest){
  * @param dest index of the destination vertex
  * @return list containing the shortest paths (each path is represented by the indices of the vertices that form it)
  */
-list<list<int>> Graph::getShortestPaths(int src, int dest){
+std::list<Path> Graph::getShortestPaths(int src, int dest){
     reset();
     return bfs(src, dest);
 }
@@ -487,9 +487,9 @@ list<list<int>> Graph::getShortestPaths(int src, int dest){
  * total number of edges ('false')
  * @return list containing the indices of the reachable vertices
  */
-list<int> Graph::getReachable(int src, double dist, bool weighted){
+std::list<int> Graph::getReachable(int src, double dist, bool weighted){
     reset();
-    list<int> reachableVertices;
+    std::list<int> reachableVertices;
 
     (*this)[src].valid = false;
     (*this)[src].dist = 0;

@@ -18,7 +18,7 @@ add_executable(graph
         tests/TestGraphs.cpp
         tests/TestGraphs.h
         tests/initializationTest.cpp
-        tests/manipulationTest.cpp tests/maximumFlowTest.cpp)
+        tests/manipulationTest.cpp tests/maximumFlowTest.cpp src/implementation/Path.h)
 
 include(FetchContent)
 FetchContent_Declare(

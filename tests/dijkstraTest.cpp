@@ -172,209 +172,209 @@ TEST(dijkstra, shortest_path){
     UGraph g1 = TestGraphs::graph1();
 
     std::list<int> res = {1};
-    EXPECT_EQ(res, g1.getShortestPath(1,1));
+    EXPECT_EQ(res, g1.getShortestPath(1,1).getIndices());
 
     res = {1, 2};
-    EXPECT_EQ(res, g1.getShortestPath(1,2));
+    EXPECT_EQ(res, g1.getShortestPath(1,2).getIndices());
 
     res = {1, 3};
-    EXPECT_EQ(res, g1.getShortestPath(1,3));
+    EXPECT_EQ(res, g1.getShortestPath(1,3).getIndices());
 
     res = {1, 2, 4};
-    EXPECT_EQ(res, g1.getShortestPath(1,4));
+    EXPECT_EQ(res, g1.getShortestPath(1,4).getIndices());
 
     res = {1, 2, 4, 5};
-    EXPECT_EQ(res, g1.getShortestPath(1,5));
+    EXPECT_EQ(res, g1.getShortestPath(1,5).getIndices());
 
     res = {1, 2, 4, 5, 6};
-    EXPECT_EQ(res, g1.getShortestPath(1,6));
+    EXPECT_EQ(res, g1.getShortestPath(1,6).getIndices());
 
     res = {1, 2, 4, 5, 7};
-    EXPECT_EQ(res, g1.getShortestPath(1,7));
+    EXPECT_EQ(res, g1.getShortestPath(1,7).getIndices());
 
     res = {1, 2, 4, 5, 7, 8};
-    EXPECT_EQ(res, g1.getShortestPath(1,8));
+    EXPECT_EQ(res, g1.getShortestPath(1,8).getIndices());
 
     res = {1, 2, 4, 5, 6, 9};
-    EXPECT_EQ(res, g1.getShortestPath(1,9));
+    EXPECT_EQ(res, g1.getShortestPath(1,9).getIndices());
 
     res = {4, 2, 1};
-    EXPECT_EQ(res, g1.getShortestPath(4,1));
+    EXPECT_EQ(res, g1.getShortestPath(4,1).getIndices());
 
     res = {4, 2};
-    EXPECT_EQ(res, g1.getShortestPath(4,2));
+    EXPECT_EQ(res, g1.getShortestPath(4,2).getIndices());
 
     res = {4, 3};
-    EXPECT_EQ(res, g1.getShortestPath(4,3));
+    EXPECT_EQ(res, g1.getShortestPath(4,3).getIndices());
 
     res = {4};
-    EXPECT_EQ(res, g1.getShortestPath(4,4));
+    EXPECT_EQ(res, g1.getShortestPath(4,4).getIndices());
 
     res = {4, 5};
-    EXPECT_EQ(res, g1.getShortestPath(4,5));
+    EXPECT_EQ(res, g1.getShortestPath(4,5).getIndices());
 
     res = {4, 5, 6};
-    EXPECT_EQ(res, g1.getShortestPath(4,6));
+    EXPECT_EQ(res, g1.getShortestPath(4,6).getIndices());
 
     res = {4, 5, 7};
-    EXPECT_EQ(res, g1.getShortestPath(4,7));
+    EXPECT_EQ(res, g1.getShortestPath(4,7).getIndices());
 
     res = {4, 5, 7, 8};
-    EXPECT_EQ(res, g1.getShortestPath(4,8));
+    EXPECT_EQ(res, g1.getShortestPath(4,8).getIndices());
 
     res = {4, 5, 6, 9};
-    EXPECT_EQ(res, g1.getShortestPath(4,9));
+    EXPECT_EQ(res, g1.getShortestPath(4,9).getIndices());
 
     res = {2, 1, 3};
-    EXPECT_EQ(res, g1.getShortestPath(2,3));
+    EXPECT_EQ(res, g1.getShortestPath(2,3).getIndices());
 
     res = {9, 6, 5, 7, 8};
-    EXPECT_EQ(res, g1.getShortestPath(9,8));
+    EXPECT_EQ(res, g1.getShortestPath(9,8).getIndices());
 
     res = {8, 7, 5};
-    EXPECT_EQ(res, g1.getShortestPath(8,5));
+    EXPECT_EQ(res, g1.getShortestPath(8,5).getIndices());
 
     res = {2, 4, 5, 7, 8};
-    EXPECT_EQ(res, g1.getShortestPath(2,8));
+    EXPECT_EQ(res, g1.getShortestPath(2,8).getIndices());
 
     // directed and unweighted graphs
     DGraph g4 = TestGraphs::graph4();
 
     res = {1};
-    EXPECT_EQ(res, g4.getShortestPath(1,1));
+    EXPECT_EQ(res, g4.getShortestPath(1,1).getIndices());
 
     res = {1, 2};
-    EXPECT_EQ(res, g4.getShortestPath(1,2));
+    EXPECT_EQ(res, g4.getShortestPath(1,2).getIndices());
 
     res = {1, 3};
-    EXPECT_EQ(res, g4.getShortestPath(1,3));
+    EXPECT_EQ(res, g4.getShortestPath(1,3).getIndices());
 
     res = {1, 2, 4};
-    EXPECT_EQ(res, g4.getShortestPath(1,4));
+    EXPECT_EQ(res, g4.getShortestPath(1,4).getIndices());
 
     res = {1, 2, 4, 5};
-    EXPECT_EQ(res, g4.getShortestPath(1,5));
+    EXPECT_EQ(res, g4.getShortestPath(1,5).getIndices());
 
     res = {1, 2, 4, 5, 6};
-    EXPECT_EQ(res, g4.getShortestPath(1,6));
+    EXPECT_EQ(res, g4.getShortestPath(1,6).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(1,7));
+    EXPECT_EQ(res, g4.getShortestPath(1,7).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(1,8));
+    EXPECT_EQ(res, g4.getShortestPath(1,8).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(1,9));
+    EXPECT_EQ(res, g4.getShortestPath(1,9).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(4,1));
+    EXPECT_EQ(res, g4.getShortestPath(4,1).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(4,2));
+    EXPECT_EQ(res, g4.getShortestPath(4,2).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(4,3));
+    EXPECT_EQ(res, g4.getShortestPath(4,3).getIndices());
 
     res = {4};
-    EXPECT_EQ(res, g4.getShortestPath(4,4));
+    EXPECT_EQ(res, g4.getShortestPath(4,4).getIndices());
 
     res = {4, 5};
-    EXPECT_EQ(res, g4.getShortestPath(4,5));
+    EXPECT_EQ(res, g4.getShortestPath(4,5).getIndices());
 
     res = {4, 5, 6};
-    EXPECT_EQ(res, g4.getShortestPath(4,6));
+    EXPECT_EQ(res, g4.getShortestPath(4,6).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(4,7));
+    EXPECT_EQ(res, g4.getShortestPath(4,7).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(4,8));
+    EXPECT_EQ(res, g4.getShortestPath(4,8).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(4,9));
+    EXPECT_EQ(res, g4.getShortestPath(4,9).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(2,3));
+    EXPECT_EQ(res, g4.getShortestPath(2,3).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(9,8));
+    EXPECT_EQ(res, g4.getShortestPath(9,8).getIndices());
 
     res = {8, 7, 5};
-    EXPECT_EQ(res, g4.getShortestPath(8,5));
+    EXPECT_EQ(res, g4.getShortestPath(8,5).getIndices());
 
     res = {};
-    EXPECT_EQ(res, g4.getShortestPath(2,8));
+    EXPECT_EQ(res, g4.getShortestPath(2,8).getIndices());
 
     res = {9, 6};
-    EXPECT_EQ(res, g4.getShortestPath(9,6));
+    EXPECT_EQ(res, g4.getShortestPath(9,6).getIndices());
     
     // undirected and weighted graphs
     UGraph g8 = TestGraphs::graph8();
 
     res = {1};
-    EXPECT_EQ(res, g8.getShortestPath(1,1));
+    EXPECT_EQ(res, g8.getShortestPath(1,1).getIndices());
 
     res = {1, 2};
-    EXPECT_EQ(res, g8.getShortestPath(1,2));
+    EXPECT_EQ(res, g8.getShortestPath(1,2).getIndices());
 
     res = {1, 3};
-    EXPECT_EQ(res, g8.getShortestPath(1,3));
+    EXPECT_EQ(res, g8.getShortestPath(1,3).getIndices());
 
     res = {1, 3, 4};
-    EXPECT_EQ(res, g8.getShortestPath(1,4));
+    EXPECT_EQ(res, g8.getShortestPath(1,4).getIndices());
 
     res = {1, 3, 4, 5};
-    EXPECT_EQ(res, g8.getShortestPath(1,5));
+    EXPECT_EQ(res, g8.getShortestPath(1,5).getIndices());
 
     res = {1, 3, 4, 5, 6};
-    EXPECT_EQ(res, g8.getShortestPath(1,6));
+    EXPECT_EQ(res, g8.getShortestPath(1,6).getIndices());
 
     res = {1, 3, 4, 5, 7};
-    EXPECT_EQ(res, g8.getShortestPath(1,7));
+    EXPECT_EQ(res, g8.getShortestPath(1,7).getIndices());
 
     res = {1, 3, 4, 5, 7, 8};
-    EXPECT_EQ(res, g8.getShortestPath(1,8));
+    EXPECT_EQ(res, g8.getShortestPath(1,8).getIndices());
 
     res = {1, 3, 4, 5, 6, 9};
-    EXPECT_EQ(res, g8.getShortestPath(1,9));
+    EXPECT_EQ(res, g8.getShortestPath(1,9).getIndices());
 
     res = {4, 3, 1};
-    EXPECT_EQ(res, g8.getShortestPath(4,1));
+    EXPECT_EQ(res, g8.getShortestPath(4,1).getIndices());
 
     res = {4, 2};
-    EXPECT_EQ(res, g8.getShortestPath(4,2));
+    EXPECT_EQ(res, g8.getShortestPath(4,2).getIndices());
 
     res = {4, 3};
-    EXPECT_EQ(res, g8.getShortestPath(4,3));
+    EXPECT_EQ(res, g8.getShortestPath(4,3).getIndices());
 
     res = {4};
-    EXPECT_EQ(res, g8.getShortestPath(4,4));
+    EXPECT_EQ(res, g8.getShortestPath(4,4).getIndices());
 
     res = {4, 5};
-    EXPECT_EQ(res, g8.getShortestPath(4,5));
+    EXPECT_EQ(res, g8.getShortestPath(4,5).getIndices());
 
     res = {4, 5, 6};
-    EXPECT_EQ(res, g8.getShortestPath(4,6));
+    EXPECT_EQ(res, g8.getShortestPath(4,6).getIndices());
 
     res = {4, 5, 7};
-    EXPECT_EQ(res, g8.getShortestPath(4,7));
+    EXPECT_EQ(res, g8.getShortestPath(4,7).getIndices());
 
     res = {4, 5, 7, 8};
-    EXPECT_EQ(res, g8.getShortestPath(4,8));
+    EXPECT_EQ(res, g8.getShortestPath(4,8).getIndices());
 
     res = {4, 5, 6, 9};
-    EXPECT_EQ(res, g8.getShortestPath(4,9));
+    EXPECT_EQ(res, g8.getShortestPath(4,9).getIndices());
 
     res = {2, 1, 3};
-    EXPECT_EQ(res, g8.getShortestPath(2,3));
+    EXPECT_EQ(res, g8.getShortestPath(2,3).getIndices());
 
     res = {9, 6, 5, 7, 8};
-    EXPECT_EQ(res, g8.getShortestPath(9,8));
+    EXPECT_EQ(res, g8.getShortestPath(9,8).getIndices());
 
     res = {8, 7, 5};
-    EXPECT_EQ(res, g8.getShortestPath(8,5));
+    EXPECT_EQ(res, g8.getShortestPath(8,5).getIndices());
 
     res = {2, 4, 5, 7, 8};
-    EXPECT_EQ(res, g8.getShortestPath(2,8));
+    EXPECT_EQ(res, g8.getShortestPath(2,8).getIndices());
 }
