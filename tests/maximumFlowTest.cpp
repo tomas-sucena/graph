@@ -72,4 +72,19 @@ TEST(maximum_flow, edmonds_karp){
         ss << " (" << e->getSrc() << ',' << e->getDest() << ")->" << e->getFlow() << ' ';
 
     EXPECT_EQ(" (2,3)->0  (1,3)->2  (3,5)->2  (4,6)->2  (1,2)->3  (2,4)->2  (5,6)->3  (2,5)->1 ", ss.str());
+    
+    // example from Stack Overflow
+    DGraph g5(8);
+
+    g5.addEdge(1,2,1);
+    g5.addEdge(2,3,1);
+    g5.addEdge(3,5,1);
+    g5.addEdge(1,4,1);
+    g5.addEdge(4,5,1);
+    g5.addEdge(5,8,1);
+    g5.addEdge(4,6,1);
+    g5.addEdge(6,7,1);
+    g5.addEdge(7,8,1);
+
+    EXPECT_EQ(2, g5.maximumFlow(1, 8));
 }
