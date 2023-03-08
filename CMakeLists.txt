@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 project(graph)
 
 set(CMAKE_CXX_STANDARD 14)
+cmake_policy(SET CMP0135 NEW)
 
 add_executable(graph
         src/DGraph.cpp
