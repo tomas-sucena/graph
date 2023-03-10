@@ -87,4 +87,29 @@ TEST(maximum_flow, edmonds_karp){
     g5.addEdge(7,8,1);
 
     EXPECT_EQ(2, g5.maximumFlow(1, 8));
+
+    // examples from GeeksforGeeks
+    DGraph g6(4);
+
+    g6.addEdge(1,2,8);
+    g6.addEdge(1,3,10);
+    g6.addEdge(2,4,2);
+    g6.addEdge(3,4,3);
+
+    EXPECT_EQ(5, g6.maximumFlow(1, 4));
+
+    DGraph g7(6);
+
+    g7.addEdge(1, 2, 16);
+    g7.addEdge(1, 3, 12);
+    g7.addEdge(2,3,10);
+    g7.addEdge(2, 4, 12);
+    g7.addEdge(3, 2, 4);
+    g7.addEdge(3, 5, 14);
+    g7.addEdge(4,3,9);
+    g7.addEdge(4, 6, 20);
+    g7.addEdge(5, 4, 7);
+    g7.addEdge(5, 6, 4);
+
+    EXPECT_EQ(23, g7.maximumFlow(1, 6));
 }
