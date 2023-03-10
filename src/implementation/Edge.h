@@ -6,15 +6,16 @@
 #define GRAPH_EDGE_H
 
 class Edge {
+    friend class Graph;
+    friend class DGraph;
+    friend class UGraph;
+
+protected:
     int src;
     int dest;
     double weight;
     bool valid;
     double flow;
-
-    friend class Graph;
-    friend class DGraph;
-    friend class UGraph;
 
 public:
     // constructors
@@ -23,6 +24,9 @@ public:
 
     explicit Edge(const Edge* e)
             : src(e->src), dest(e->dest), weight(e->weight), valid(e->valid), flow(e->flow) {}
+
+    // destructor
+    virtual ~Edge() = default;
 
     // methods
     int getSrc() const{

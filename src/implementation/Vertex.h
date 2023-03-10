@@ -13,20 +13,24 @@
 #define INF std::numeric_limits<double>::max()
 
 class Vertex {
+    friend class Graph;
+    friend class DGraph;
+    friend class UGraph;
+
+protected:
     int index;
     bool valid;
     double dist;
     std::list<Edge*> out;
     std::list<Edge*> in;
 
-    friend class Graph;
-    friend class DGraph;
-    friend class UGraph;
-
 public:
-    // constructors
+    // constructor
     explicit Vertex(bool valid = true)
         : valid(valid), index(0), dist(INF) {}
+
+    // destructor
+    virtual ~Vertex() = default;
 
     // methods
     bool operator<(const Vertex& rhs) const{

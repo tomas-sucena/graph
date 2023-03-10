@@ -1,25 +1,39 @@
 cmake_minimum_required(VERSION 3.23)
 project(graph)
 
-set(CMAKE_CXX_STANDARD 14)
-cmake_policy(SET CMP0135 NEW)
+if (${CMAKE_VERSION} VERSION_GREATER "3.23.2")
+    cmake_policy(SET CMP0135 NEW)
+endif()
 
-add_executable(graph
-        src/DGraph.cpp
+set(CMAKE_CXX_STANDARD 14)
+
+set(PROJECT_HEADERS
         src/DGraph.h
         src/implementation/Edge.h
-        src/implementation/Graph.cpp
         src/implementation/Graph.h
+        src/implementation/Path.h
         src/implementation/Vertex.h
-        src/UGraph.cpp
         src/UGraph.h
+        tests/TestGraphs.h)
+
+set(PROJECT_SOURCES
+        src/DGraph.cpp
+        src/implementation/Graph.cpp
+        src/UGraph.cpp
+        tests/TestGraphs.cpp)
+
+set(PROJECT_TESTS
         tests/bfsTest.cpp
         tests/dfsTest.cpp
         tests/dijkstraTest.cpp
-        tests/TestGraphs.cpp
-        tests/TestGraphs.h
         tests/initializationTest.cpp
-        tests/manipulationTest.cpp tests/maximumFlowTest.cpp src/implementation/Path.h)
+        tests/manipulationTest.cpp
+        tests/maximumFlowTest.cpp)
+
+add_executable(graph
+        ${PROJECT_HEADERS}
+        ${PROJECT_SOURCES}
+        ${PROJECT_TESTS})
 
 include(FetchContent)
 FetchContent_Declare(
