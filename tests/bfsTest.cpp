@@ -14,90 +14,103 @@ using testing::Eq;
 TEST(bfs, eccentricity){
     // undirected and unweighted graph
     UGraph g1 = TestGraphs::graph1();
+    std::list<int> farthest;
 
-    std::pair<double, int> res = {5, 9};
-    EXPECT_EQ(res, g1.eccentricity(1));
+    std::list<int> res = {9, 8};
+    EXPECT_EQ(5, g1.eccentricity(1, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(4, g1.eccentricity(2, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(4, g1.eccentricity(3, &farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {5, 1};
-    EXPECT_EQ(res, g1.eccentricity(8));
-    EXPECT_EQ(res, g1.eccentricity(9));
-
-    res = {4, 9};
-    EXPECT_EQ(res, g1.eccentricity(2));
-    EXPECT_EQ(res, g1.eccentricity(3));
+    res = {1};
+    EXPECT_EQ(5, g1.eccentricity(8, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(5, g1.eccentricity(9, &farthest));
+    EXPECT_EQ(res, farthest);
     
     // directed and unweighted graph
     DGraph g4 = TestGraphs::graph4();
 
-    res = {4, 6};
-    EXPECT_EQ(res, g4.eccentricity(1));
+    res = {6};
+    EXPECT_EQ(4, g4.eccentricity(1, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(3, g4.eccentricity(8, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(1, g4.eccentricity(9, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(3, g4.eccentricity(2, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(3, g4.eccentricity(3, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(0, g4.eccentricity(6, &farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {3, 6};
-    EXPECT_EQ(res, g4.eccentricity(8));
-
-    res = {1, 6};
-    EXPECT_EQ(res, g4.eccentricity(9));
-
-    res = {3, 6};
-    EXPECT_EQ(res, g4.eccentricity(2));
-    EXPECT_EQ(res, g4.eccentricity(3));
-
-    res = {0, 6};
-    EXPECT_EQ(res, g4.eccentricity(6));
-    
     // undirected and weighted graph
     UGraph g8 = TestGraphs::graph8();
 
-    res = {25, 8};
-    EXPECT_EQ(res, g8.eccentricity(1));
+    res = {8};
+    EXPECT_EQ(25, g8.eccentricity(1, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(22, g8.eccentricity(2, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(21, g8.eccentricity(3, &farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {25, 1};
-    EXPECT_EQ(res, g8.eccentricity(8));
-
-    res = {20, 1};
-    EXPECT_EQ(res, g8.eccentricity(9));
-
-    res = {22, 8};
-    EXPECT_EQ(res, g8.eccentricity(2));
-
-    res = {21, 8};
-    EXPECT_EQ(res, g8.eccentricity(3));
+    res = {1};
+    EXPECT_EQ(25, g8.eccentricity(8, &farthest));
+    EXPECT_EQ(res, farthest);
+    EXPECT_EQ(20, g8.eccentricity(9, &farthest));
+    EXPECT_EQ(res, farthest);
 }
 
 TEST(bfs, diameter){
     // undirected and unweighted graphs
-    std::pair<double, std::pair<int, int>> res = {5, {1, 9}};
-    EXPECT_EQ(res, TestGraphs::graph1().diameter());
+    std::list<std::pair<int, int>> farthest;
 
-    res = {3, {1, 4}};
-    EXPECT_EQ(res, TestGraphs::graph2().diameter());
+    std::list<std::pair<int, int>> res = {{1, 9}, {1, 8}, {8, 1}, {9, 1}};
+    EXPECT_EQ(5, TestGraphs::graph1().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
+
+    res = {{1, 4}, {4, 1}, {4, 7}, {4, 9}, {7, 4}, {9, 4}};
+    EXPECT_EQ(3, TestGraphs::graph2().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
     // directed and unweighted graphs
-    res = {4, {1, 6}};
-    EXPECT_EQ(res, TestGraphs::graph4().diameter());
+    res = {{1, 6}};
+    EXPECT_EQ(4, TestGraphs::graph4().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {3, {1, 3}};
-    EXPECT_EQ(res, TestGraphs::graph5().diameter());
+    res = {{1, 3}, {2, 1}, {3, 4}, {4, 2}};
+    EXPECT_EQ(3, TestGraphs::graph5().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {3, {3, 4}};
-    EXPECT_EQ(res, TestGraphs::graph6().diameter());
+    res = {{3, 4}};
+    EXPECT_EQ(3, TestGraphs::graph6().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {1, {1, 2}};
-    EXPECT_EQ(res, TestGraphs::graph7().diameter());
+    res = {{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}};
+    EXPECT_EQ(1, TestGraphs::graph7().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
     // undirected and weighted graphs
-    res = {25, {1, 8}};
-    EXPECT_EQ(res, TestGraphs::graph8().diameter());
+    res = {{1, 8}, {8, 1}};
+    EXPECT_EQ(25, TestGraphs::graph8().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {7, {2, 3}};
-    EXPECT_EQ(res, TestGraphs::graph9().diameter());
+    res = {{2, 3}, {3, 2}};
+    EXPECT_EQ(7, TestGraphs::graph9().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
     // directed and weighted graphs
-    res = {7, {5, 3}};
-    EXPECT_EQ(res, TestGraphs::graph10().diameter());
+    res = {{5, 3}};
+    EXPECT_EQ(7, TestGraphs::graph10().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 
-    res = {10, {2, 3}};
-    EXPECT_EQ(res, TestGraphs::graph11().diameter());
+    res = {{2, 3}};
+    EXPECT_EQ(10, TestGraphs::graph11().diameter(&farthest));
+    EXPECT_EQ(res, farthest);
 }
 
 TEST(bfs, shortest_path){

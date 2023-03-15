@@ -423,41 +423,59 @@ bool Graph::areConnected(int src, int dest) const{
  * computes the maximum distance between a vertex and all others
  * @complexity O(|V| + |E|)
  * @param index index of the vertex
- * @return std::pair containing the eccentricity and the index of the farthest vertex
+ * @param farthest list where the index of the farthest vertices will be inserted
+ * @return maximum distance between the vertex and all others
  */
-std::pair<double, int> Graph::eccentricity(int index){
+double Graph::eccentricity(int index, std::list<int>* farthest){
     reset();
 
     double ecc = 0;
-    int farthestVertex = index;
+    std::list<int> farthestVertices;
 
     for (int i : bfs(index)){
-        if (ecc >= (*this)[i].dist) continue;
+        if (ecc > (*this)[i].dist) continue;
 
-        ecc = (*this)[i].dist;
-        farthestVertex = i;
+        if (ecc < (*this)[i].dist){
+            ecc = (*this)[i].dist;
+            farthestVertices.clear();
+        }
+
+        farthestVertices.push_back(i);
     }
 
-    return {ecc, farthestVertex};
+    if (farthest != nullptr) *farthest = farthestVertices;
+
+    return ecc;
 }
 
 /**
  * computes the maximum distance between any two vertices in the Graph
  * @complexity O(|V| * (|V| + |E|))
- * @return std::pair containing the diameter and the two vertices that define it
+ * @param farthest list where the indices of the farthest vertex pairs will be inserted
+ * @return pair containing the diameter and the two vertices that define it
  */
-std::pair<double, std::pair<int, int>> Graph::diameter(){
+double Graph::diameter(std::list<std::pair<int, int>>* farthest){
     double diameter = 0;
-    std::pair<int, int> farthestVertices = {1, 1};
+    std::list<std::pair<int, int>> farthestPairs;
 
-    for (int i = 1; i < (int) vertices.size(); ++i){
-        auto p = eccentricity(i);
-        if (diameter >= p.first) continue;
+    for (int i = 1; i <= (int) vertices.size(); ++i){
+        std::list<int> farthestVertices;
+        double ecc = eccentricity(i, &farthestVertices);
 
-        diameter = p.first; farthestVertices = {i, p.second};
+        if (diameter > ecc) continue;
+
+        if (diameter < ecc){
+            diameter = ecc;
+            farthestPairs.clear();
+        }
+
+        for (int j : farthestVertices)
+            farthestPairs.emplace_back(i, j);
     }
 
-    return {diameter, farthestVertices};
+    if (farthest != nullptr) *farthest = farthestPairs;
+
+    return diameter;
 }
 
 /**
