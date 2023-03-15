@@ -419,6 +419,46 @@ bool Graph::areConnected(int src, int dest) const{
     return false;
 }
 
+/**
+ * computes the maximum distance between a vertex and all others
+ * @complexity O(|V| + |E|)
+ * @param index index of the vertex
+ * @return std::pair containing the eccentricity and the index of the farthest vertex
+ */
+std::pair<double, int> Graph::eccentricity(int index){
+    reset();
+
+    double ecc = 0;
+    int farthestVertex = index;
+
+    for (int i : bfs(index)){
+        if (ecc >= (*this)[i].dist) continue;
+
+        ecc = (*this)[i].dist;
+        farthestVertex = i;
+    }
+
+    return {ecc, farthestVertex};
+}
+
+/**
+ * computes the maximum distance between any two vertices in the Graph
+ * @complexity O(|V| * (|V| + |E|))
+ * @return std::pair containing the diameter and the two vertices that define it
+ */
+std::pair<double, std::pair<int, int>> Graph::diameter(){
+    double diameter = 0;
+    std::pair<int, int> farthestVertices = {1, 1};
+
+    for (int i = 1; i < (int) vertices.size(); ++i){
+        auto p = eccentricity(i);
+        if (diameter >= p.first) continue;
+
+        diameter = p.first; farthestVertices = {i, p.second};
+    }
+
+    return {diameter, farthestVertices};
+}
 
 /**
  * @brief validates all the vertices and edges

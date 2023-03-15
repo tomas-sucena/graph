@@ -48,6 +48,8 @@ public:
     int inDegree(int index) const;
     int outDegree(int index) const;
     bool areConnected(int src, int dest) const;
+    std::pair<double, int> eccentricity(int index);
+    std::pair<double, std::pair<int, int>> diameter();
 
     double distance(int src, int dest);
     Path getShortestPath(int src, int dest);

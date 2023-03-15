@@ -11,6 +11,95 @@
 
 using testing::Eq;
 
+TEST(bfs, eccentricity){
+    // undirected and unweighted graph
+    UGraph g1 = TestGraphs::graph1();
+
+    std::pair<double, int> res = {5, 9};
+    EXPECT_EQ(res, g1.eccentricity(1));
+
+    res = {5, 1};
+    EXPECT_EQ(res, g1.eccentricity(8));
+    EXPECT_EQ(res, g1.eccentricity(9));
+
+    res = {4, 9};
+    EXPECT_EQ(res, g1.eccentricity(2));
+    EXPECT_EQ(res, g1.eccentricity(3));
+    
+    // directed and unweighted graph
+    DGraph g4 = TestGraphs::graph4();
+
+    res = {4, 6};
+    EXPECT_EQ(res, g4.eccentricity(1));
+
+    res = {3, 6};
+    EXPECT_EQ(res, g4.eccentricity(8));
+
+    res = {1, 6};
+    EXPECT_EQ(res, g4.eccentricity(9));
+
+    res = {3, 6};
+    EXPECT_EQ(res, g4.eccentricity(2));
+    EXPECT_EQ(res, g4.eccentricity(3));
+
+    res = {0, 6};
+    EXPECT_EQ(res, g4.eccentricity(6));
+    
+    // undirected and weighted graph
+    UGraph g8 = TestGraphs::graph8();
+
+    res = {25, 8};
+    EXPECT_EQ(res, g8.eccentricity(1));
+
+    res = {25, 1};
+    EXPECT_EQ(res, g8.eccentricity(8));
+
+    res = {20, 1};
+    EXPECT_EQ(res, g8.eccentricity(9));
+
+    res = {22, 8};
+    EXPECT_EQ(res, g8.eccentricity(2));
+
+    res = {21, 8};
+    EXPECT_EQ(res, g8.eccentricity(3));
+}
+
+TEST(bfs, diameter){
+    // undirected and unweighted graphs
+    std::pair<double, std::pair<int, int>> res = {5, {1, 9}};
+    EXPECT_EQ(res, TestGraphs::graph1().diameter());
+
+    res = {3, {1, 4}};
+    EXPECT_EQ(res, TestGraphs::graph2().diameter());
+
+    // directed and unweighted graphs
+    res = {4, {1, 6}};
+    EXPECT_EQ(res, TestGraphs::graph4().diameter());
+
+    res = {3, {1, 3}};
+    EXPECT_EQ(res, TestGraphs::graph5().diameter());
+
+    res = {3, {3, 4}};
+    EXPECT_EQ(res, TestGraphs::graph6().diameter());
+
+    res = {1, {1, 2}};
+    EXPECT_EQ(res, TestGraphs::graph7().diameter());
+
+    // undirected and weighted graphs
+    res = {25, {1, 8}};
+    EXPECT_EQ(res, TestGraphs::graph8().diameter());
+
+    res = {7, {2, 3}};
+    EXPECT_EQ(res, TestGraphs::graph9().diameter());
+
+    // directed and weighted graphs
+    res = {7, {5, 3}};
+    EXPECT_EQ(res, TestGraphs::graph10().diameter());
+
+    res = {10, {2, 3}};
+    EXPECT_EQ(res, TestGraphs::graph11().diameter());
+}
+
 TEST(bfs, shortest_path){
     // undirected graph
     UGraph g1 = TestGraphs::graph1();
