@@ -2,8 +2,8 @@
 // Created by Tomás Sucena Lopes on 05/02/2023.
 //
 
-#ifndef GRAPH_EDGE_H
-#define GRAPH_EDGE_H
+#ifndef GRAPH_EDGE_HPP
+#define GRAPH_EDGE_HPP
 
 class Edge {
     friend class Graph;
@@ -61,4 +61,4 @@ namespace std {
     };
 }
 
-#endif //GRAPH_EDGE_H
+#endif //GRAPH_EDGE_HPP

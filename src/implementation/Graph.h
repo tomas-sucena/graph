@@ -9,9 +9,9 @@
 #include <set>
 #include <vector>
 
-#include "Edge.h"
-#include "Path.h"
-#include "Vertex.h"
+#include "Edge.hpp"
+#include "Path.hpp"
+#include "Vertex.hpp"
 
 class Graph {
 protected:

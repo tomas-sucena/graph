@@ -9,10 +9,10 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(PROJECT_HEADERS
         src/DGraph.h
-        src/implementation/Edge.h
+        src/implementation/Edge.hpp
         src/implementation/Graph.h
-        src/implementation/Path.h
-        src/implementation/Vertex.h
+        src/implementation/Path.hpp
+        src/implementation/Vertex.hpp
         src/UGraph.h
         tests/TestGraphs.h)
 

@@ -2,13 +2,13 @@
 // Created by Tomás Sucena Lopes on 05/02/2023.
 //
 
-#ifndef GRAPH_VERTEX_H
-#define GRAPH_VERTEX_H
+#ifndef GRAPH_VERTEX_HPP
+#define GRAPH_VERTEX_HPP
 
 #include <limits>
 #include <list>
 
-#include "Edge.h"
+#include "Edge.hpp"
 
 #define INF std::numeric_limits<double>::max()
 
@@ -48,4 +48,4 @@ public:
     }
 };
 
-#endif //GRAPH_VERTEX_H
+#endif //GRAPH_VERTEX_HPP

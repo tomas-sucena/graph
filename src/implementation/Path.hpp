@@ -2,12 +2,12 @@
 // Created by Tomás Sucena Lopes on 06/03/2023.
 //
 
-#ifndef GRAPH_PATH_H
-#define GRAPH_PATH_H
+#ifndef GRAPH_PATH_HPP
+#define GRAPH_PATH_HPP
 
 #include <list>
 
-#include "Edge.h"
+#include "Edge.hpp"
 
 class Path {
     std::list<const Edge*> edges;
@@ -63,4 +63,4 @@ public:
     }
 };
 
-#endif //GRAPH_PATH_H
+#endif //GRAPH_PATH_HPP
