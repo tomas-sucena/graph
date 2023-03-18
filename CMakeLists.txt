@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(PROJECT_HEADERS
         src/DGraph.h
+        src/implementation/DynamicPQ.hpp
         src/implementation/Edge.hpp
         src/implementation/Graph.h
         src/implementation/Path.hpp
@@ -25,6 +26,7 @@ set(PROJECT_SOURCES
 set(PROJECT_TESTS
         tests/bfsTest.cpp
         tests/dfsTest.cpp
+        tests/dynamicPQTest.cpp
         tests/dijkstraTest.cpp
         tests/initializationTest.cpp
         tests/manipulationTest.cpp

@@ -4,11 +4,12 @@
 
 #include "UGraph.h"
 
-#include <queue>
 #include <stack>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
+
+#include "implementation/DynamicPQ.hpp"
 
 #define uMap std::unordered_map
 #define uSet std::unordered_set
@@ -193,14 +194,13 @@ list<Edge*> UGraph::getMST(){
 
     (*this)[1].dist = 0;
 
-    std::priority_queue<Vertex, std::vector<Vertex>, std::greater<>> pq;
+    DynamicPQ<Vertex> pq;
     pq.push((*this)[1]);
 
     list<Edge*> prevEdges;
 
     while (!notInMST.empty()){
-        int curr = pq.top().index;
-        pq.pop();
+        int curr = pq.pop().index;
 
         notInMST.erase(curr);
         (*this)[curr].valid = false;

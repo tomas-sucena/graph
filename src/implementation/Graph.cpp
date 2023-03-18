@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <unordered_set>
 
+#include "DynamicPQ.hpp"
+
 #define uSet std::unordered_set
 
 /**
@@ -114,14 +116,13 @@ Path Graph::dijkstra(int src, int dest){
 
     if (src == dest) return Path(src); // special case
 
-    std::priority_queue<Vertex, std::vector<Vertex>, std::greater<>> pq;
+    DynamicPQ<Vertex> pq;
     pq.push((*this)[src]);
 
     std::vector<const Edge*> prev(vertices.size() + 1, nullptr);
 
     while (!pq.empty()){
-        int curr = pq.top().index;
-        pq.pop();
+        int curr = pq.pop().index;
 
         if (curr == dest) break;
 
@@ -129,8 +130,14 @@ Path Graph::dijkstra(int src, int dest){
             int next = e->dest;
 
             if ((*this)[curr].dist + e->weight < (*this)[next].dist){
+                // notify the PQ that we will alter an element
+                pq.notify((*this)[next]);
+
                 (*this)[next].dist = (*this)[curr].dist + e->weight;
                 prev[next] = e;
+
+                // update the PQ
+                pq.update();
             }
 
             if (!(*this)[next].valid || !e->valid) continue;
