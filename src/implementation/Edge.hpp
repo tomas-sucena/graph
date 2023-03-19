@@ -22,8 +22,9 @@ public:
     Edge(int src, int dest, double weight, bool valid)
         : src(src), dest(dest), weight(weight), valid(valid), flow(0) {}
 
-    explicit Edge(const Edge* e)
-            : src(e->src), dest(e->dest), weight(e->weight), valid(e->valid), flow(e->flow) {}
+    Edge(const Edge& e) = default;
+
+    explicit Edge(const Edge* e) : Edge(*e) {}
 
     // destructor
     virtual ~Edge() = default;
