@@ -13,6 +13,7 @@
 #define uSet std::unordered_set
 
 class DGraph : public Graph {
+protected:
     // search methods
     bool dfs(int src, uSet<int>* seen = nullptr);
 
