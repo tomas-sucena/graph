@@ -17,9 +17,6 @@ protected:
     // search methods
     bool dfs(int src, uSet<int>* seen = nullptr);
 
-    // flow methods
-    double edmondsKarp(int src, int sink);
-
 public:
     // constructor
     explicit DGraph(int n = 0);
@@ -33,7 +30,6 @@ public:
     DGraph getSubgraph(std::list<int> vertexIndices);
     bool isDAG();
     std::list<int> topologicalSort();
-    double maximumFlow(int src, int sink);
 };
 
 #endif //GRAPH_DGRAPH_H

@@ -5,10 +5,13 @@
 #include <gtest/gtest.h>
 
 #include "../src/DGraph.h"
+#include "../src/UGraph.h"
+#include "TestGraphs.h"
 
 using testing::Eq;
 
 TEST(maximum_flow, edmonds_karp){
+    /* DIRECTED GRAPHS */
     DGraph g1(3);
     for (int i = 1; i <= 3; ++i)
         EXPECT_EQ(0, g1.maximumFlow(i, i));
@@ -112,4 +115,25 @@ TEST(maximum_flow, edmonds_karp){
     g7.addEdge(5, 6, 4);
 
     EXPECT_EQ(23, g7.maximumFlow(1, 6));
+
+    /* UNDIRECTED GRAPHS */
+    UGraph g8 = TestGraphs::graph8();
+
+    EXPECT_EQ(3, g8.maximumFlow(1, 9));
+    EXPECT_EQ(3, g8.maximumFlow(9, 1));
+    EXPECT_EQ(9, g8.maximumFlow(1, 4));
+    EXPECT_EQ(9, g8.maximumFlow(4, 1));
+    EXPECT_EQ(3, g8.maximumFlow(1, 5));
+    EXPECT_EQ(3, g8.maximumFlow(5, 1));
+    EXPECT_EQ(43, g8.maximumFlow(8, 9));
+    EXPECT_EQ(43, g8.maximumFlow(9, 8));
+
+    UGraph g9 = TestGraphs::graph9();
+
+    EXPECT_EQ(7, g9.maximumFlow(1, 4));
+    EXPECT_EQ(7, g9.maximumFlow(4, 1));
+    EXPECT_EQ(6, g9.maximumFlow(1, 2));
+    EXPECT_EQ(6, g9.maximumFlow(2, 1));
+    EXPECT_EQ(6, g9.maximumFlow(2, 3));
+    EXPECT_EQ(6, g9.maximumFlow(3, 2));
 }

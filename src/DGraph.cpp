@@ -35,90 +35,6 @@ bool DGraph::dfs(int src, uSet<int>* seen){
     return false;
 }
 
-/**
- * @brief implementation of the Edmonds-Karp algorithm, which computes the maximum flow between two vertices
- * @complexity O(|V| * |E|^2)
- * @param src index of the source vertex
- * @param sink index of the sink vertex
- * @return maximum flow
- */
-double DGraph::edmondsKarp(int src, int sink){
-    double flow = 0;
-
-    while (true){
-        std::vector<Edge*> prev(vertices.size() + 1, nullptr);
-
-        // BFS
-        std::queue<int> q;
-        q.push(src);
-
-        while (!q.empty()){
-            int curr = q.front();
-            q.pop();
-
-            if (curr == sink) break;
-
-            // edges
-            for (Edge* e : (*this)[curr].out){
-                int next = e->dest;
-
-                if (prev[next] != nullptr || next == src || e->flow >= e->weight)
-                    continue;
-
-                e->valid = true;
-                prev[next] = e;
-
-                q.push(next);
-            }
-
-            // reverse edges
-            for (Edge* e : (*this)[curr].in){
-                int next = e->src;
-
-                if (prev[next] != nullptr || next == src || e->flow <= 0)
-                    continue;
-
-                e->valid = false;
-                prev[next] = e;
-
-                q.push(next);
-            }
-        }
-
-        if (prev[sink] == nullptr) break;
-
-        // path augmentation
-        double bottleneck = INF;
-
-        int last = sink;
-        for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
-            if (e->valid){
-                bottleneck = std::min(bottleneck, e->weight - e->flow);
-                last = e->src;
-
-                continue;
-            }
-
-            bottleneck = std::min(bottleneck, e->flow);
-            last = e->dest;
-        }
-
-        last = sink;
-        for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
-            if (e->valid){
-                e->flow += bottleneck; last = e->src;
-                continue;
-            }
-
-            e->flow -= bottleneck; last = e->dest;
-        }
-
-        flow += bottleneck;
-    }
-
-    return flow;
-}
-
 /* CONSTRUCTOR */
 /**
  * @brief creates a new directed Graph
@@ -292,19 +208,4 @@ std::list<int> DGraph::topologicalSort(){
     }
 
     return res;
-}
-
-/**
- * @brief computes the maximum flow between two vertices using an implementation of the Edmonds-Karp algorithm
- * @complexity O(|V| * |E|^2)
- * @param src index of the source vertex
- * @param sink index of the sink vertex
- * @return maximum flow
- */
-double DGraph::maximumFlow(int src, int sink){
-    if (src <= 0 || src > (int) vertices.size() || sink <= 0 || sink > (int) vertices.size())
-        return -1;
-
-    reset();
-    return edmondsKarp(src, sink);
 }

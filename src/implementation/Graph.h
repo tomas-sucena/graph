@@ -27,6 +27,9 @@ protected:
     Path dijkstra(int src, int dest);
     std::list<Path> bfs(int src, int dest);
 
+    // flow methods
+    double edmondsKarp(int src, int sink);
+
 public:
     // constructors
     explicit Graph(int n);
@@ -57,6 +60,8 @@ public:
     Path getShortestPath(int src, int dest);
     std::list<Path> getShortestPaths(int src, int dest);
     std::list<int> getReachable(int src, double dist, bool weighted = true);
+
+    double maximumFlow(int src, int sink);
 };
 
 #endif //GRAPH_GRAPH_H
