@@ -20,6 +20,7 @@ protected:
     std::set<Edge*> edges;
 
     void reset();
+    bool validIndex(int index) const;
 
     // search methods
     std::list<int> bfs(int src);
@@ -34,6 +35,7 @@ public:
     bool reserve(int num);
     void addVertex(Vertex* v = nullptr);
     int removeVertex(int index);
+    virtual bool addEdge(Edge* e);
     virtual bool addEdge(int src, int dest, double weight, bool valid);
     virtual bool removeEdge(int src, int dest);
 

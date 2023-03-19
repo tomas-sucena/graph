@@ -26,8 +26,8 @@ set(PROJECT_SOURCES
 set(PROJECT_TESTS
         tests/bfsTest.cpp
         tests/dfsTest.cpp
-        tests/dynamicPQTest.cpp
         tests/dijkstraTest.cpp
+        tests/dynamicPQTest.cpp
         tests/initializationTest.cpp
         tests/manipulationTest.cpp
         tests/maximumFlowTest.cpp)

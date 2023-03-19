@@ -269,6 +269,30 @@ int Graph::removeVertex(int index){
 /**
  * @brief adds an edge to the Graph, that is, a connection between two vertices
  * @complexity O(log|E|)
+ * @param e edge to be added
+ * @return 'true' if the insertion occurs, 'false' otherwise
+ */
+bool Graph::addEdge(Edge* e){
+    if (e == nullptr) return false;
+    
+    if (!validIndex(e->src) || !validIndex(e->dest)){
+        delete e;
+        return false;
+    }
+
+    if (!edges.insert(e).second) return false;
+
+    (*this)[e->src].out.push_back(e);
+    (*this)[e->dest].in.push_back(e);
+
+    weighted += (e->weight != 1);
+
+    return true;
+}
+
+/**
+ * @brief adds an edge to the Graph, that is, a connection between two vertices
+ * @complexity O(log|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @param weight cost of the connection
@@ -276,18 +300,7 @@ int Graph::removeVertex(int index){
  * @return 'true' if the insertion occurs, 'false' otherwise
  */
 bool Graph::addEdge(int src, int dest, double weight, bool valid){
-    if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
-        return false;
-
-    Edge* e = new Edge(src, dest, weight, valid);
-    if (!edges.insert(e).second) return false;
-
-    (*this)[src].out.push_back(e);
-    (*this)[dest].in.push_back(e);
-
-    weighted += (weight != 1);
-
-    return true;
+    return addEdge(new Edge(src, dest, weight, valid));
 }
 
 /**
@@ -414,7 +427,7 @@ int Graph::outDegree(int index) const{
  * @return 'true' if the vertices are connected, 'false' otherwise
  */
 bool Graph::areConnected(int src, int dest) const{
-    if (src <= 0 || src > (int) vertices.size() || dest <= 0 || dest > (int) vertices.size())
+    if (!validIndex(src) || !validIndex(dest))
         return false;
 
     for (const Edge* e : vertices[src - 1].out){
@@ -499,6 +512,15 @@ void Graph::reset(){
         e->valid = true;
         e->flow = 0;
     }
+}
+
+/**
+ * checks if an index is valid, i.e. it is within the number of vertices
+ * @param index index that will be validated
+ * @return 'true' if the index is valid, 'false' otherwise
+ */
+bool Graph::validIndex(int index) const{
+    return (index > 0 && index <= (int) vertices.size());
 }
 
 /**

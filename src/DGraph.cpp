@@ -138,6 +138,16 @@ bool DGraph::isDirected() const{
 /**
  * @brief adds an edge to the Graph, that is, a connection between two vertices
  * @complexity O(log|E|)
+ * @param e edge to be added
+ * @return 'true' if the insertion occurs, 'false' otherwise
+ */
+bool DGraph::addEdge(Edge* e){
+    return Graph::addEdge(e);
+}
+
+/**
+ * @brief adds an edge to the Graph, that is, a connection between two vertices
+ * @complexity O(log|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
  * @param weight cost of the connection

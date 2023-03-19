@@ -30,6 +30,22 @@ bool UGraph::isDirected() const{
 }
 
 /**
+ * @brief adds an edge to the Graph, that is, a connection between two vertices
+ * @complexity O(log|E|)
+ * @param e edge to be added
+ * @return 'true' if the insertion occurs, 'false' otherwise
+ */
+bool UGraph::addEdge(Edge* e){
+    if (!Graph::addEdge(e))
+        return false;
+
+    Edge* e_ = new Edge(e);
+    std::swap(e_->src, e_->dest);
+
+    return Graph::addEdge(e_);
+}
+
+/**
  * adds an edge to the Graph, that is, a connection between two vertices
  * @complexity O(log|E|)
  * @param src index of the source vertex
@@ -39,10 +55,7 @@ bool UGraph::isDirected() const{
  * @return 'true' if the insertion occurs, 'false' otherwise
  */
 bool UGraph::addEdge(int src, int dest, double weight, bool valid){
-    if (!Graph::addEdge(src, dest, weight, valid))
-        return false;
-
-    return Graph::addEdge(dest, src, weight, valid);
+    return addEdge(new Edge(src, dest, weight, valid));
 }
 
 /**
