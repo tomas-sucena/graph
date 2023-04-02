@@ -38,6 +38,10 @@ public:
         return dest;
     }
 
+    double getWeight() const{
+        return weight;
+    }
+
     double getFlow() const{
         return flow;
     }
