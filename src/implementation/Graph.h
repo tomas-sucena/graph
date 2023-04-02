@@ -52,6 +52,8 @@ public:
 
     int inDegree(int index) const;
     int outDegree(int index) const;
+    std::list<Edge*> inEdges(int index) const;
+    std::list<Edge*> outEdges(int index) const;
     bool areConnected(int src, int dest) const;
     double eccentricity(int index, std::list<int>* farthest = nullptr);
     double diameter(std::list<std::pair<int, int>>* farthest = nullptr);

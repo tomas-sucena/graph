@@ -477,31 +477,55 @@ std::set<Edge*> Graph::getEdges() const{
  * @return reference of the vertex
  */
 Vertex& Graph::operator[](int index){
-    if (index <= 0 || index > (int) vertices.size())
+    if (!validIndex(index))
         throw std::invalid_argument("Invalid index!");
 
     return vertices[index - 1];
 }
 
 /**
- * @brief returns the number of edges in which a vertex is the destination
- * @param index index of the vertex that is the destination of the edges
+ * @brief returns the number of ingoing edges of a vertex
+ * @param index index of the vertex
  * @return number of edges whose destination is the desired vertex (or -1 if the index is invalid)
  */
 int Graph::inDegree(int index) const{
-    if (index <= 0 || index > (int) vertices.size()) return -1;
+    if (!validIndex(index)) return -1;
     return (int) vertices[index - 1].in.size();
 }
 
 /**
- * @brief returns the number of edges in which a vertex is the source
- * @param index index of the vertex that is the source of the edges
+ * @brief returns the number of outgoing edges of a vertex
+ * @param index index of the vertex
  * @return number of edges whose source is the desired vertex (or -1 if the index is invalid)
  */
 int Graph::outDegree(int index) const{
-    if (index <= 0 || index > (int) vertices.size()) return -1;
+    if (!validIndex(index)) return -1;
     return (int) vertices[index - 1].out.size();
 }
+
+/**
+ * @brief returns the ingoing edges of a vertex
+ * @param index index of the vertex
+ * @return list of edges whose destination is the desired vertex
+ */
+std::list<Edge*> Graph::inEdges(int index) const{
+    if (!validIndex(index))
+        throw std::invalid_argument("Invalid index!");
+
+    return vertices[index - 1].in;
+}
+
+/**
+ * @brief returns the outgoing edges of a vertex
+ * @param index index of the vertex
+ * @return list of edges whose source is the desired vertex
+ */
+std::list<Edge*> Graph::outEdges(int index) const{
+    if (!validIndex(index))
+        throw std::invalid_argument("Invalid index!");
+
+    return vertices[index - 1].out;
+};
 
 /**
  * @brief verifies if there exists an edge that connects two vertices

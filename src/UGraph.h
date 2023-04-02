@@ -6,6 +6,7 @@
 #define GRAPH_UGRAPH_H
 
 #include <list>
+
 #include "implementation/Graph.h"
 
 using std::list;
