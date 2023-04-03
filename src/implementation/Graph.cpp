@@ -565,19 +565,34 @@ double Graph::diameter(std::list<std::pair<int, int>>* farthest){
 }
 
 /**
- * @brief validates all the vertices and edges
- * @complexity O(|V| + |E|)
+ * @brief validates all the vertices
+ * @complexity O(|V|)
  */
-void Graph::resetAll(){
+void Graph::resetVertices(){
     for (Vertex& v : vertices){
         v.valid = true;
         v.dist = INF;
     }
+}
 
+/**
+ * @brief validates all the edges
+ * @complexity O(|E|)
+ */
+void Graph::resetEdges(){
     for (Edge* e : edges){
         e->valid = true;
         e->flow = 0;
     }
+}
+
+/**
+ * @brief validates all the vertices and edges
+ * @complexity O(|V| + |E|)
+ */
+void Graph::resetAll(){
+    resetVertices();
+    resetEdges();
 }
 
 /**

@@ -29,6 +29,8 @@ public:
 
 /* METHODS */
 protected:
+    void resetVertices();
+    void resetEdges();
     void resetAll();
     bool validIndex(int index) const;
 
