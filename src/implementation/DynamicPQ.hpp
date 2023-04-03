@@ -15,14 +15,18 @@ class DynamicPQ {
         }
     };
 
+/* ATTRIBUTES */
+private:
     std::set<T*, PointerComparator> queue;
     bool notified;
     typename std::set<T*>::iterator it;
-    
+
+/* CONSTRUCTOR */
 public:
-    // constructor
     DynamicPQ() : notified(false), it(queue.begin()) {}
-    
+
+/* METHODS */
+public:
     bool empty(){
         return queue.empty();
     }

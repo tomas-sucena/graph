@@ -14,12 +14,22 @@
 #include "Vertex.hpp"
 
 class Graph {
+/* ATTRIBUTES */
 protected:
     int weighted;
     std::vector<Vertex> vertices;
     std::set<Edge*> edges;
 
-    void reset();
+public:
+    bool reset;
+
+/* CONSTRUCTORS */
+public:
+    explicit Graph(int n);
+
+/* METHODS */
+protected:
+    void resetAll();
     bool validIndex(int index) const;
 
     // search methods
@@ -31,10 +41,6 @@ protected:
     double edmondsKarp(int src, int sink);
 
 public:
-    // constructors
-    explicit Graph(int n);
-
-    // methods
     bool reserve(int num);
     void addVertex(Vertex* v = nullptr);
     int removeVertex(int index);

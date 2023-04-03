@@ -17,26 +17,27 @@ class Vertex {
     friend class DGraph;
     friend class UGraph;
 
+/* ATTRIBUTES */
 protected:
     int index;
-    bool valid;
     double dist;
     std::list<Edge*> out;
     std::list<Edge*> in;
 
 public:
-    // constructor
-    explicit Vertex(bool valid = true)
-        : valid(valid), index(0), dist(INF) {}
+    bool valid;
 
-    // destructor
+/* CONSTRUCTOR */
+public:
+    explicit Vertex(bool valid = true)
+            : valid(valid), index(0), dist(INF) {}
+
+/* DESTRUCTOR */
+public:
     virtual ~Vertex() = default;
 
-    // methods
-    void setValid(bool valid){
-        this->valid = valid;
-    }
-
+/* METHODS */
+public:
     /**
      * @brief returns the number of ingoing edges of the vertex (i.e. edges whose destination is the vertex)
      * @return number of ingoing edges of the vertex

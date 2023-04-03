@@ -151,7 +151,7 @@ UGraph UGraph::getSubgraph(list<int> vertexIndices){
 list<list<int>> UGraph::getConnectedComponents(){
     list<list<int>> connectedComponents;
 
-    reset();
+    if (reset) resetAll();
     for (int i = 1; i <= vertices.size(); ++i){
         if (!(*this)[i].valid) continue;
 
@@ -172,7 +172,7 @@ int UGraph::countConnectedComponents(){
 
 list<int> UGraph::getArticulationPoints(){
     list<int> articulationPoints;
-    reset();
+    if (reset) resetAll();
 
     // setup
     std::vector<int> order(vertices.size() + 1), low(vertices.size() + 1);
@@ -199,7 +199,7 @@ int UGraph::countArticulationPoints(){
  */
 list<Edge*> UGraph::getMST(){
     list<Edge*> MST;
-    reset();
+    if (reset) resetAll();
 
     uSet<int> notInMST;
     for (int i = 1; i <= (int) vertices.size(); ++i)

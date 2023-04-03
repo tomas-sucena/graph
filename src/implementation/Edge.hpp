@@ -10,26 +10,32 @@ class Edge {
     friend class DGraph;
     friend class UGraph;
 
+/* ATTRIBUTES */
 protected:
     int src;
     int dest;
     double weight;
-    bool valid;
     double flow;
 
 public:
-    // constructors
-    Edge(int src, int dest, double weight, bool valid)
-        : src(src), dest(dest), weight(weight), valid(valid), flow(0) {}
+    bool valid;
 
+/* CONSTRUCTORS */
+protected:
     Edge(const Edge& e) = default;
 
     explicit Edge(const Edge* e) : Edge(*e) {}
 
-    // destructor
+public:
+    Edge(int src, int dest, double weight, bool valid)
+            : src(src), dest(dest), weight(weight), valid(valid), flow(0) {}
+
+/* DESTRUCTOR */
+public:
     virtual ~Edge() = default;
 
-    // methods
+/* METHODS */
+public:
     int getSrc() const{
         return src;
     }

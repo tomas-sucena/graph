@@ -10,18 +10,21 @@
 #include "Edge.hpp"
 
 class Path {
+/* ATTRIBUTES */
+private:
     std::list<const Edge*> edges;
     std::list<int> indices;
 
+/* CONSTRUCTORS */
 public:
-    // constructor
     Path() = default;
 
     explicit Path(int src) {
         indices.push_back(src);
     }
 
-    // methods
+/* METHODS */
+public:
     std::list<int> getIndices() const{
         return indices;
     }

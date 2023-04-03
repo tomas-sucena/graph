@@ -12,11 +12,12 @@
 using std::list;
 
 class UGraph : public Graph {
+/* CONSTRUCTOR */
 public:
-    // constructor
     explicit UGraph(int n = 0);
 
-    // methods
+/* METHODS */
+public:
     bool addEdge(Edge* e) override;
     bool addEdge(int src, int dest, double weight = 1, bool valid = true) override;
     bool removeEdge(int src, int dest) override;

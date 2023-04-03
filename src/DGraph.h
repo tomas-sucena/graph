@@ -13,15 +13,16 @@
 #define uSet std::unordered_set
 
 class DGraph : public Graph {
+/* CONSTRUCTOR */
+public:
+    explicit DGraph(int n = 0);
+
+/* METHODS */
 protected:
     // search methods
     bool dfs(int src, uSet<int>* seen = nullptr);
 
 public:
-    // constructor
-    explicit DGraph(int n = 0);
-
-    // methods
     bool addEdge(Edge* e) override;
     bool addEdge(int src, int dest, double weight = 1, bool valid = true) override;
     bool removeEdge(int src, int dest) override;

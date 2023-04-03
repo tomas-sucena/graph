@@ -245,7 +245,7 @@ double Graph::edmondsKarp(int src, int sink){
  * @brief creates a new Graph
  * @param n number of vertices that the Graph will be initialized with
  */
-Graph::Graph(int n) : weighted(false) {
+Graph::Graph(int n) : weighted(false), reset(true) {
     if (n <= 0) return;
 
     vertices.resize(n);
@@ -511,7 +511,7 @@ bool Graph::areConnected(int src, int dest) const{
  * @return maximum distance between the vertex and all others
  */
 double Graph::eccentricity(int index, std::list<int>* farthest){
-    reset();
+    if (reset) resetAll();
 
     double ecc = 0;
     std::list<int> farthestVertices;
@@ -566,7 +566,7 @@ double Graph::diameter(std::list<std::pair<int, int>>* farthest){
  * @brief validates all the vertices and edges
  * @complexity O(|V| + |E|)
  */
-void Graph::reset(){
+void Graph::resetAll(){
     for (Vertex& v : vertices){
         v.valid = true;
         v.dist = INF;
@@ -595,7 +595,7 @@ bool Graph::validIndex(int index) const{
  * @return minimum distance between the source and the destination if they are connected, -1 otherwise
  */
 double Graph::distance(int src, int dest){
-    reset();
+    if (reset) resetAll();
     dijkstra(src, dest);
 
     double res = (*this)[dest].dist;
@@ -612,7 +612,7 @@ double Graph::distance(int src, int dest){
  * @return list containing the indices of the vertices that form the path
  */
 Path Graph::getShortestPath(int src, int dest){
-    reset();
+    if (reset) resetAll();
     return dijkstra(src, dest);
 }
 
@@ -624,7 +624,7 @@ Path Graph::getShortestPath(int src, int dest){
  * @return list containing the shortest paths (each path is represented by the indices of the vertices that form it)
  */
 std::list<Path> Graph::getShortestPaths(int src, int dest){
-    reset();
+    if (reset) resetAll();
     return bfs(src, dest);
 }
 
@@ -639,7 +639,7 @@ std::list<Path> Graph::getShortestPaths(int src, int dest){
  * @return list containing the indices of the reachable vertices
  */
 std::list<int> Graph::getReachable(int src, double dist, bool weighted){
-    reset();
+    if (reset) resetAll();
     std::list<int> reachableVertices;
 
     (*this)[src].valid = false;
@@ -677,12 +677,13 @@ std::list<int> Graph::getReachable(int src, double dist, bool weighted){
  * @complexity O(|V| * |E|^2)
  * @param src index of the source vertex
  * @param sink index of the sink vertex
+ * @param reset bool that indicates if the
  * @return maximum flow
  */
 double Graph::maximumFlow(int src, int sink){
     if (!validIndex(src) || !validIndex(sink))
         return -1;
 
-    reset();
+    if (reset) resetAll();
     return edmondsKarp(src, sink);
 }

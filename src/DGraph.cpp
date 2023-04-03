@@ -162,7 +162,7 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
  * @return 'true' if the Graph is a DAG, 'false' otherwise
  */
 bool DGraph::isDAG(){
-    reset();
+    if (reset) resetAll();
 
     for (int i = 1; i <= vertices.size(); ++i){
         if (!(*this)[i].valid) continue;
@@ -183,7 +183,7 @@ std::list<int> DGraph::topologicalSort(){
     std::list<int> res;
     if (!isDAG()) return res;
 
-    reset();
+    if (reset) resetAll();
     std::vector<int> inDegrees(vertices.size() + 1);
 
     std::queue<int> q;
