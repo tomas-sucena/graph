@@ -182,6 +182,7 @@ double Graph::edmondsKarp(int src, int sink){
             // edges
             for (Edge* e : (*this)[curr].out){
                 int next = e->dest;
+                if (!(*this)[next].valid || !e->valid) continue;
 
                 if (prev[next] != nullptr || next == src || e->flow >= e->weight)
                     continue;
@@ -195,6 +196,7 @@ double Graph::edmondsKarp(int src, int sink){
             // reverse edges
             for (Edge* e : (*this)[curr].in){
                 int next = e->src;
+                if (!(*this)[next].valid || !e->valid) continue;
 
                 if (prev[next] != nullptr || next == src || e->flow <= 0)
                     continue;
