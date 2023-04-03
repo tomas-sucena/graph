@@ -184,15 +184,17 @@ std::list<int> DGraph::topologicalSort(){
     if (!isDAG()) return res;
 
     reset();
-    std::vector<int> in_degrees(vertices.size() + 1);
+    std::vector<int> inDegrees(vertices.size() + 1);
 
     std::queue<int> q;
     for (int i = 1; i <= (int) vertices.size(); ++i){
-        if ((in_degrees[i] = inDegree(i)) > 0) continue;
+        if ((inDegrees[i] = (*this)[i].inDegree()) > 0)
+            continue;
 
         q.push(i);
     }
 
+    // BFS
     while (!q.empty()){
         int curr = q.front();
         q.pop();
@@ -201,7 +203,7 @@ std::list<int> DGraph::topologicalSort(){
             int next = e->dest;
             if (!e->valid || !(*this)[next].valid) continue;
 
-            if (!--in_degrees[next]) q.push(next);
+            if (!--inDegrees[next]) q.push(next);
         }
 
         res.push_back(curr);

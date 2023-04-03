@@ -46,15 +46,15 @@ TEST(manipulation, edge_addition){
 
     EXPECT_EQ(4, g1.countEdges());
 
-    EXPECT_EQ(2, g1.outDegree(1));
-    EXPECT_EQ(1, g1.outDegree(2));
-    EXPECT_EQ(1, g1.outDegree(3));
-    EXPECT_EQ(0, g1.outDegree(4));
+    EXPECT_EQ(2, g1[1].outDegree());
+    EXPECT_EQ(1, g1[2].outDegree());
+    EXPECT_EQ(1, g1[3].outDegree());
+    EXPECT_EQ(0, g1[4].outDegree());
 
-    EXPECT_EQ(0, g1.inDegree(1));
-    EXPECT_EQ(1, g1.inDegree(2));
-    EXPECT_EQ(1, g1.inDegree(3));
-    EXPECT_EQ(2, g1.inDegree(4));
+    EXPECT_EQ(0, g1[1].inDegree());
+    EXPECT_EQ(1, g1[2].inDegree());
+    EXPECT_EQ(1, g1[3].inDegree());
+    EXPECT_EQ(2, g1[4].inDegree());
 
     std::set<VertexPair> connected = {{1, 2}, {1, 3}, {2, 4}, {3, 4}};
 
@@ -79,15 +79,15 @@ TEST(manipulation, edge_addition){
 
     EXPECT_EQ(8, g2.countEdges());
 
-    EXPECT_EQ(2, g2.outDegree(1));
-    EXPECT_EQ(2, g2.outDegree(2));
-    EXPECT_EQ(2, g2.outDegree(3));
-    EXPECT_EQ(2, g2.outDegree(4));
+    EXPECT_EQ(2, g2[1].outDegree());
+    EXPECT_EQ(2, g2[2].outDegree());
+    EXPECT_EQ(2, g2[3].outDegree());
+    EXPECT_EQ(2, g2[4].outDegree());
 
-    EXPECT_EQ(2, g2.inDegree(1));
-    EXPECT_EQ(2, g2.inDegree(2));
-    EXPECT_EQ(2, g2.inDegree(3));
-    EXPECT_EQ(2, g2.inDegree(4));
+    EXPECT_EQ(2, g2[1].inDegree());
+    EXPECT_EQ(2, g2[2].inDegree());
+    EXPECT_EQ(2, g2[3].inDegree());
+    EXPECT_EQ(2, g2[4].inDegree());
 
     for (int i = 1; i <= 4; ++i){
         for (int j = 1; j <= 4; ++j){
@@ -114,22 +114,22 @@ TEST(manipulation, vertex_removal){
     EXPECT_EQ(3, g1.countVertices());
     EXPECT_EQ(4, g1.countEdges());
     EXPECT_EQ(1, g1.countConnectedComponents());
-    EXPECT_EQ(1, g1.outDegree(1));
-    EXPECT_EQ(1, g1.inDegree(1));
-    EXPECT_EQ(2, g1.outDegree(2));
-    EXPECT_EQ(2, g1.inDegree(2));
-    EXPECT_EQ(1, g1.outDegree(3));
-    EXPECT_EQ(1, g1.inDegree(3));
+    EXPECT_EQ(1, g1[1].outDegree());
+    EXPECT_EQ(1, g1[1].inDegree());
+    EXPECT_EQ(2, g1[2].outDegree());
+    EXPECT_EQ(2, g1[2].inDegree());
+    EXPECT_EQ(1, g1[3].outDegree());
+    EXPECT_EQ(1, g1[3].inDegree());
 
     EXPECT_EQ(4, g1.removeVertex(2));
 
     EXPECT_EQ(2, g1.countVertices());
     EXPECT_EQ(0, g1.countEdges());
     EXPECT_EQ(2, g1.countConnectedComponents());
-    EXPECT_EQ(0, g1.outDegree(1));
-    EXPECT_EQ(0, g1.inDegree(1));
-    EXPECT_EQ(0, g1.outDegree(2)); // the previous vertex 3 is now vertex 2
-    EXPECT_EQ(0, g1.inDegree(2));
-    EXPECT_EQ(-1, g1.outDegree(3));
-    EXPECT_EQ(-1, g1.inDegree(3));
+    EXPECT_EQ(0, g1[1].outDegree());
+    EXPECT_EQ(0, g1[1].inDegree());
+    EXPECT_EQ(0, g1[2].outDegree()); // the previous vertex 3 is now vertex 2
+    EXPECT_EQ(0, g1[2].inDegree());
+    EXPECT_THROW(g1[3].outDegree(), std::invalid_argument);
+    EXPECT_THROW(g1[3].inDegree(), std::invalid_argument);
 }

@@ -33,6 +33,42 @@ public:
     virtual ~Vertex() = default;
 
     // methods
+    void setValid(bool valid){
+        this->valid = valid;
+    }
+
+    /**
+     * @brief returns the number of ingoing edges of the vertex (i.e. edges whose destination is the vertex)
+     * @return number of ingoing edges of the vertex
+     */
+    int inDegree() const{
+        return (int) in.size();
+    }
+
+    /**
+     * @brief returns the number of outgoing edges of the vertex (i.e. edges whose source is the vertex)
+     * @return number of outgoing edges of the vertex
+     */
+    int outDegree() const{
+        return (int) out.size();
+    }
+
+    /**
+     * @brief returns the ingoing edges of the vertex (i.e. edges whose destination is the vertex)
+     * @return list of ingoing edges of the vertex
+     */
+    std::list<Edge*> inEdges() const{
+        return in;
+    }
+
+    /**
+     * @brief returns the outgoing edges of the vertex (i.e. edges whose source is the vertex)
+     * @return list of outgoing edges of the vertex
+     */
+    std::list<Edge*> outEdges() const{
+        return out;
+    }
+
     bool operator<(const Vertex& rhs) const{
         if (dist == rhs.dist)
             return index < rhs.index;
