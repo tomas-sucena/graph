@@ -85,7 +85,7 @@ UGraph UGraph::getSubgraph(list<int> vertexIndices){
     // calculate the new indices
     int currIndex = 1;
     for (auto it = vertexIndices.begin(); it != vertexIndices.end();){
-        if (*it <= 0 || *it > (int) vertices.size())
+        if (!validIndex(*it))
             throw std::invalid_argument("Invalid index!");
 
         if (newIndices.insert({*it, currIndex}).second){
@@ -137,7 +137,6 @@ UGraph UGraph::getSubgraph(list<int> vertexIndices){
         }
 
         sub.addVertex(v);
-        delete v;
     }
 
     return sub;

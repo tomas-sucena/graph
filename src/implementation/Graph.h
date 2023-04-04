@@ -17,7 +17,7 @@ class Graph {
 /* ATTRIBUTES */
 protected:
     int weighted;
-    std::vector<Vertex> vertices;
+    std::vector<Vertex*> vertices;
     std::set<Edge*> edges;
 
 public:
@@ -43,7 +43,7 @@ protected:
     double edmondsKarp(int src, int sink);
 
 public:
-    bool reserve(int num);
+    bool reserve(int n);
     void addVertex(Vertex* v = nullptr);
     int removeVertex(int index);
     virtual bool addEdge(Edge* e);
@@ -54,7 +54,7 @@ public:
     bool isWeighted() const;
     int countVertices() const;
     int countEdges() const;
-    std::vector<Vertex> getVertices() const;
+    std::vector<Vertex*> getVertices() const;
     std::set<Edge*> getEdges() const;
     virtual Vertex& operator[](int index);
     

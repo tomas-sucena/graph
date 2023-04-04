@@ -248,24 +248,24 @@ double Graph::edmondsKarp(int src, int sink){
  * @param n number of vertices that the Graph will be initialized with
  */
 Graph::Graph(int n) : weighted(false), reset(true) {
-    if (n <= 0) return;
-
-    vertices.resize(n);
-    for (int i = 1; i <= n; ++i)
-        (*this)[i].index = i;
+    reserve(n);
 }
 
 /* METHODS */
 /**
- * @brief adds extra empty vertices to the Graph, by resizing the vector which stores them
- * @param num number of empty vertices that will be added to the Graph
+ * @brief adds extra empty vertices to the Graph
+ * @param n number of empty vertices that will be added to the Graph
  * @return 'true' if the resize occurs, 'false' otherwise
  */
-bool Graph::reserve(int num){
-    if (num <= 0)
+bool Graph::reserve(int n){
+    if (n <= 0)
         return false;
 
-    vertices.resize(vertices.size() + num);
+    for (int i = 0; i < n; ++i){
+        vertices.push_back(new Vertex());
+        (*this)[countVertices()].index = countVertices();
+    }
+
     return true;
 }
 
@@ -277,7 +277,7 @@ void Graph::addVertex(Vertex *v){
     if (v == nullptr) v = new Vertex();
 
     v->index = (int) vertices.size() + 1;
-    vertices.push_back(*v);
+    vertices.push_back(v);
 }
 
 /**
@@ -461,7 +461,7 @@ int Graph::countEdges() const{
  * @brief returns the vector which stores the vertices of the Graph
  * @return std::vector that stores the vertices of the Graph
  */
-std::vector<Vertex> Graph::getVertices() const{
+std::vector<Vertex*> Graph::getVertices() const{
     return vertices;
 }
 
@@ -482,7 +482,7 @@ Vertex& Graph::operator[](int index){
     if (!validIndex(index))
         throw std::invalid_argument("Invalid index!");
 
-    return vertices[index - 1];
+    return *vertices[index - 1];
 }
 
 /**
@@ -496,7 +496,7 @@ bool Graph::areConnected(int src, int dest) const{
     if (!validIndex(src) || !validIndex(dest))
         return false;
 
-    for (const Edge* e : vertices[src - 1].out){
+    for (const Edge* e : vertices[src - 1]->out){
         if (e->dest != dest) continue;
 
         return true;
@@ -569,9 +569,9 @@ double Graph::diameter(std::list<std::pair<int, int>>* farthest){
  * @complexity O(|V|)
  */
 void Graph::resetVertices(){
-    for (Vertex& v : vertices){
-        v.valid = true;
-        v.dist = INF;
+    for (Vertex* v : vertices){
+        v->valid = true;
+        v->dist = INF;
     }
 }
 

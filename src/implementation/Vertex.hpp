@@ -28,6 +28,11 @@ public:
     bool valid;
 
 /* CONSTRUCTOR */
+protected:
+    Vertex(const Vertex& v) = default;
+
+    explicit Vertex(const Vertex* v) : Vertex(*v) {}
+
 public:
     explicit Vertex(bool valid = true)
             : valid(valid), index(0), dist(INF) {}

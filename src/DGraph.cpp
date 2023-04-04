@@ -111,7 +111,7 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
 
     // create the subgraph
     for (int index : vertexIndices){
-        Vertex* v = new Vertex(vertices[index - 1]);
+        Vertex* v = new Vertex((*this)[index]);
         v->index = newIndices[index];
 
         int i = (int) v->out.size();
@@ -150,7 +150,6 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
         }
 
         sub.addVertex(v);
-        delete v;
     }
 
     return sub;
