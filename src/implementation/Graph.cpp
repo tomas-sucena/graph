@@ -187,9 +187,7 @@ double Graph::edmondsKarp(int src, int sink){
                 if (prev[next] != nullptr || next == src || e->flow >= e->weight)
                     continue;
 
-                e->valid = true;
                 prev[next] = e;
-
                 q.push(next);
             }
 
@@ -201,9 +199,7 @@ double Graph::edmondsKarp(int src, int sink){
                 if (prev[next] != nullptr || next == src || e->flow <= 0)
                     continue;
 
-                e->valid = false;
                 prev[next] = e;
-
                 q.push(next);
             }
         }
@@ -215,7 +211,7 @@ double Graph::edmondsKarp(int src, int sink){
 
         int last = sink;
         for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
-            if (e->valid){
+            if (e->dest == last){
                 bottleneck = std::min(bottleneck, e->weight - e->flow);
                 last = e->src;
 
@@ -228,7 +224,7 @@ double Graph::edmondsKarp(int src, int sink){
 
         last = sink;
         for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
-            if (e->valid){
+            if (e->dest == last){
                 e->flow += bottleneck; last = e->src;
                 continue;
             }
