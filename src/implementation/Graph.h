@@ -44,7 +44,7 @@ protected:
 
 public:
     bool reserve(int n);
-    void addVertex(Vertex* v = nullptr);
+    virtual void addVertex(Vertex* v = nullptr);
     int removeVertex(int index);
     virtual bool addEdge(Edge* e);
     virtual bool addEdge(int src, int dest, double weight, bool valid);
