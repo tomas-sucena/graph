@@ -24,8 +24,6 @@ public:
 protected:
     Edge(const Edge& e) = default;
 
-    explicit Edge(const Edge* e) : Edge(*e) {}
-
 public:
     Edge(int src, int dest, double weight, bool valid)
             : src(src), dest(dest), weight(weight), valid(valid), flow(0) {}
@@ -36,6 +34,14 @@ public:
 
 /* METHODS */
 public:
+    /**
+     * @brief creates a new pointer with a copy of the current object
+     * @return pointer with a copy of the current object
+     */
+    virtual Edge* clone() const{
+        return new Edge(*this);
+    }
+
     int getSrc() const{
         return src;
     }

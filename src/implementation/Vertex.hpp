@@ -31,8 +31,6 @@ public:
 protected:
     Vertex(const Vertex& v) = default;
 
-    explicit Vertex(const Vertex* v) : Vertex(*v) {}
-
 public:
     explicit Vertex(bool valid = true)
             : valid(valid), index(0), dist(INF) {}
@@ -43,6 +41,14 @@ public:
 
 /* METHODS */
 public:
+    /**
+     * @brief creates a new pointer with a copy of the current object
+     * @return pointer with a copy of the current object
+     */
+    virtual Vertex* clone() const{
+        return new Vertex(*this);
+    }
+
     /**
      * @brief returns the number of ingoing edges of the vertex (i.e. edges whose destination is the vertex)
      * @return number of ingoing edges of the vertex

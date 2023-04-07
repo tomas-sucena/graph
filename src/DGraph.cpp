@@ -111,12 +111,12 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
 
     // create the subgraph
     for (int index : vertexIndices){
-        Vertex* v = new Vertex((*this)[index]);
+        Vertex* v = vertices[index - 1]->clone();
         v->index = newIndices[index];
 
         int i = (int) v->out.size();
         for (auto it = v->out.begin(); i > 0; --i){
-            Edge* e = new Edge((*it)); // copy the edge
+            Edge* e = (*it)->clone(); // copy the edge
             it = v->out.erase(it);
 
             if (newIndices.find(e->dest) == newIndices.end()){
@@ -135,7 +135,7 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
 
         i = (int) v->in.size();
         for (auto it = v->in.begin(); i > 0; --i){
-            Edge* e = new Edge((*it)); // copy the edge
+            Edge* e = (*it)->clone(); // copy the edge
             it = v->in.erase(it);
 
             if (newIndices.find(e->src) == newIndices.end()){

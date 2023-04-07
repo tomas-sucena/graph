@@ -39,7 +39,7 @@ bool UGraph::addEdge(Edge* e){
     if (!Graph::addEdge(e))
         return false;
 
-    Edge* e_ = new Edge(e);
+    Edge* e_ = e->clone();
     std::swap(e_->src, e_->dest);
 
     return Graph::addEdge(e_);
@@ -98,12 +98,12 @@ UGraph UGraph::getSubgraph(list<int> vertexIndices){
 
     // create the subgraph
     for (int index : vertexIndices){
-        Vertex* v = new Vertex(vertices[index - 1]);
+        Vertex* v = vertices[index - 1]->clone(); // copy the vertex
         v->index = newIndices[index];
 
         int i = (int) v->out.size();
         for (auto it = v->out.begin(); i > 0; --i){
-            Edge* e = new Edge((*it)); // copy the edge
+            Edge* e = (*it)->clone(); // copy the edge
             it = v->out.erase(it);
 
             if (newIndices.find(e->dest) == newIndices.end()){
@@ -122,7 +122,7 @@ UGraph UGraph::getSubgraph(list<int> vertexIndices){
 
         i = (int) v->in.size();
         for (auto it = v->in.begin(); i > 0; --i){
-            Edge* e = new Edge((*it)); // copy the edge
+            Edge* e = (*it)->clone(); // copy the edge
             it = v->in.erase(it);
 
             if (newIndices.find(e->src) == newIndices.end()){
