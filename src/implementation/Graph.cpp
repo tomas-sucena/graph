@@ -699,10 +699,10 @@ std::list<int> Graph::getReachable(int src, double dist, bool weighted){
  * @param reset bool that indicates if the
  * @return maximum flow
  */
-double Graph::maximumFlow(int src, int sink){
+double Graph::maximumFlow(int src, int sink, std::list<Path>* augPaths){
     if (!validIndex(src) || !validIndex(sink))
         return -1;
 
     if (reset) resetAll();
-    return edmondsKarp(src, sink);
+    return edmondsKarp(src, sink, augPaths);
 }

@@ -67,7 +67,7 @@ public:
     std::list<Path> getShortestPaths(int src, int dest);
     std::list<int> getReachable(int src, double dist, bool weighted = true);
 
-    double maximumFlow(int src, int sink);
+    double maximumFlow(int src, int sink, std::list<Path>* augPaths = nullptr);
 };
 
 #endif //GRAPH_GRAPH_H
