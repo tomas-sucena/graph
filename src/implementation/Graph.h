@@ -40,7 +40,7 @@ protected:
     std::list<Path> bfs(int src, int dest);
 
     // flow methods
-    double edmondsKarp(int src, int sink);
+    double edmondsKarp(int src, int sink, std::list<Path>* augPaths = nullptr);
 
 public:
     bool reserve(int n);

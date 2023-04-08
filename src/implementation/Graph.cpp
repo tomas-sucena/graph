@@ -161,9 +161,10 @@ Path Graph::dijkstra(int src, int dest){
  * @complexity O(|V| * |E|^2)
  * @param src index of the source vertex
  * @param sink index of the sink vertex
+ * @param augPaths list where the augmenting paths will be inserted
  * @return maximum flow
  */
-double Graph::edmondsKarp(int src, int sink){
+double Graph::edmondsKarp(int src, int sink, std::list<Path>* augPaths){
     double flow = 0;
 
     while (true){
@@ -223,7 +224,11 @@ double Graph::edmondsKarp(int src, int sink){
         }
 
         last = sink;
+        Path p;
+
         for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
+            p.push_front(e);
+
             if (e->dest == last){
                 e->flow += bottleneck; last = e->src;
                 continue;
@@ -233,6 +238,7 @@ double Graph::edmondsKarp(int src, int sink){
         }
 
         flow += bottleneck;
+        if (augPaths != nullptr) augPaths->push_back(p);
     }
 
     return flow;
