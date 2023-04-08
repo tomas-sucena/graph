@@ -29,19 +29,19 @@ public:
         return indices;
     }
 
-    auto begin(){
+    auto begin() const {
         return edges.begin();
     }
 
-    auto end(){
+    auto end() const{
         return edges.end();
     }
 
-    const Edge* front(){
+    const Edge* front() const{
         return edges.front();
     }
 
-    const Edge* back(){
+    const Edge* back() const{
         return edges.back();
     }
 
