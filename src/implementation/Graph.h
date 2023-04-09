@@ -15,13 +15,21 @@
 
 class Graph {
 /* ATTRIBUTES */
+    struct AutoResetSettings {
+        bool vertexValid = true;
+        bool vertexDist = true;
+        bool edgeValid = true;
+        bool edgeFlow = true;
+    };
+
 protected:
     int weighted;
     std::vector<Vertex*> vertices;
     std::set<Edge*> edges;
 
 public:
-    bool reset;
+    bool autoReset;
+    AutoResetSettings autoResetSettings;
 
 /* CONSTRUCTORS */
 public:

@@ -756,7 +756,7 @@
     \let\tabu@rowfontreset@save \tabu@rowfontreset
     \let\tabu@@rowfontreset@save\tabu@@rowfontreset
     \let\tabu@rowfontreset      \@empty
-    \edef\tabu@alloc@save      {\the\tabu@alloc}%   restore at \tabu@reset
+    \edef\tabu@alloc@save      {\the\tabu@alloc}%   restore at \tabu@autoReset
     \edef\c@taburow@save       {\the\c@taburow}%
     \edef\tabu@naturalX@save   {\the\tabu@naturalX}%
     \let\tabu@naturalXmin@save  \tabu@naturalXmin
@@ -829,7 +829,7 @@
                 \let\tabu@ls@G   \tabu@ls@L
                 \let\tabu@rc@G   \tabu@rc@L
                 \let\tabu@evr@G  \tabu@evr@L}%
-    \def\tabu@reset{\tabu@savedparams
+    \def\tabu@autoReset{\tabu@savedparams
         \tabu@everyrowtrue  \c@taburow \z@
         \let\CT@arc@        \tabu@arc@L
         \let\CT@drsc@       \tabu@drsc@L
@@ -837,7 +837,7 @@
         \let\tabu@rc@       \tabu@rc@L
         \global\tabu@alloc  \tabu@alloc@save
         \everyrow\expandafter{\tabu@evr@L}}%
-}% \tabu@reset
+}% \tabu@autoReset
 \def\tabu@setsave #1{\expandafter\tabu@sets@ve #1\@nil{#1}}
 \long\def\tabu@sets@ve #1\@nil #2{\@temptokena\expandafter{\the\@temptokena \def#2{#1}}}
 %% The Rewriting Process -------------------------------------------
@@ -904,7 +904,7 @@
 }% \tabu@thevline
 \def\tabu@savels #1{%
     \expandafter\let\csname\string#1\endcsname #1%
-    \expandafter\def\expandafter\tabu@reset\expandafter{\tabu@reset
+    \expandafter\def\expandafter\tabu@autoReset\expandafter{\tabu@autoReset
                                                     \tabu@resetls#1}}%
 \def\tabu@resetls #1{\expandafter\let\expandafter#1\csname\string#1\endcsname}%
 %% \multicolumn inside tabu environment -----------------------------
@@ -1322,7 +1322,7 @@
 }% \tabuendlongtrial
 \def\tabu@adl@endtrial{% <arydshln in nested trials - problem for global column counters!>
     \crcr \noalign{\global\adl@ncol \tabu@nbcols}}% anything global is crap, junky and fails !
-\def\tabu@seteverycr {\tabu@reset
+\def\tabu@seteverycr {\tabu@autoReset
     \everycr \expandafter{\the\everycr  \tabu@everycr}%
     \let\everycr \tabu@noeverycr                      % <for ialign>
 }% \tabu@seteverycr
@@ -1724,7 +1724,7 @@
 }% \tabu@verticalsp@pmb
 
 \def\tabu@verticalinit{%
-    \ifnum \c@taburow=\z@ \tabu@rearstrut \fi       % after \tabu@reset !
+    \ifnum \c@taburow=\z@ \tabu@rearstrut \fi       % after \tabu@autoReset !
     \advance\c@taburow \@ne
     \tabu@htdef{\the\ht\@arstrutbox}\tabu@dpdef{\the\dp\@arstrutbox}%
     \advance\c@taburow \m@ne
@@ -2124,14 +2124,14 @@
         \global\let\tabu@@cellralign  \tabu@cellralign
         \global\let\tabu@@rowfontreset\tabu@rowfontreset
     \fi
-    \global\let\tabu@rowfontreset \tabu@rowfont@reset
+    \global\let\tabu@rowfontreset \tabu@rowfont@autoReset
     \expandafter\gdef\expandafter\tabu@cellleft\expandafter{\tabu@cellleft #2}%
     \ifcsname tabu@cell@#1\endcsname       % row alignment
             \csname tabu@cell@#1\endcsname \fi
     \ifnum0=`{\fi}% end of group / noalign group
 }% \rowfont
 \def\tabu@ifcolorleavevmode #1{\let\color \tabu@leavevmodecolor #1\let\color\tabu@color}%
-\def\tabu@rowfont@reset{%
+\def\tabu@rowfont@autoReset{%
     \global\let\tabu@rowfontreset \tabu@@rowfontreset
     \global\let\tabu@cellleft     \tabu@@cellleft
     \global\let\tabu@cellright    \tabu@@cellright

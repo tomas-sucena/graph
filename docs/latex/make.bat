@@ -41,7 +41,7 @@ endlocal
 %MKIDX_CMD% %MANUAL_FILE%.idx
 %LATEX_CMD% %MANUAL_FILE%
 
-@REM reset environment
+@REM autoReset environment
 cd /D %Dir_Old%
 set Dir_Old=
 set LATEX_CMD=%ORG_LATEX_CMD%
