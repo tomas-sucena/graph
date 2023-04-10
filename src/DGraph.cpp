@@ -89,7 +89,7 @@ bool DGraph::removeEdge(int src, int dest){
  * @brief returns a subgraph that only contains specific vertices
  * @complexity O(|V| + |E|)
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
- * @return subgraph containing only
+ * @return subgraph containing only specific vertices
  */
 DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
     DGraph sub;
