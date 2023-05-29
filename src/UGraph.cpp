@@ -152,7 +152,7 @@ list<list<int>> UGraph::getConnectedComponents() {
     list<list<int>> connectedComponents;
 
     if (autoReset) resetAll();
-    for (int i = 1; i <= vertices.size(); ++i) {
+    for (int i = 1; i <= countVertices(); ++i) {
         if (!(*this)[i].valid) continue;
 
         connectedComponents.push_back(bfs(i));
@@ -175,7 +175,7 @@ list<int> UGraph::getArticulationPoints() {
     if (autoReset) resetAll();
 
     // setup
-    std::vector<int> order(vertices.size() + 1), low(vertices.size() + 1);
+    std::vector<int> order(countVertices() + 1), low(countVertices() + 1);
 
     std::stack<int> s;
     s.push(1);
@@ -197,19 +197,19 @@ int UGraph::countArticulationPoints() {
  * @return list containing the edges that belong to the MST
  */
 list<Edge *> UGraph::getMST() {
-    list<Edge *> MST;
     if (autoReset) resetAll();
 
+    DynamicPQ<Vertex> pq;
     uSet<int> notInMST;
-    for (int i = 1; i <= (int) vertices.size(); ++i)
-        notInMST.insert(i);
 
     (*this)[1].dist = 0;
 
-    DynamicPQ<Vertex> pq;
-    pq.push((*this)[1]);
+    for (int i = 1; i <= countVertices(); ++i) {
+        notInMST.insert(i);
+        pq.push((*this)[i]);
+    }
 
-    list<Edge *> prevEdges;
+    std::vector<Edge *> prev(countVertices() + 1, nullptr);
 
     while (!notInMST.empty()) {
         int curr = pq.pop().index;
@@ -217,25 +217,30 @@ list<Edge *> UGraph::getMST() {
         notInMST.erase(curr);
         (*this)[curr].valid = false;
 
-        for (Edge *e: prevEdges) {
-            if (e->dest != curr) continue;
-
-            MST.push_back(e);
-            break;
-        }
-
         for (Edge *e: (*this)[curr].out) {
             int next = e->dest;
 
-            if (!e->valid || !(*this)[next].valid) continue;
+            if (!e->valid || !(*this)[next].valid || notInMST.find(next) == notInMST.end())
+                continue;
 
-            if ((*this)[curr].dist + e->weight < (*this)[next].dist)
-                (*this)[next].dist = (*this)[curr].dist + e->weight;
+            if ((*this)[curr].dist + e->weight >= (*this)[next].dist) continue;
 
-            pq.push((*this)[next]);
-            prevEdges.push_back(e);
+            // notify the PQ that we will alter an element
+            pq.notify((*this)[next]);
+
+            (*this)[next].dist = (*this)[curr].dist + e->weight;
+            prev[next] = e;
+
+            // update the PQ
+            pq.update();
         }
     }
+
+    // build the MST
+    list<Edge *> MST;
+
+    for (int i = 2; i <= countVertices(); ++i)
+        MST.push_back(prev[i]);
 
     return MST;
 }

@@ -119,7 +119,7 @@ Path Graph::dijkstra(int src, int dest) {
     DynamicPQ<Vertex> pq;
     pq.push((*this)[src]);
 
-    std::vector<const Edge *> prev(vertices.size() + 1, nullptr);
+    std::vector<const Edge *> prev(countVertices() + 1, nullptr);
 
     while (!pq.empty()) {
         int curr = pq.pop().index;
@@ -168,7 +168,7 @@ double Graph::edmondsKarp(int src, int sink, std::list<Path> *augPaths) {
     double flow = 0;
 
     while (true) {
-        std::vector<Edge *> prev(vertices.size() + 1, nullptr);
+        std::vector<Edge *> prev(countVertices() + 1, nullptr);
 
         // BFS
         std::queue<int> q;
@@ -280,7 +280,7 @@ bool Graph::reserve(int n) {
 void Graph::addVertex(Vertex *v) {
     if (v == nullptr) v = new Vertex();
 
-    v->index = (int) vertices.size() + 1;
+    v->index = countVertices() + 1;
     vertices.push_back(v);
 }
 
@@ -291,7 +291,7 @@ void Graph::addVertex(Vertex *v) {
  * @return number of edges that were removed (those whose destination was the deleted vertex)
  */
 int Graph::removeVertex(int index) {
-    if (index <= 0 || index > (int) vertices.size()) return -1;
+    if (index <= 0 || index > countVertices()) return -1;
 
     uSet<int> affectedVertices;
 
@@ -322,7 +322,7 @@ int Graph::removeVertex(int index) {
     }
 
     // update the vertices
-    for (int i = 1; i <= vertices.size(); ++i) {
+    for (int i = 1; i <= countVertices(); ++i) {
         if (i > index)
             (*this)[i].index = i - 1;
 
@@ -548,7 +548,7 @@ double Graph::diameter(std::list<std::pair<int, int>> *farthest) {
     double diameter = 0;
     std::list<std::pair<int, int>> farthestPairs;
 
-    for (int i = 1; i <= (int) vertices.size(); ++i) {
+    for (int i = 1; i <= countVertices(); ++i) {
         std::list<int> farthestVertices;
         double ecc = eccentricity(i, &farthestVertices);
 
@@ -605,7 +605,7 @@ void Graph::resetAll() {
  * @return 'true' if the index is valid, 'false' otherwise
  */
 bool Graph::validIndex(int index) const {
-    return (index > 0 && index <= (int) vertices.size());
+    return (index > 0 && index <= countVertices());
 }
 
 /**

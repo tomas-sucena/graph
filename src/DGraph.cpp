@@ -98,7 +98,7 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices) {
     // calculate the new indices
     int currIndex = 1;
     for (auto it = vertexIndices.begin(); it != vertexIndices.end();) {
-        if (*it <= 0 || *it > (int) vertices.size())
+        if (*it <= 0 || *it > countVertices())
             throw std::invalid_argument("Invalid index!");
 
         if (newIndices.insert({*it, currIndex}).second) {
@@ -164,7 +164,7 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices) {
 bool DGraph::isDAG() {
     if (autoReset) resetAll();
 
-    for (int i = 1; i <= vertices.size(); ++i) {
+    for (int i = 1; i <= countVertices(); ++i) {
         if (!(*this)[i].valid) continue;
 
         bool cycleFound = dfs(i);
@@ -184,10 +184,10 @@ std::list<int> DGraph::topologicalSort() {
     if (!isDAG()) return res;
 
     if (autoReset) resetAll();
-    std::vector<int> inDegrees(vertices.size() + 1);
+    std::vector<int> inDegrees(countVertices() + 1);
 
     std::queue<int> q;
-    for (int i = 1; i <= (int) vertices.size(); ++i) {
+    for (int i = 1; i <= countVertices(); ++i) {
         if ((inDegrees[i] = (*this)[i].inDegree()) > 0)
             continue;
 
