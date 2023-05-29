@@ -11,7 +11,7 @@
 
 using testing::Eq;
 
-TEST(dfs, isDAG){
+TEST(dfs, isDAG) {
     // DAGs
     DGraph g4 = TestGraphs::graph4();
     DGraph g6 = TestGraphs::graph6();

@@ -17,13 +17,13 @@
  * @param seen set containing the indices of the vertices that have been visited
  * @return 'true' if the a cycle is found, 'false' otherwise
  */
-bool DGraph::dfs(int src, uSet<int>* seen){
-    if (seen == nullptr){
+bool DGraph::dfs(int src, uSet<int> *seen) {
+    if (seen == nullptr) {
         seen = new uSet<int>();
         seen->insert(src);
     }
 
-    for (const Edge* e : (*this)[src].out){
+    for (const Edge *e: (*this)[src].out) {
         int next = e->dest;
         if (!e->valid || !(*this)[next].valid) continue;
 
@@ -47,7 +47,7 @@ DGraph::DGraph(int n) : Graph(n) {}
  * @brief indicates if the Graph is directed
  * @return 'true' (because this is an directed Graph)
  */
-bool DGraph::isDirected() const{
+bool DGraph::isDirected() const {
     return true;
 }
 
@@ -57,7 +57,7 @@ bool DGraph::isDirected() const{
  * @param e edge to be added
  * @return 'true' if the insertion occurs, 'false' otherwise
  */
-bool DGraph::addEdge(Edge* e){
+bool DGraph::addEdge(Edge *e) {
     return Graph::addEdge(e);
 }
 
@@ -70,7 +70,7 @@ bool DGraph::addEdge(Edge* e){
  * @param valid bool that indicates if the edge should be considered in Graph traversals
  * @return 'true' if the insertion occurs, 'false' otherwise
  */
-bool DGraph::addEdge(int src, int dest, double weight, bool valid){
+bool DGraph::addEdge(int src, int dest, double weight, bool valid) {
     return Graph::addEdge(src, dest, weight, valid);
 }
 
@@ -81,7 +81,7 @@ bool DGraph::addEdge(int src, int dest, double weight, bool valid){
  * @param dest index of the destination vertex
  * @return 'true' if the removal occurs, 'false' otherwise
  */
-bool DGraph::removeEdge(int src, int dest){
+bool DGraph::removeEdge(int src, int dest) {
     return Graph::removeEdge(src, dest);
 }
 
@@ -91,18 +91,19 @@ bool DGraph::removeEdge(int src, int dest){
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph
  * @return subgraph containing only specific vertices
  */
-DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
+DGraph DGraph::getSubgraph(std::list<int> vertexIndices) {
     DGraph sub;
     uMap<int, int> newIndices;
 
     // calculate the new indices
     int currIndex = 1;
-    for (auto it = vertexIndices.begin(); it != vertexIndices.end();){
+    for (auto it = vertexIndices.begin(); it != vertexIndices.end();) {
         if (*it <= 0 || *it > (int) vertices.size())
             throw std::invalid_argument("Invalid index!");
 
-        if (newIndices.insert({*it, currIndex}).second){
-            ++it; ++currIndex;
+        if (newIndices.insert({*it, currIndex}).second) {
+            ++it;
+            ++currIndex;
             continue;
         }
 
@@ -110,16 +111,16 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
     }
 
     // create the subgraph
-    for (int index : vertexIndices){
-        Vertex* v = vertices[index - 1]->clone();
+    for (int index: vertexIndices) {
+        Vertex *v = vertices[index - 1]->clone();
         v->index = newIndices[index];
 
         int i = (int) v->out.size();
-        for (auto it = v->out.begin(); i > 0; --i){
-            Edge* e = (*it)->clone(); // copy the edge
+        for (auto it = v->out.begin(); i > 0; --i) {
+            Edge *e = (*it)->clone(); // copy the edge
             it = v->out.erase(it);
 
-            if (newIndices.find(e->dest) == newIndices.end()){
+            if (newIndices.find(e->dest) == newIndices.end()) {
                 delete e;
                 continue;
             }
@@ -134,11 +135,11 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
         }
 
         i = (int) v->in.size();
-        for (auto it = v->in.begin(); i > 0; --i){
-            Edge* e = (*it)->clone(); // copy the edge
+        for (auto it = v->in.begin(); i > 0; --i) {
+            Edge *e = (*it)->clone(); // copy the edge
             it = v->in.erase(it);
 
-            if (newIndices.find(e->src) == newIndices.end()){
+            if (newIndices.find(e->src) == newIndices.end()) {
                 delete e;
                 continue;
             }
@@ -160,10 +161,10 @@ DGraph DGraph::getSubgraph(std::list<int> vertexIndices){
  * @complexity O(|V| + |E|)
  * @return 'true' if the Graph is a DAG, 'false' otherwise
  */
-bool DGraph::isDAG(){
+bool DGraph::isDAG() {
     if (autoReset) resetAll();
 
-    for (int i = 1; i <= vertices.size(); ++i){
+    for (int i = 1; i <= vertices.size(); ++i) {
         if (!(*this)[i].valid) continue;
 
         bool cycleFound = dfs(i);
@@ -178,7 +179,7 @@ bool DGraph::isDAG(){
  * @complexity O(|V| + |E|)
  * @return list containing the topologically sorted indices of the vertices
  */
-std::list<int> DGraph::topologicalSort(){
+std::list<int> DGraph::topologicalSort() {
     std::list<int> res;
     if (!isDAG()) return res;
 
@@ -186,7 +187,7 @@ std::list<int> DGraph::topologicalSort(){
     std::vector<int> inDegrees(vertices.size() + 1);
 
     std::queue<int> q;
-    for (int i = 1; i <= (int) vertices.size(); ++i){
+    for (int i = 1; i <= (int) vertices.size(); ++i) {
         if ((inDegrees[i] = (*this)[i].inDegree()) > 0)
             continue;
 
@@ -194,11 +195,11 @@ std::list<int> DGraph::topologicalSort(){
     }
 
     // BFS
-    while (!q.empty()){
+    while (!q.empty()) {
         int curr = q.front();
         q.pop();
 
-        for (const Edge* e : (*this)[curr].out){
+        for (const Edge *e: (*this)[curr].out) {
             int next = e->dest;
             if (!e->valid || !(*this)[next].valid) continue;
 

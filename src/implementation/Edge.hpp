@@ -7,7 +7,9 @@
 
 class Edge {
     friend class Graph;
+
     friend class DGraph;
+
     friend class UGraph;
 
 /* ATTRIBUTES */
@@ -22,7 +24,7 @@ public:
 
 /* CONSTRUCTORS */
 protected:
-    Edge(const Edge& e) = default;
+    Edge(const Edge &e) = default;
 
 public:
     Edge(int src, int dest, double weight, bool valid)
@@ -38,27 +40,27 @@ public:
      * @brief creates a new pointer with a copy of the current object
      * @return pointer with a copy of the current object
      */
-    virtual Edge* clone() const{
+    virtual Edge *clone() const {
         return new Edge(*this);
     }
 
-    int getSrc() const{
+    int getSrc() const {
         return src;
     }
 
-    int getDest() const{
+    int getDest() const {
         return dest;
     }
 
-    double getWeight() const{
+    double getWeight() const {
         return weight;
     }
 
-    double getFlow() const{
+    double getFlow() const {
         return flow;
     }
 
-    bool operator<(const Edge& e) const{
+    bool operator<(const Edge &e) const {
         if (weight != e.weight)
             return weight < e.weight;
 
@@ -70,9 +72,9 @@ public:
 };
 
 namespace std {
-    template <>
-    struct less<Edge*> {
-        bool operator()(const Edge* lhs, const Edge* rhs) const{
+    template<>
+    struct less<Edge *> {
+        bool operator()(const Edge *lhs, const Edge *rhs) const {
             return *lhs < *rhs;
         }
     };

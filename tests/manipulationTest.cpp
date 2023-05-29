@@ -12,30 +12,30 @@
 
 using testing::Eq;
 
-TEST(manipulation, vertex_addition){
+TEST(manipulation, vertex_addition) {
     // directed graph
     int n = 4;
     DGraph g1(n);
 
     ASSERT_EQ(n, g1.countVertices());
 
-    for (int i = 0; i < 4;){
+    for (int i = 0; i < 4;) {
         g1.addVertex();
         ASSERT_EQ(n + ++i, g1.countVertices());
     }
-    
+
     // undirected graph
     UGraph g2(n);
 
     ASSERT_EQ(n, g2.countVertices());
 
-    for (int i = 0; i < 4;){
+    for (int i = 0; i < 4;) {
         g2.addVertex();
         ASSERT_EQ(n + ++i, g2.countVertices());
     }
 }
 
-TEST(manipulation, edge_addition){
+TEST(manipulation, edge_addition) {
     // directed graph
     DGraph g1(4);
 
@@ -56,11 +56,14 @@ TEST(manipulation, edge_addition){
     EXPECT_EQ(1, g1[3].inDegree());
     EXPECT_EQ(2, g1[4].inDegree());
 
-    std::set<VertexPair> connected = {{1, 2}, {1, 3}, {2, 4}, {3, 4}};
+    std::set<VertexPair > connected = {{1, 2},
+                                       {1, 3},
+                                       {2, 4},
+                                       {3, 4}};
 
-    for (int i = 1; i <= 4; ++i){
-        for (int j = 1; j <= 4; ++j){
-            if (connected.find({i, j}) != connected.end()){
+    for (int i = 1; i <= 4; ++i) {
+        for (int j = 1; j <= 4; ++j) {
+            if (connected.find({i, j}) != connected.end()) {
                 EXPECT_TRUE(g1.areConnected(i, j));
                 continue;
             }
@@ -89,12 +92,12 @@ TEST(manipulation, edge_addition){
     EXPECT_EQ(2, g2[3].inDegree());
     EXPECT_EQ(2, g2[4].inDegree());
 
-    for (int i = 1; i <= 4; ++i){
-        for (int j = 1; j <= 4; ++j){
+    for (int i = 1; i <= 4; ++i) {
+        for (int j = 1; j <= 4; ++j) {
             bool srcToDest = connected.find({i, j}) != connected.end();
             bool destToSrc = connected.find({j, i}) != connected.end();
 
-            if (srcToDest || destToSrc){
+            if (srcToDest || destToSrc) {
                 EXPECT_TRUE(g2.areConnected(i, j));
                 continue;
             }
@@ -104,7 +107,7 @@ TEST(manipulation, edge_addition){
     }
 }
 
-TEST(manipulation, vertex_removal){
+TEST(manipulation, vertex_removal) {
     // undirected graph
     UGraph g1(3);
 

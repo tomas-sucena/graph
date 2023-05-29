@@ -19,7 +19,7 @@
  * @param src index of the vertex where the algorithm will start
  * @return list containing the indices of all the visited vertices
  */
-std::list<int> Graph::bfs(int src){
+std::list<int> Graph::bfs(int src) {
     std::list<int> visitedVertices;
 
     (*this)[src].valid = false;
@@ -28,11 +28,11 @@ std::list<int> Graph::bfs(int src){
     std::queue<int> q;
     q.push(src);
 
-    while (!q.empty()){
+    while (!q.empty()) {
         int curr = q.front();
         visitedVertices.push_back(curr);
 
-        for (const Edge* e : (*this)[curr].out){
+        for (const Edge *e: (*this)[curr].out) {
             int next = e->dest;
 
             (*this)[next].dist = std::min((*this)[curr].dist + e->weight, (*this)[next].dist);
@@ -56,7 +56,7 @@ std::list<int> Graph::bfs(int src){
  * @param dest index of the destination vertex
  * @return list containing all the shortest paths that unite the two vertices
  */
-std::list<Path> Graph::bfs(int src, int dest){
+std::list<Path> Graph::bfs(int src, int dest) {
     std::list<Path> allPaths = {Path(src)};
 
     (*this)[src].valid = false;
@@ -67,11 +67,11 @@ std::list<Path> Graph::bfs(int src, int dest){
     std::queue<int> q;
     q.push(src);
 
-    while (!q.empty()){
+    while (!q.empty()) {
         int curr = q.front();
         if (curr == dest) break; // destination reached
 
-        for (const Edge* e : (*this)[curr].out){
+        for (const Edge *e: (*this)[curr].out) {
             int next = e->dest;
             Path path = allPaths.front();
 
@@ -91,8 +91,8 @@ std::list<Path> Graph::bfs(int src, int dest){
     }
 
     // eliminate the paths that don't end in the destination
-    for (auto it = allPaths.begin(); it != allPaths.end();){
-        if (it->back()->dest == dest){
+    for (auto it = allPaths.begin(); it != allPaths.end();) {
+        if (it->back()->dest == dest) {
             ++it;
             continue;
         }
@@ -110,7 +110,7 @@ std::list<Path> Graph::bfs(int src, int dest){
  * @param dest index of the destination vertex
  * @return shortest path that unites the two vertices
  */
-Path Graph::dijkstra(int src, int dest){
+Path Graph::dijkstra(int src, int dest) {
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
 
@@ -119,17 +119,17 @@ Path Graph::dijkstra(int src, int dest){
     DynamicPQ<Vertex> pq;
     pq.push((*this)[src]);
 
-    std::vector<const Edge*> prev(vertices.size() + 1, nullptr);
+    std::vector<const Edge *> prev(vertices.size() + 1, nullptr);
 
-    while (!pq.empty()){
+    while (!pq.empty()) {
         int curr = pq.pop().index;
 
         if (curr == dest) break;
 
-        for (const Edge* e : (*this)[curr].out){
+        for (const Edge *e: (*this)[curr].out) {
             int next = e->dest;
 
-            if ((*this)[curr].dist + e->weight < (*this)[next].dist){
+            if ((*this)[curr].dist + e->weight < (*this)[next].dist) {
                 // notify the PQ that we will alter an element
                 pq.notify((*this)[next]);
 
@@ -150,7 +150,7 @@ Path Graph::dijkstra(int src, int dest){
     // reconstruct the shortest path
     Path path;
 
-    for (const Edge* e = prev[dest]; e != nullptr; e = prev[e->src])
+    for (const Edge *e = prev[dest]; e != nullptr; e = prev[e->src])
         path.push_front(e);
 
     return path;
@@ -164,24 +164,24 @@ Path Graph::dijkstra(int src, int dest){
  * @param augPaths list where the augmenting paths will be inserted
  * @return maximum flow
  */
-double Graph::edmondsKarp(int src, int sink, std::list<Path>* augPaths){
+double Graph::edmondsKarp(int src, int sink, std::list<Path> *augPaths) {
     double flow = 0;
 
-    while (true){
-        std::vector<Edge*> prev(vertices.size() + 1, nullptr);
+    while (true) {
+        std::vector<Edge *> prev(vertices.size() + 1, nullptr);
 
         // BFS
         std::queue<int> q;
         q.push(src);
 
-        while (!q.empty()){
+        while (!q.empty()) {
             int curr = q.front();
             q.pop();
 
             if (curr == sink) break;
 
             // edges
-            for (Edge* e : (*this)[curr].out){
+            for (Edge *e: (*this)[curr].out) {
                 int next = e->dest;
                 if (!(*this)[next].valid || !e->valid) continue;
 
@@ -193,7 +193,7 @@ double Graph::edmondsKarp(int src, int sink, std::list<Path>* augPaths){
             }
 
             // reverse edges
-            for (Edge* e : (*this)[curr].in){
+            for (Edge *e: (*this)[curr].in) {
                 int next = e->src;
                 if (!(*this)[next].valid || !e->valid) continue;
 
@@ -211,8 +211,8 @@ double Graph::edmondsKarp(int src, int sink, std::list<Path>* augPaths){
         double bottleneck = INF;
 
         int last = sink;
-        for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
-            if (e->dest == last){
+        for (Edge *e = prev[last]; e != nullptr; e = prev[last]) {
+            if (e->dest == last) {
                 bottleneck = std::min(bottleneck, e->weight - e->flow);
                 last = e->src;
 
@@ -226,15 +226,17 @@ double Graph::edmondsKarp(int src, int sink, std::list<Path>* augPaths){
         last = sink;
         Path p;
 
-        for (Edge* e = prev[last]; e != nullptr; e = prev[last]){
+        for (Edge *e = prev[last]; e != nullptr; e = prev[last]) {
             p.push_front(e);
 
-            if (e->dest == last){
-                e->flow += bottleneck; last = e->src;
+            if (e->dest == last) {
+                e->flow += bottleneck;
+                last = e->src;
                 continue;
             }
 
-            e->flow -= bottleneck; last = e->dest;
+            e->flow -= bottleneck;
+            last = e->dest;
         }
 
         flow += bottleneck;
@@ -259,11 +261,11 @@ Graph::Graph(int n) : weighted(false), autoReset(true) {
  * @param n number of empty vertices that will be added to the Graph
  * @return 'true' if the resize occurs, 'false' otherwise
  */
-bool Graph::reserve(int n){
+bool Graph::reserve(int n) {
     if (n <= 0)
         return false;
 
-    for (int i = 0; i < n; ++i){
+    for (int i = 0; i < n; ++i) {
         vertices.push_back(new Vertex());
         (*this)[countVertices()].index = countVertices();
     }
@@ -275,7 +277,7 @@ bool Graph::reserve(int n){
  * @brief adds a vertex to the Graph
  * @param v pointer to the vertex that will be added
  */
-void Graph::addVertex(Vertex *v){
+void Graph::addVertex(Vertex *v) {
     if (v == nullptr) v = new Vertex();
 
     v->index = (int) vertices.size() + 1;
@@ -288,7 +290,7 @@ void Graph::addVertex(Vertex *v){
  * @param index index of the vertex that will be removed
  * @return number of edges that were removed (those whose destination was the deleted vertex)
  */
-int Graph::removeVertex(int index){
+int Graph::removeVertex(int index) {
     if (index <= 0 || index > (int) vertices.size()) return -1;
 
     uSet<int> affectedVertices;
@@ -296,7 +298,7 @@ int Graph::removeVertex(int index){
     // update the edges
     int deletedEdges = 0;
 
-    for (auto it = edges.begin(); it != edges.end();){
+    for (auto it = edges.begin(); it != edges.end();) {
         bool srcRemoved = ((*it)->src == index);
         bool destRemoved = ((*it)->dest == index);
 
@@ -309,7 +311,7 @@ int Graph::removeVertex(int index){
         if ((*it)->src > index)
             (*it)->src--;
 
-        if (!srcRemoved && !destRemoved){
+        if (!srcRemoved && !destRemoved) {
             ++it;
             continue;
         }
@@ -320,15 +322,15 @@ int Graph::removeVertex(int index){
     }
 
     // update the vertices
-    for (int i = 1; i <= vertices.size(); ++i){
+    for (int i = 1; i <= vertices.size(); ++i) {
         if (i > index)
             (*this)[i].index = i - 1;
 
         if (affectedVertices.find(i) == affectedVertices.end()) continue;
 
-        Vertex& v = (*this)[i];
-        for (auto it = v.out.begin(); it != v.out.end();){
-            if ((*it)->dest > 0){
+        Vertex &v = (*this)[i];
+        for (auto it = v.out.begin(); it != v.out.end();) {
+            if ((*it)->dest > 0) {
                 ++it;
                 continue;
             }
@@ -337,8 +339,8 @@ int Graph::removeVertex(int index){
             it = v.out.erase(it);
         }
 
-        for (auto it = v.in.begin(); it != v.in.end();){
-            if ((*it)->dest > 0){
+        for (auto it = v.in.begin(); it != v.in.end();) {
+            if ((*it)->dest > 0) {
                 ++it;
                 continue;
             }
@@ -360,10 +362,10 @@ int Graph::removeVertex(int index){
  * @param e edge to be added
  * @return 'true' if the insertion occurs, 'false' otherwise
  */
-bool Graph::addEdge(Edge* e){
+bool Graph::addEdge(Edge *e) {
     if (e == nullptr) return false;
-    
-    if (!validIndex(e->src) || !validIndex(e->dest)){
+
+    if (!validIndex(e->src) || !validIndex(e->dest)) {
         delete e;
         return false;
     }
@@ -387,7 +389,7 @@ bool Graph::addEdge(Edge* e){
  * @param valid bool that indicates if the edge should be considered in Graph traversals
  * @return 'true' if the insertion occurs, 'false' otherwise
  */
-bool Graph::addEdge(int src, int dest, double weight, bool valid){
+bool Graph::addEdge(int src, int dest, double weight, bool valid) {
     return addEdge(new Edge(src, dest, weight, valid));
 }
 
@@ -398,12 +400,12 @@ bool Graph::addEdge(int src, int dest, double weight, bool valid){
  * @param dest index of the destination vertex
  * @return 'true' if the removal occurs, 'false' otherwise
  */
-bool Graph::removeEdge(int src, int dest){
+bool Graph::removeEdge(int src, int dest) {
     if (!areConnected(src, dest))
         return false;
 
-    for (auto it = edges.begin(); it != edges.end();){
-        if ((*it)->src != src || (*it)->dest != dest){
+    for (auto it = edges.begin(); it != edges.end();) {
+        if ((*it)->src != src || (*it)->dest != dest) {
             ++it;
             continue;
         }
@@ -413,8 +415,8 @@ bool Graph::removeEdge(int src, int dest){
     }
 
     // remove the edge from the outgoing edges list of the source vertex
-    for (auto it = (*this)[src].out.begin(); it != (*this)[src].out.end();){
-        if ((*it)->src != src || (*it)->dest != dest){
+    for (auto it = (*this)[src].out.begin(); it != (*this)[src].out.end();) {
+        if ((*it)->src != src || (*it)->dest != dest) {
             ++it;
             continue;
         }
@@ -423,8 +425,8 @@ bool Graph::removeEdge(int src, int dest){
     }
 
     // remove the edge from the ingoing edges list of the destination vertex
-    for (auto it = (*this)[dest].in.begin(); it != (*this)[dest].in.end();){
-        if ((*it)->src != src || (*it)->dest != dest){
+    for (auto it = (*this)[dest].in.begin(); it != (*this)[dest].in.end();) {
+        if ((*it)->src != src || (*it)->dest != dest) {
             ++it;
             continue;
         }
@@ -439,7 +441,7 @@ bool Graph::removeEdge(int src, int dest){
  * @brief indicates if the Graph is weighted
  * @return 'true' if the Graph is weighted, 'false' otherwise
  */
-bool Graph::isWeighted() const{
+bool Graph::isWeighted() const {
     return (bool) weighted;
 }
 
@@ -447,7 +449,7 @@ bool Graph::isWeighted() const{
  * @brief returns the number of vertices that the Graph currently has
  * @return number of vertices of the Graph
  */
-int Graph::countVertices() const{
+int Graph::countVertices() const {
     return (int) vertices.size();
 }
 
@@ -455,7 +457,7 @@ int Graph::countVertices() const{
  * @brief returns the number of edges that the Graph currently has
  * @return number of edges of the Graph
  */
-int Graph::countEdges() const{
+int Graph::countEdges() const {
     return (int) edges.size();
 }
 
@@ -463,7 +465,7 @@ int Graph::countEdges() const{
  * @brief returns the vector which stores the vertices of the Graph
  * @return std::vector that stores the vertices of the Graph
  */
-std::vector<Vertex*> Graph::getVertices() const{
+std::vector<Vertex *> Graph::getVertices() const {
     return vertices;
 }
 
@@ -471,7 +473,7 @@ std::vector<Vertex*> Graph::getVertices() const{
  * @brief returns the set which stores the edges of the Graph
  * @return std::set that stores the edges of the Graph
  */
-std::set<Edge*> Graph::getEdges() const{
+std::set<Edge *> Graph::getEdges() const {
     return edges;
 }
 
@@ -480,7 +482,7 @@ std::set<Edge*> Graph::getEdges() const{
  * @param index index of the vertex
  * @return reference of the vertex
  */
-Vertex& Graph::operator[](int index){
+Vertex &Graph::operator[](int index) {
     if (!validIndex(index))
         throw std::invalid_argument("Invalid index!");
 
@@ -494,11 +496,11 @@ Vertex& Graph::operator[](int index){
  * @param dest index of the destination vertex
  * @return 'true' if the vertices are connected, 'false' otherwise
  */
-bool Graph::areConnected(int src, int dest) const{
+bool Graph::areConnected(int src, int dest) const {
     if (!validIndex(src) || !validIndex(dest))
         return false;
 
-    for (const Edge* e : vertices[src - 1]->out){
+    for (const Edge *e: vertices[src - 1]->out) {
         if (e->dest != dest) continue;
 
         return true;
@@ -514,16 +516,16 @@ bool Graph::areConnected(int src, int dest) const{
  * @param farthest list where the index of the farthest vertices will be inserted
  * @return maximum distance between the vertex and all others
  */
-double Graph::eccentricity(int index, std::list<int>* farthest){
+double Graph::eccentricity(int index, std::list<int> *farthest) {
     if (autoReset) resetAll();
 
     double ecc = 0;
     std::list<int> farthestVertices;
 
-    for (int i : bfs(index)){
+    for (int i: bfs(index)) {
         if (ecc > (*this)[i].dist) continue;
 
-        if (ecc < (*this)[i].dist){
+        if (ecc < (*this)[i].dist) {
             ecc = (*this)[i].dist;
             farthestVertices.clear();
         }
@@ -542,22 +544,22 @@ double Graph::eccentricity(int index, std::list<int>* farthest){
  * @param farthest list where the indices of the farthest vertex pairs will be inserted
  * @return pair containing the diameter and the two vertices that define it
  */
-double Graph::diameter(std::list<std::pair<int, int>>* farthest){
+double Graph::diameter(std::list<std::pair<int, int>> *farthest) {
     double diameter = 0;
     std::list<std::pair<int, int>> farthestPairs;
 
-    for (int i = 1; i <= (int) vertices.size(); ++i){
+    for (int i = 1; i <= (int) vertices.size(); ++i) {
         std::list<int> farthestVertices;
         double ecc = eccentricity(i, &farthestVertices);
 
         if (diameter > ecc) continue;
 
-        if (diameter < ecc){
+        if (diameter < ecc) {
             diameter = ecc;
             farthestPairs.clear();
         }
 
-        for (int j : farthestVertices)
+        for (int j: farthestVertices)
             farthestPairs.emplace_back(i, j);
     }
 
@@ -570,8 +572,8 @@ double Graph::diameter(std::list<std::pair<int, int>>* farthest){
  * @brief validates all the vertices
  * @complexity O(|V|)
  */
-void Graph::resetVertices(){
-    for (Vertex* v : vertices){
+void Graph::resetVertices() {
+    for (Vertex *v: vertices) {
         v->valid |= autoResetSettings.vertexValid;
         if (autoResetSettings.vertexDist) v->dist = INF;
     }
@@ -581,8 +583,8 @@ void Graph::resetVertices(){
  * @brief validates all the edges
  * @complexity O(|E|)
  */
-void Graph::resetEdges(){
-    for (Edge* e : edges){
+void Graph::resetEdges() {
+    for (Edge *e: edges) {
         e->valid |= autoResetSettings.edgeValid;
         if (autoResetSettings.edgeFlow) e->flow = 0;
     }
@@ -592,7 +594,7 @@ void Graph::resetEdges(){
  * @brief validates all the vertices and edges
  * @complexity O(|V| + |E|)
  */
-void Graph::resetAll(){
+void Graph::resetAll() {
     resetVertices();
     resetEdges();
 }
@@ -602,7 +604,7 @@ void Graph::resetAll(){
  * @param index index that will be validated
  * @return 'true' if the index is valid, 'false' otherwise
  */
-bool Graph::validIndex(int index) const{
+bool Graph::validIndex(int index) const {
     return (index > 0 && index <= (int) vertices.size());
 }
 
@@ -613,7 +615,7 @@ bool Graph::validIndex(int index) const{
  * @param dest index of the destination vertex
  * @return minimum distance between the source and the destination if they are connected, -1 otherwise
  */
-double Graph::distance(int src, int dest){
+double Graph::distance(int src, int dest) {
     if (autoReset) resetAll();
     dijkstra(src, dest);
 
@@ -630,7 +632,7 @@ double Graph::distance(int src, int dest){
  * @param dest index of the destination vertex
  * @return list containing the indices of the vertices that form the path
  */
-Path Graph::getShortestPath(int src, int dest){
+Path Graph::getShortestPath(int src, int dest) {
     if (autoReset) resetAll();
     return dijkstra(src, dest);
 }
@@ -642,7 +644,7 @@ Path Graph::getShortestPath(int src, int dest){
  * @param dest index of the destination vertex
  * @return list containing the shortest paths (each path is represented by the indices of the vertices that form it)
  */
-std::list<Path> Graph::getShortestPaths(int src, int dest){
+std::list<Path> Graph::getShortestPaths(int src, int dest) {
     if (autoReset) resetAll();
     return bfs(src, dest);
 }
@@ -657,7 +659,7 @@ std::list<Path> Graph::getShortestPaths(int src, int dest){
  * total number of edges ('false')
  * @return list containing the indices of the reachable vertices
  */
-std::list<int> Graph::getReachable(int src, double dist, bool weighted){
+std::list<int> Graph::getReachable(int src, double dist, bool weighted) {
     if (autoReset) resetAll();
     std::list<int> reachableVertices;
 
@@ -667,7 +669,7 @@ std::list<int> Graph::getReachable(int src, double dist, bool weighted){
     std::queue<std::pair<int, double>> q;
     q.push({src, dist});
 
-    while (!q.empty()){
+    while (!q.empty()) {
         int currIndex = q.front().first;
         double currDistance = q.front().second;
         q.pop();
@@ -675,7 +677,7 @@ std::list<int> Graph::getReachable(int src, double dist, bool weighted){
         if (currDistance < 0) continue;
         reachableVertices.push_back(currIndex);
 
-        for (const Edge* e : (*this)[currIndex].out){
+        for (const Edge *e: (*this)[currIndex].out) {
             int nextIndex = e->dest;
             double nextDistance = currDistance - (weighted ? e->weight : 1);
 
@@ -699,7 +701,7 @@ std::list<int> Graph::getReachable(int src, double dist, bool weighted){
  * @param augPaths list where the augmenting paths will be inserted
  * @return maximum flow
  */
-double Graph::maximumFlow(int src, int sink, std::list<Path>* augPaths){
+double Graph::maximumFlow(int src, int sink, std::list<Path> *augPaths) {
     if (!validIndex(src) || !validIndex(sink))
         return -1;
 

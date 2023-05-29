@@ -30,7 +30,7 @@ set(PROJECT_TESTS
         tests/dynamicPQTest.cpp
         tests/initializationTest.cpp
         tests/manipulationTest.cpp
-        tests/maximumFlowTest.cpp)
+        tests/maximumFlowTest.cpp tests/mstTest.cpp)
 
 add_executable(graph
         ${PROJECT_HEADERS}

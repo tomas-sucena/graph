@@ -11,7 +11,7 @@
 
 using testing::Eq;
 
-TEST(bfs, eccentricity){
+TEST(bfs, eccentricity) {
     // undirected and unweighted graph
     UGraph g1 = TestGraphs::graph1();
     std::list<int> farthest;
@@ -29,7 +29,7 @@ TEST(bfs, eccentricity){
     EXPECT_EQ(res, farthest);
     EXPECT_EQ(5, g1.eccentricity(9, &farthest));
     EXPECT_EQ(res, farthest);
-    
+
     // directed and unweighted graph
     DGraph g4 = TestGraphs::graph4();
 
@@ -65,15 +65,23 @@ TEST(bfs, eccentricity){
     EXPECT_EQ(res, farthest);
 }
 
-TEST(bfs, diameter){
+TEST(bfs, diameter) {
     // undirected and unweighted graphs
     std::list<std::pair<int, int>> farthest;
 
-    std::list<std::pair<int, int>> res = {{1, 9}, {1, 8}, {8, 1}, {9, 1}};
+    std::list<std::pair<int, int>> res = {{1, 9},
+                                          {1, 8},
+                                          {8, 1},
+                                          {9, 1}};
     EXPECT_EQ(5, TestGraphs::graph1().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
-    res = {{1, 4}, {4, 1}, {4, 7}, {4, 9}, {7, 4}, {9, 4}};
+    res = {{1, 4},
+           {4, 1},
+           {4, 7},
+           {4, 9},
+           {7, 4},
+           {9, 4}};
     EXPECT_EQ(3, TestGraphs::graph2().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
@@ -82,7 +90,10 @@ TEST(bfs, diameter){
     EXPECT_EQ(4, TestGraphs::graph4().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
-    res = {{1, 3}, {2, 1}, {3, 4}, {4, 2}};
+    res = {{1, 3},
+           {2, 1},
+           {3, 4},
+           {4, 2}};
     EXPECT_EQ(3, TestGraphs::graph5().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
@@ -90,16 +101,23 @@ TEST(bfs, diameter){
     EXPECT_EQ(3, TestGraphs::graph6().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
-    res = {{1, 2}, {1, 3}, {2, 1}, {2, 3}, {3, 1}, {3, 2}};
+    res = {{1, 2},
+           {1, 3},
+           {2, 1},
+           {2, 3},
+           {3, 1},
+           {3, 2}};
     EXPECT_EQ(1, TestGraphs::graph7().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
     // undirected and weighted graphs
-    res = {{1, 8}, {8, 1}};
+    res = {{1, 8},
+           {8, 1}};
     EXPECT_EQ(25, TestGraphs::graph8().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
-    res = {{2, 3}, {3, 2}};
+    res = {{2, 3},
+           {3, 2}};
     EXPECT_EQ(7, TestGraphs::graph9().diameter(&farthest));
     EXPECT_EQ(res, farthest);
 
@@ -113,16 +131,16 @@ TEST(bfs, diameter){
     EXPECT_EQ(res, farthest);
 }
 
-TEST(bfs, shortest_path){
+TEST(bfs, shortest_path) {
     // undirected graph
     UGraph g1 = TestGraphs::graph1();
 
     std::list<Path> paths = g1.getShortestPaths(1, 1);
     ASSERT_EQ(1, paths.size());
-    
-    for (const Path& path : paths){
+
+    for (const Path &path: paths) {
         std::list<int> indices = path.getIndices();
-        
+
         EXPECT_EQ(1, indices.front());
         EXPECT_EQ(1, indices.back());
         EXPECT_EQ(1, indices.size());
@@ -131,9 +149,9 @@ TEST(bfs, shortest_path){
     paths = g1.getShortestPaths(1, 4);
     ASSERT_EQ(2, paths.size());
 
-    for (const Path& path : paths){
+    for (const Path &path: paths) {
         std::list<int> indices = path.getIndices();
-        
+
         EXPECT_EQ(1, indices.front());
         EXPECT_EQ(4, indices.back());
         EXPECT_EQ(3, indices.size());
@@ -142,16 +160,16 @@ TEST(bfs, shortest_path){
     paths = g1.getShortestPaths(4, 1);
     ASSERT_EQ(2, paths.size());
 
-    for (const Path& path : paths){
+    for (const Path &path: paths) {
         std::list<int> indices = path.getIndices();
-        
+
         EXPECT_EQ(4, indices.front());
         EXPECT_EQ(1, indices.back());
         EXPECT_EQ(3, indices.size());
     }
 }
 
-TEST(bfs, topological_sort){
+TEST(bfs, topological_sort) {
     // directed graphs with cycles
     DGraph g5 = TestGraphs::graph5();
     DGraph g7 = TestGraphs::graph7();
@@ -167,10 +185,18 @@ TEST(bfs, topological_sort){
     list<int> order = g4.topologicalSort();
 
     EXPECT_EQ(9, order.size()); // size of order
-    for (int v=1; v<=9; v++) EXPECT_NE(order.end(), find(order.begin(), order.end(), v)); // v exists
+    for (int v = 1; v <= 9; v++) EXPECT_NE(order.end(), find(order.begin(), order.end(), v)); // v exists
 
-    vector<pair<int, int>> edges4 = {{1,2},{1,3}, {2,4}, {3,4}, {4,5}, {5,6}, {9,6},{7,5}, {8,7}};
-    for (auto e : edges4) {
+    vector<pair<int, int>> edges4 = {{1, 2},
+                                     {1, 3},
+                                     {2, 4},
+                                     {3, 4},
+                                     {4, 5},
+                                     {5, 6},
+                                     {9, 6},
+                                     {7, 5},
+                                     {8, 7}};
+    for (auto e: edges4) {
         auto u = find(order.begin(), order.end(), e.first);
         auto v = find(order.begin(), order.end(), e.second);
         EXPECT_LT(distance(order.begin(), u), distance(order.begin(), v)); // pos(u) < pos(v)
@@ -181,10 +207,17 @@ TEST(bfs, topological_sort){
     order = g6.topologicalSort();
 
     EXPECT_EQ(8, order.size()); // size of order
-    for (int v=1; v<=8; v++) EXPECT_NE(order.end(), find(order.begin(), order.end(), v)); // v exists
+    for (int v = 1; v <= 8; v++) EXPECT_NE(order.end(), find(order.begin(), order.end(), v)); // v exists
 
-    vector<pair<int, int>> edges6 = {{1,2},{3,1}, {2,4}, {5,4}, {5,6}, {6,7}, {6,8}, {8,7}};
-    for (auto e : edges6) {
+    vector<pair<int, int>> edges6 = {{1, 2},
+                                     {3, 1},
+                                     {2, 4},
+                                     {5, 4},
+                                     {5, 6},
+                                     {6, 7},
+                                     {6, 8},
+                                     {8, 7}};
+    for (auto e: edges6) {
         auto u = find(order.begin(), order.end(), e.first);
         auto v = find(order.begin(), order.end(), e.second);
         EXPECT_LT(distance(order.begin(), u), distance(order.begin(), v)); // pos(u) < pos(v)
@@ -195,10 +228,17 @@ TEST(bfs, topological_sort){
     order = g10.topologicalSort();
 
     EXPECT_EQ(8, order.size()); // size of order
-    for (int v=1; v<=8; v++) EXPECT_NE(order.end(), find(order.begin(), order.end(), v)); // v exists
+    for (int v = 1; v <= 8; v++) EXPECT_NE(order.end(), find(order.begin(), order.end(), v)); // v exists
 
-    vector<pair<int, int>> edges10 = {{2,1},{1,3}, {4,2}, {5,4}, {5,6}, {6,7}, {6,8}, {8,7}};
-    for (auto e : edges10) {
+    vector<pair<int, int>> edges10 = {{2, 1},
+                                      {1, 3},
+                                      {4, 2},
+                                      {5, 4},
+                                      {5, 6},
+                                      {6, 7},
+                                      {6, 8},
+                                      {8, 7}};
+    for (auto e: edges10) {
         auto u = find(order.begin(), order.end(), e.first);
         auto v = find(order.begin(), order.end(), e.second);
         EXPECT_LT(distance(order.begin(), u), distance(order.begin(), v)); // pos(u) < pos(v)
@@ -227,13 +267,13 @@ TEST(bfs, topological_sort){
     EXPECT_EQ(res, g.topologicalSort());
 }
 
-TEST(bfs, reachable){
+TEST(bfs, reachable) {
     list<int> res;
 
     // undirected and unweighted graph
     UGraph g1 = TestGraphs::graph1();
 
-    for (int i = 1; i <= g1.countVertices(); ++i){
+    for (int i = 1; i <= g1.countVertices(); ++i) {
         res = {i};
         EXPECT_EQ(res, g1.getReachable(i, 0));
     }

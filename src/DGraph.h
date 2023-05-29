@@ -20,16 +20,21 @@ public:
 /* METHODS */
 protected:
     // search methods
-    bool dfs(int src, uSet<int>* seen = nullptr);
+    bool dfs(int src, uSet<int> *seen = nullptr);
 
 public:
-    bool addEdge(Edge* e) override;
+    bool addEdge(Edge *e) override;
+
     bool addEdge(int src, int dest, double weight = 1, bool valid = true) override;
+
     bool removeEdge(int src, int dest) override;
+
     bool isDirected() const override;
 
     DGraph getSubgraph(std::list<int> vertexIndices);
+
     bool isDAG();
+
     std::list<int> topologicalSort();
 };
 

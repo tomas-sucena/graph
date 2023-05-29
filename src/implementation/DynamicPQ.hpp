@@ -7,19 +7,19 @@
 
 #include <set>
 
-template <typename T>
+template<typename T>
 class DynamicPQ {
     struct PointerComparator {
-        bool operator()(const T* lhs, const T* rhs){
+        bool operator()(const T *lhs, const T *rhs) {
             return *lhs < *rhs;
         }
     };
 
 /* ATTRIBUTES */
 private:
-    std::set<T*, PointerComparator> queue;
+    std::set<T *, PointerComparator> queue;
     bool notified;
-    typename std::set<T*>::iterator it;
+    typename std::set<T *>::iterator it;
 
 /* CONSTRUCTOR */
 public:
@@ -27,46 +27,46 @@ public:
 
 /* METHODS */
 public:
-    bool empty(){
+    bool empty() {
         return queue.empty();
     }
-    
-    int size(){
+
+    int size() {
         return (int) queue.size();
     }
-    
-    T& find(T& el){
+
+    T &find(T &el) {
         return **queue.find(&el);
     }
-    
-    bool push(T& el){
+
+    bool push(T &el) {
         return queue.insert(&el).second;
     }
-    
-    T& peek(){
+
+    T &peek() {
         return **queue.begin();
     }
-    
-    T& pop(){
-        T& head = peek();
+
+    T &pop() {
+        T &head = peek();
         queue.erase(queue.begin());
-        
+
         return head;
     }
-    
-    bool notify(T& el){
+
+    bool notify(T &el) {
         it = queue.find(&el);
         notified = (it != queue.end());
-        
+
         return notified;
     }
-    
-    bool update(){
+
+    bool update() {
         if (!notified) return false;
-        
-        T* el = *it;
+
+        T *el = *it;
         queue.erase(it);
-        
+
         notified = false;
         return queue.insert(el).second;
     }

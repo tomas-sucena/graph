@@ -16,12 +16,12 @@ struct Object {
 
     Object(int id, std::string name) : id(id), name(std::move(name)) {}
 
-    bool operator<(const Object& o) const{
+    bool operator<(const Object &o) const {
         return id < o.id;
     }
 };
 
-TEST(dynamicPQ, order_change){
+TEST(dynamicPQ, order_change) {
     Object o1(13, "John");
     Object o2(7, "Doe");
     Object o3(41, "Eren");

@@ -16,7 +16,7 @@
 
 using testing::Eq;
 
-TEST(initialization, default_constructor){
+TEST(initialization, default_constructor) {
     // undirected graph
     UGraph g1;
 
@@ -24,7 +24,7 @@ TEST(initialization, default_constructor){
     EXPECT_FALSE(g1.isWeighted());
     ASSERT_EQ(g1.countVertices(), g1.getVertices().size());
     EXPECT_EQ(0, g1.countVertices());
-    
+
     // directed graph
     DGraph g2;
 
@@ -35,7 +35,7 @@ TEST(initialization, default_constructor){
     EXPECT_EQ(0, g2.countVertices());
 }
 
-TEST(initialization, parametrized_constructor){
+TEST(initialization, parametrized_constructor) {
     // undirected graph
     UGraph g1(5);
 
@@ -54,7 +54,7 @@ TEST(initialization, parametrized_constructor){
     EXPECT_EQ(5, g2.countVertices());
 }
 
-TEST(initialization, subgraph){
+TEST(initialization, subgraph) {
     // undirected graph
     UGraph g2 = TestGraphs::graph2();
     EXPECT_EQ(12, g2.countVertices());
@@ -69,25 +69,32 @@ TEST(initialization, subgraph){
     EXPECT_EQ(1, sub2.countConnectedComponents());
 
     sub2 = g2.getSubgraph({1, 2, 3, 8, 5, 6, 11, 12});
-                                   // 1, 2, 3, 4, 5, 6, 7, 8
+    // 1, 2, 3, 4, 5, 6, 7, 8
     EXPECT_EQ(8, sub2.countVertices());
     EXPECT_EQ(2, sub2.countConnectedComponents());
 
-    uMap<int, int> indices = {{1, 1}, {2, 2}, {3, 3}, {8, 4}, {5, 5}, {6, 6}, {11, 7}, {12, 8}};
+    uMap<int, int> indices = {{1,  1},
+                              {2,  2},
+                              {3,  3},
+                              {8,  4},
+                              {5,  5},
+                              {6,  6},
+                              {11, 7},
+                              {12, 8}};
     uSet<int> cc1 = {1, 2, 3, 8}, cc2 = {5, 6, 11, 12};
 
-    for (auto& p1 : indices){
+    for (auto &p1: indices) {
         int i = p1.first, indexI = p1.second;
 
-        for (auto& p2 : indices){
+        for (auto &p2: indices) {
             int j = p2.first, indexJ = p2.second;
-            
+
             int IinCC1 = (cc1.find(i) != cc1.end());
             int IinCC2 = (cc2.find(i) != cc2.end());
             int JinCC1 = (cc1.find(j) != cc1.end());
             int JinCC2 = (cc2.find(j) != cc2.end());
 
-            if ((IinCC1 && JinCC1) || (IinCC2 && JinCC2)){
+            if ((IinCC1 && JinCC1) || (IinCC2 && JinCC2)) {
                 EXPECT_TRUE(sub2.distance(indexI, indexJ) >= 0);
                 continue;
             }
