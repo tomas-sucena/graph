@@ -12,6 +12,7 @@
 class Path {
 /* ATTRIBUTES */
 private:
+    double weight;
     std::list<const Edge *> edges;
     std::list<int> indices;
 
@@ -19,12 +20,16 @@ private:
 public:
     Path() = default;
 
-    explicit Path(int src) {
+    explicit Path(int src) : weight(0) {
         indices.push_back(src);
     }
 
 /* METHODS */
 public:
+    double getWeight() const {
+        return weight;
+    }
+
     std::list<int> getIndices() const {
         return indices;
     }
@@ -52,6 +57,7 @@ public:
         if (indices.empty()) indices.push_back(e->getSrc());
         indices.push_back(e->getDest());
 
+        weight += e->getWeight();
         return true;
     }
 
@@ -62,6 +68,7 @@ public:
         if (indices.empty()) indices.push_front(e->getDest());
         indices.push_front(e->getSrc());
 
+        weight += e->getWeight();
         return true;
     }
 };
