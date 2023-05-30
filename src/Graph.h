@@ -9,8 +9,8 @@
 #include <set>
 #include <vector>
 
-#include "../include/graph/Edge.hpp"
-#include "../include/graph/Vertex.hpp"
+#include "../include/Edge.hpp"
+#include "../include/Vertex.hpp"
 #include "Path.hpp"
 
 class Graph {

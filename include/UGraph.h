@@ -7,7 +7,7 @@
 
 #include <list>
 
-#include "../../src/Graph.h"
+#include "../src/Graph.h"
 
 using std::list;
 

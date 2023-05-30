@@ -14,9 +14,7 @@
 
 class Vertex {
     friend class Graph;
-
     friend class DGraph;
-
     friend class UGraph;
 
 /* ATTRIBUTES */

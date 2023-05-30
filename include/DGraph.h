@@ -8,7 +8,7 @@
 #include <list>
 #include <unordered_set>
 
-#include "../../src/Graph.h"
+#include "../src/Graph.h"
 
 #define uSet std::unordered_set
 

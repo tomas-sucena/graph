@@ -2,7 +2,7 @@
 // Created by Tomás Sucena Lopes on 20/02/2023.
 //
 
-#include "../include/graph/UGraph.h"
+#include "../include/UGraph.h"
 
 #include <stack>
 #include <stdexcept>

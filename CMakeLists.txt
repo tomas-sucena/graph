@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.16.3)
-project(graph
-        VERSION 1.0.0
-        DESCRIPTION "A simple graph library")
+project(graph)
 
 if (${CMAKE_VERSION} VERSION_GREATER "3.23.2")
     cmake_policy(SET CMP0135 NEW)
@@ -19,10 +17,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(PROJECT_HEADERS
-        include/graph/DGraph.h
-        include/graph/Edge.hpp
-        include/graph/Vertex.hpp
-        include/graph/UGraph.h
+        include/DGraph.h
+        include/Edge.hpp
+        include/Vertex.hpp
+        include/UGraph.h
         src/DynamicPQ.hpp
         src/Graph.h
         src/Path.hpp)
@@ -44,20 +42,12 @@ set(PROJECT_TESTS
         tests/TestGraphs.h
         tests/TestGraphs.cpp)
 
-# Create the library
-add_library(graph SHARED
+add_executable(graph
         ${PROJECT_HEADERS}
-        ${PROJECT_SOURCES})
-
-set_target_properties(graph PROPERTIES
-        VERSION ${PROJECT_VERSION})
-
-# Create the test executable
-add_executable(tests
+        ${PROJECT_SOURCES}
         ${PROJECT_TESTS})
 
-target_link_libraries(tests
-        graph
+target_link_libraries(graph
         gtest
         gtest_main)
 
