@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16.3)
-project(graph)
+project(graph
+        VERSION 1.0.0
+        DESCRIPTION "A simple graph library")
 
 if (${CMAKE_VERSION} VERSION_GREATER "3.23.2")
     cmake_policy(SET CMP0135 NEW)
@@ -48,8 +50,7 @@ add_library(graph SHARED
         ${PROJECT_SOURCES})
 
 set_target_properties(graph PROPERTIES
-        VERSION 1.0
-        SOVERSION 1)
+        VERSION ${PROJECT_VERSION})
 
 target_include_directories(graph
         PUBLIC include/
