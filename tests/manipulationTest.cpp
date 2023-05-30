@@ -5,8 +5,8 @@
 #include <gtest/gtest.h>
 #include <set>
 
-#include "../src/DGraph.h"
-#include "../src/UGraph.h"
+#include "../include/DGraph.h"
+#include "../include/UGraph.h"
 
 #define VertexPair std::pair<int, int>
 

@@ -7,7 +7,7 @@
 
 #include <list>
 
-#include "Edge.hpp"
+#include "../include/Edge.hpp"
 
 class Path {
 /* ATTRIBUTES */

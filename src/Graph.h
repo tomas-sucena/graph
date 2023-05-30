@@ -9,9 +9,9 @@
 #include <set>
 #include <vector>
 
-#include "Edge.hpp"
+#include "../include/Edge.hpp"
 #include "Path.hpp"
-#include "Vertex.hpp"
+#include "../include/Vertex.hpp"
 
 class Graph {
 /* ATTRIBUTES */
