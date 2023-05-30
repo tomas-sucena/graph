@@ -5,6 +5,8 @@
 #ifndef GRAPH_EDGE_HPP
 #define GRAPH_EDGE_HPP
 
+#include <functional>
+
 class Edge {
     friend class Graph;
     friend class DGraph;
