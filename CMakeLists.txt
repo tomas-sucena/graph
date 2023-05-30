@@ -19,10 +19,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(PROJECT_HEADERS
-        include/DGraph.h
-        include/Edge.hpp
-        include/Vertex.hpp
-        include/UGraph.h
+        include/graph/DGraph.h
+        include/graph/Edge.hpp
+        include/graph/Vertex.hpp
+        include/graph/UGraph.h
         src/DynamicPQ.hpp
         src/Graph.h
         src/Path.hpp)
@@ -51,10 +51,6 @@ add_library(graph SHARED
 
 set_target_properties(graph PROPERTIES
         VERSION ${PROJECT_VERSION})
-
-target_include_directories(graph
-        PUBLIC include/
-        PRIVATE src/)
 
 # Create the test executable
 add_executable(tests

@@ -7,7 +7,7 @@
 
 #include <list>
 
-#include "../include/Edge.hpp"
+#include "../include/graph/Edge.hpp"
 
 class Path {
 /* ATTRIBUTES */
@@ -18,7 +18,7 @@ private:
 
 /* CONSTRUCTORS */
 public:
-    Path() = default;
+    Path() : weight(0) {}
 
     explicit Path(int src) : weight(0) {
         indices.push_back(src);

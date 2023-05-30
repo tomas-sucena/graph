@@ -7,7 +7,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "../include/UGraph.h"
+#include "../include/graph/UGraph.h"
 #include "TestGraphs.h"
 
 #define uSet std::unordered_set

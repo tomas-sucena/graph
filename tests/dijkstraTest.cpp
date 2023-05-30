@@ -5,8 +5,8 @@
 #include <gtest/gtest.h>
 #include <list>
 
-#include "../include/DGraph.h"
-#include "../include/UGraph.h"
+#include "../include/graph/DGraph.h"
+#include "../include/graph/UGraph.h"
 #include "TestGraphs.h"
 
 using testing::Eq;
