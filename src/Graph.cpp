@@ -274,6 +274,23 @@ bool Graph::reserve(int n) {
 }
 
 /**
+ * @brief changes the number of vertices of the Graph
+ * @param n number of vertices that the Graph will have
+ * @return 'true' if the resize occurs, 'false' otherwise
+ */
+bool Graph::resize(int n) {
+    if (n <= countVertices())
+        return false;
+
+    for (int i = 0; i < n - countVertices(); ++i) {
+        vertices.push_back(new Vertex());
+        (*this)[countVertices()].index = countVertices();
+    }
+
+    return true;
+}
+
+/**
  * @brief adds a vertex to the Graph
  * @param v pointer to the vertex that will be added
  */

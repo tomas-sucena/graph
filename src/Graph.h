@@ -57,6 +57,7 @@ protected:
 
 public:
     bool reserve(int n);
+    bool resize(int n);
     virtual void addVertex(Vertex *v = nullptr);
     int removeVertex(int index);
     virtual bool addEdge(Edge *e);
