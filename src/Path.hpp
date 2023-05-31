@@ -72,23 +72,55 @@ public:
         return true;
     }
 
-    bool operator<(const Path& rhs) const {
+    bool operator<(const Path &rhs) const {
+        if (indices.empty() || rhs.indices.empty())
+            return false;
+
+        bool sameSrc = indices.front() == rhs.indices.front();
+        bool sameDest = indices.back() == rhs.indices.back();
+
+        if (!sameSrc || !sameDest) return false;
+
         return weight < rhs.getWeight();
     }
 
-    bool operator>(const Path& rhs) const {
+    bool operator>(const Path &rhs) const {
+        if (indices.empty() || rhs.indices.empty())
+            return false;
+
+        bool sameSrc = indices.front() == rhs.indices.front();
+        bool sameDest = indices.back() == rhs.indices.back();
+
+        if (!sameSrc || !sameDest) return false;
+
         return weight > rhs.getWeight();
     }
 
-    bool operator<=(const Path& rhs) const {
-        return !(*this > rhs);
+    bool operator<=(const Path &rhs) const {
+        if (indices.empty() || rhs.indices.empty())
+            return false;
+
+        bool sameSrc = indices.front() == rhs.indices.front();
+        bool sameDest = indices.back() == rhs.indices.back();
+
+        if (!sameSrc || !sameDest) return false;
+
+        return weight <= rhs.getWeight();
     }
 
-    bool operator>=(const Path& rhs) const {
-        return !(*this < rhs);
+    bool operator>=(const Path &rhs) const {
+        if (indices.empty() || rhs.indices.empty())
+            return false;
+
+        bool sameSrc = indices.front() == rhs.indices.front();
+        bool sameDest = indices.back() == rhs.indices.back();
+
+        if (!sameSrc || !sameDest) return false;
+
+        return weight >= rhs.getWeight();
     }
 
-    void operator+=(const Path& rhs) {
+    void operator+=(const Path &rhs) {
         if (!indices.empty() && rhs.front()->getSrc() != indices.back()) return;
 
         for (const Edge* e : rhs)
