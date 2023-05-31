@@ -72,6 +72,22 @@ public:
         return true;
     }
 
+    bool operator<(const Path& rhs) const {
+        return weight < rhs.getWeight();
+    }
+
+    bool operator>(const Path& rhs) const {
+        return weight > rhs.getWeight();
+    }
+
+    bool operator<=(const Path& rhs) const {
+        return !(*this > rhs);
+    }
+
+    bool operator>=(const Path& rhs) const {
+        return !(*this < rhs);
+    }
+
     void operator+=(const Path& rhs) {
         if (!indices.empty() && rhs.front()->getSrc() != indices.back()) return;
 
