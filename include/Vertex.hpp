@@ -50,6 +50,14 @@ public:
     }
 
     /**
+     * @brief returns the index of the vertex
+     * @return index of the vertex
+     */
+    int getIndex() const {
+        return index;
+    }
+
+    /**
      * @brief returns the number of ingoing edges of the vertex (i.e. edges whose destination is the vertex)
      * @return number of ingoing edges of the vertex
      */
