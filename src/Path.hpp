@@ -34,6 +34,10 @@ public:
         return indices;
     }
 
+    bool empty() const {
+        return (edges.empty() && indices.empty());
+    }
+
     auto begin() const {
         return edges.begin();
     }
