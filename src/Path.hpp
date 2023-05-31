@@ -71,6 +71,15 @@ public:
         weight += e->getWeight();
         return true;
     }
+
+    void operator+=(const Path& rhs) {
+        if (!indices.empty() && rhs.front()->getSrc() != indices.back()) return;
+
+        for (const Edge* e : rhs)
+            push_back(e);
+
+        indices.insert(indices.end(), rhs.indices.begin(), rhs.indices.end());
+    }
 };
 
 #endif //GRAPH_PATH_HPP
