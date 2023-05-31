@@ -282,7 +282,8 @@ bool Graph::resize(int n) {
     if (n <= countVertices())
         return false;
 
-    for (int i = 0; i < n - countVertices(); ++i) {
+    n -= countVertices();
+    for (int i = 0; i < n; ++i) {
         vertices.push_back(new Vertex());
         (*this)[countVertices()].index = countVertices();
     }
