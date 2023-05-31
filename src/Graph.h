@@ -57,43 +57,27 @@ protected:
 
 public:
     bool reserve(int n);
-
     virtual void addVertex(Vertex *v = nullptr);
-
     int removeVertex(int index);
-
     virtual bool addEdge(Edge *e);
-
     virtual bool addEdge(int src, int dest, double weight, bool valid);
-
     virtual bool removeEdge(int src, int dest);
 
     virtual bool isDirected() const = 0;
-
     bool isWeighted() const;
-
     int countVertices() const;
-
     int countEdges() const;
-
     std::vector<Vertex *> getVertices() const;
-
     std::set<Edge *> getEdges() const;
-
     virtual Vertex &operator[](int index);
 
     bool areConnected(int src, int dest) const;
-
     double eccentricity(int index, std::list<int> *farthest = nullptr);
-
     double diameter(std::list<std::pair<int, int>> *farthest = nullptr);
 
     double distance(int src, int dest);
-
     Path getShortestPath(int src, int dest);
-
     std::list<Path> getShortestPaths(int src, int dest);
-
     std::list<int> getReachable(int src, double dist, bool weighted = true);
 
     double maximumFlow(int src, int sink, std::list<Path> *augPaths = nullptr);
