@@ -125,8 +125,6 @@ public:
 
         for (const Edge* e : rhs)
             push_back(e);
-
-        indices.insert(indices.end(), rhs.indices.begin(), rhs.indices.end());
     }
 };
 
