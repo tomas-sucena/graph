@@ -162,6 +162,8 @@ Path Graph::dijkstra(int src, int dest) {
  * @param src index of the source vertex
  */
 void Graph::dijkstra(int src) {
+    if (autoReset) resetAll();
+
     (*this)[src].valid = false;
     (*this)[src].dist = 0;
 
