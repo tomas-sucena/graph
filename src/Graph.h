@@ -13,6 +13,8 @@
 #include "../include/Vertex.hpp"
 #include "Path.hpp"
 
+using std::vector;
+
 class Graph {
 /* ATTRIBUTES */
     struct AutoResetSettings {
@@ -65,9 +67,9 @@ public:
     bool isWeighted() const;
     int countVertices() const;
     int countEdges() const;
-    std::vector<Vertex *> getVertices() const;
+    vector<Vertex *> getVertices() const;
     std::set<Edge *> getEdges() const;
-    double** toMatrix(bool fillAll = false);
+    vector<vector<double>> toMatrix(bool fillAll = false);
     virtual Vertex &operator[](int index);
 
     bool areConnected(int src, int dest) const;

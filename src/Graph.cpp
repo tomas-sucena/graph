@@ -119,7 +119,7 @@ Path Graph::dijkstra(int src, int dest) {
     DynamicPQ<Vertex> pq;
     pq.push((*this)[src]);
 
-    std::vector<const Edge *> prev(countVertices() + 1, nullptr);
+    vector<const Edge *> prev(countVertices() + 1, nullptr);
 
     while (!pq.empty()) {
         int curr = pq.pop().index;
@@ -168,7 +168,7 @@ void Graph::dijkstra(int src) {
     DynamicPQ<Vertex> pq;
     pq.push((*this)[src]);
 
-    std::vector<const Edge *> prev(countVertices() + 1, nullptr);
+    vector<const Edge *> prev(countVertices() + 1, nullptr);
 
     while (!pq.empty()) {
         int curr = pq.pop().index;
@@ -208,7 +208,7 @@ double Graph::edmondsKarp(int src, int sink, std::list<Path> *augPaths) {
     double flow = 0;
 
     while (true) {
-        std::vector<Edge *> prev(countVertices() + 1, nullptr);
+        vector<Edge *> prev(countVertices() + 1, nullptr);
 
         // BFS
         std::queue<int> q;
@@ -523,7 +523,7 @@ int Graph::countEdges() const {
  * @brief returns the vector which stores the vertices of the Graph
  * @return std::vector that stores the vertices of the Graph
  */
-std::vector<Vertex *> Graph::getVertices() const {
+vector<Vertex *> Graph::getVertices() const {
     return vertices;
 }
 
@@ -541,16 +541,11 @@ std::set<Edge *> Graph::getEdges() const {
  * shortest paths for all non-adjacent vertices)
  * @return adjacency matrix of the Graph
  */
-double** Graph::toMatrix(bool fillAll) {
+vector<vector<double>> Graph::toMatrix(bool fillAll) {
     // initialize the matrix
-    auto matrix = new double*[countVertices() + 1];
-
-    for (int i = 1; i <= countVertices(); ++i) {
-        matrix[i] = new double[countVertices() + 1];
-
-        for (int j = 1; j <= countVertices(); ++j)
-            matrix[i][j] = INF;
-    }
+    vector<vector<double>> matrix(countVertices() + 1);
+    for (int i = 1; i <= countVertices(); ++i)
+        std::fill(matrix[i].begin(), matrix[i].end(), INF);
 
     // fill the matrix
     for (int i = 1; i <= countVertices(); ++i){
