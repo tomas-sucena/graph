@@ -38,19 +38,16 @@ public:
 /* METHODS */
 protected:
     void resetVertices();
-
     void resetEdges();
-
     void resetAll();
 
     bool validIndex(int index) const;
 
     // search methods
     std::list<int> bfs(int src);
-
-    Path dijkstra(int src, int dest);
-
     std::list<Path> bfs(int src, int dest);
+    Path dijkstra(int src, int dest);
+    void dijkstra(int src);
 
     // flow methods
     double edmondsKarp(int src, int sink, std::list<Path> *augPaths = nullptr);
@@ -70,6 +67,7 @@ public:
     int countEdges() const;
     std::vector<Vertex *> getVertices() const;
     std::set<Edge *> getEdges() const;
+    double** toMatrix(bool fillAll = false);
     virtual Vertex &operator[](int index);
 
     bool areConnected(int src, int dest) const;
