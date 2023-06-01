@@ -38,18 +38,14 @@ public:
 /* METHODS */
 protected:
     void resetVertices();
-
     void resetEdges();
-
     void resetAll();
 
     bool validIndex(int index) const;
 
     // search methods
     std::list<int> bfs(int src);
-
     Path dijkstra(int src, int dest);
-
     std::list<Path> bfs(int src, int dest);
 
     // flow methods
@@ -62,7 +58,7 @@ public:
     int removeVertex(int index);
     virtual bool addEdge(Edge *e);
     virtual bool addEdge(int src, int dest, double weight, bool valid);
-    virtual bool removeEdge(int src, int dest);
+    virtual int removeEdges(int src, int dest);
 
     virtual bool isDirected() const = 0;
     bool isWeighted() const;

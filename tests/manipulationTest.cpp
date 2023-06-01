@@ -7,6 +7,7 @@
 
 #include "../include/DGraph.h"
 #include "../include/UGraph.h"
+#include "TestGraphs.h"
 
 #define VertexPair std::pair<int, int>
 
@@ -135,4 +136,24 @@ TEST(manipulation, vertex_removal) {
     EXPECT_EQ(0, g1[2].inDegree());
     EXPECT_THROW(g1[3].outDegree(), std::invalid_argument);
     EXPECT_THROW(g1[3].inDegree(), std::invalid_argument);
+}
+
+TEST(manipulation, edge_removal) {
+    // undirected graph
+    UGraph g1 = TestGraphs::graph1();
+    EXPECT_EQ(18, g1.countEdges());
+
+    EXPECT_EQ(2, g1.removeEdges(1, 2));
+    EXPECT_EQ(0, g1.removeEdges(2, 1));
+    EXPECT_EQ(2, g1.removeEdges(7, 8));
+    EXPECT_EQ(0, g1.removeEdges(8, 7));
+
+    // directed graph
+    DGraph g4 = TestGraphs::graph4();
+    EXPECT_EQ(9, g4.countEdges());
+
+    EXPECT_EQ(1, g4.removeEdges(1, 2));
+    EXPECT_EQ(0, g4.removeEdges(2, 1));
+    EXPECT_EQ(0, g4.removeEdges(7, 8));
+    EXPECT_EQ(1, g4.removeEdges(8, 7));
 }

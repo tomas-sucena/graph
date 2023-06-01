@@ -25,7 +25,7 @@ TEST(dfs, isDAG) {
     DGraph g5 = TestGraphs::graph5();
     EXPECT_FALSE(g5.isDAG());
 
-    g5.removeEdge(1, 2);
+    g5.removeEdges(1, 2);
     EXPECT_TRUE(g5.isDAG());
 
     DGraph g12 = TestGraphs::graph12();

@@ -75,14 +75,14 @@ bool DGraph::addEdge(int src, int dest, double weight, bool valid) {
 }
 
 /**
- * @brief removes an edge from the Graph, that is, eliminates the connection between two vertices
+ * @brief removes all the edges that connect the source vertex to the destination vertex from the Graph
  * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
- * @return 'true' if the removal occurs, 'false' otherwise
+ * @return number of edges removed
  */
-bool DGraph::removeEdge(int src, int dest) {
-    return Graph::removeEdge(src, dest);
+int DGraph::removeEdges(int src, int dest) {
+    return Graph::removeEdges(src, dest);
 }
 
 /**

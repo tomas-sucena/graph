@@ -18,6 +18,7 @@ protected:
     int dest;
     double weight;
     double flow;
+    Edge* reverse;
 
 public:
     bool valid;
@@ -28,7 +29,7 @@ protected:
 
 public:
     Edge(int src, int dest, double weight, bool valid)
-            : src(src), dest(dest), weight(weight), valid(valid), flow(0) {}
+            : src(src), dest(dest), weight(weight), valid(valid), flow(0), reverse(nullptr) {}
 
 /* DESTRUCTOR */
 public:
@@ -58,6 +59,10 @@ public:
 
     double getFlow() const {
         return flow;
+    }
+
+    Edge* getReverse() const {
+        return reverse;
     }
 
     bool operator<(const Edge &e) const {

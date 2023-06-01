@@ -412,15 +412,14 @@ bool Graph::addEdge(int src, int dest, double weight, bool valid) {
 }
 
 /**
- * @brief removes an edge from the Graph, that is, eliminates the connection between two vertices
+ * @brief removes all the edges that connect the source vertex to the destination vertex from the Graph
  * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
- * @return 'true' if the removal occurs, 'false' otherwise
+ * @return number of edges removed
  */
-bool Graph::removeEdge(int src, int dest) {
-    if (!areConnected(src, dest))
-        return false;
+int Graph::removeEdges(int src, int dest) {
+    std::list<Edge*> deletedEdges;
 
     for (auto it = edges.begin(); it != edges.end();) {
         if ((*it)->src != src || (*it)->dest != dest) {
@@ -428,11 +427,15 @@ bool Graph::removeEdge(int src, int dest) {
             continue;
         }
 
+        deletedEdges.push_back(*it);
         weighted -= ((*it)->weight != 1);
+
         it = edges.erase(it);
     }
 
-    // remove the edge from the outgoing edges list of the source vertex
+    if (deletedEdges.empty()) return 0;
+
+    // remove the edges from the outgoing edges list of the source vertex
     for (auto it = (*this)[src].out.begin(); it != (*this)[src].out.end();) {
         if ((*it)->src != src || (*it)->dest != dest) {
             ++it;
@@ -442,7 +445,7 @@ bool Graph::removeEdge(int src, int dest) {
         it = (*this)[src].out.erase(it);
     }
 
-    // remove the edge from the ingoing edges list of the destination vertex
+    // remove the edges from the ingoing edges list of the destination vertex
     for (auto it = (*this)[dest].in.begin(); it != (*this)[dest].in.end();) {
         if ((*it)->src != src || (*it)->dest != dest) {
             ++it;
@@ -452,7 +455,11 @@ bool Graph::removeEdge(int src, int dest) {
         it = (*this)[dest].in.erase(it);
     }
 
-    return true;
+    // delete the edges
+    for (Edge *e: deletedEdges)
+        delete e;
+
+    return (int) deletedEdges.size();
 }
 
 /**

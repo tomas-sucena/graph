@@ -97,7 +97,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5e494960c43a9bd91e4e7b8ae9c9ec01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_graph.html#a5e494960c43a9bd91e4e7b8ae9c9ec01">addEdge</a> (int src, int dest, double weight=1, bool valid=true) override</td></tr>
 <tr class="memdesc:a5e494960c43a9bd91e4e7b8ae9c9ec01"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds an edge to the <a class="el" href="class_graph.html">Graph</a>, that is, a connection between two vertices  <br /></td></tr>
 <tr class="separator:a5e494960c43a9bd91e4e7b8ae9c9ec01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84906789178d4994f4afaf0124addf7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_graph.html#a84906789178d4994f4afaf0124addf7c">removeEdge</a> (int src, int dest) override</td></tr>
+<tr class="memitem:a84906789178d4994f4afaf0124addf7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_graph.html#a84906789178d4994f4afaf0124addf7c">removeEdges</a> (int src, int dest) override</td></tr>
 <tr class="memdesc:a84906789178d4994f4afaf0124addf7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">removes an edge from the <a class="el" href="class_graph.html">Graph</a>, that is, eliminates the connection between two vertices  <br /></td></tr>
 <tr class="separator:a84906789178d4994f4afaf0124addf7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3885f8800d3cd6ce9b338037ac15f5b2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_graph.html#a3885f8800d3cd6ce9b338037ac15f5b2">isDirected</a> () const override</td></tr>
@@ -131,7 +131,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a27dd4b3658405e8a2c8d121d734a7a45 inherit pub_methods_class_graph"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a27dd4b3658405e8a2c8d121d734a7a45">addEdge</a> (int src, int dest, double weight, bool valid)</td></tr>
 <tr class="memdesc:a27dd4b3658405e8a2c8d121d734a7a45 inherit pub_methods_class_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds an edge to the <a class="el" href="class_graph.html">Graph</a>, that is, a connection between two vertices  <br /></td></tr>
 <tr class="separator:a27dd4b3658405e8a2c8d121d734a7a45 inherit pub_methods_class_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29c96147c65a29dd98495278257f2337 inherit pub_methods_class_graph"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a29c96147c65a29dd98495278257f2337">removeEdge</a> (int src, int dest)</td></tr>
+<tr class="memitem:a29c96147c65a29dd98495278257f2337 inherit pub_methods_class_graph"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a29c96147c65a29dd98495278257f2337">removeEdges</a> (int src, int dest)</td></tr>
 <tr class="memdesc:a29c96147c65a29dd98495278257f2337 inherit pub_methods_class_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">removes an edge from the <a class="el" href="class_graph.html">Graph</a>, that is, eliminates the connection between two vertices  <br /></td></tr>
 <tr class="separator:a29c96147c65a29dd98495278257f2337 inherit pub_methods_class_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a259d8d5a3248ebfa699d2374d61f218f inherit pub_methods_class_graph"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graph.html#a259d8d5a3248ebfa699d2374d61f218f">isDirected</a> () const =0</td></tr>
@@ -491,7 +491,7 @@ std::set&lt; <a class="el" href="class_edge.html">Edge</a> * &gt;&#160;</td><td 
 </div>
 </div>
 <a id="a84906789178d4994f4afaf0124addf7c" name="a84906789178d4994f4afaf0124addf7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84906789178d4994f4afaf0124addf7c">&#9670;&#160;</a></span>removeEdge()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a84906789178d4994f4afaf0124addf7c">&#9670;&#160;</a></span>removeEdges()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -500,7 +500,7 @@ std::set&lt; <a class="el" href="class_edge.html">Edge</a> * &gt;&#160;</td><td 
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool DGraph::removeEdge </td>
+          <td class="memname">bool DGraph::removeEdges </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>src</em>, </td>

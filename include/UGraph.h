@@ -20,7 +20,7 @@ public:
 public:
     bool addEdge(Edge *e) override;
     bool addEdge(int src, int dest, double weight = 1, bool valid = true) override;
-    bool removeEdge(int src, int dest) override;
+    int removeEdges(int src, int dest) override;
 
     bool isDirected() const override;
     UGraph getSubgraph(list<int> vertexIndices);

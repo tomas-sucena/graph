@@ -42,6 +42,9 @@ bool UGraph::addEdge(Edge *e) {
     Edge *e_ = e->clone();
     std::swap(e_->src, e_->dest);
 
+    e->reverse = e_;
+    e_->reverse = e;
+
     return Graph::addEdge(e_);
 }
 
@@ -59,17 +62,17 @@ bool UGraph::addEdge(int src, int dest, double weight, bool valid) {
 }
 
 /**
- * removes an edge from the Graph, that is, eliminates the connection between two vertices
+ * @brief removes all the edges connecting two specific vertices from the Graph
  * @complexity O(|E|)
  * @param src index of the source vertex
  * @param dest index of the destination vertex
- * @return 'true' if the removal occurs, 'false' otherwise
+ * @return number of edges removed
  */
-bool UGraph::removeEdge(int src, int dest) {
-    if (!Graph::removeEdge(src, dest))
-        return false;
+int UGraph::removeEdges(int src, int dest) {
+    int removedEdges = Graph::removeEdges(src, dest);
+    if (!removedEdges) return 0;
 
-    return Graph::removeEdge(dest, src);
+    return removedEdges + Graph::removeEdges(dest, src);
 }
 
 /**
