@@ -119,7 +119,7 @@ Path Graph::dijkstra(int src, int dest) {
     DynamicPQ<Vertex> pq;
     pq.push((*this)[src]);
 
-    std::vector<const Edge *> prev(countVertices() + 1, nullptr);
+    vector<const Edge *> prev(countVertices() + 1, nullptr);
 
     while (!pq.empty()) {
         int curr = pq.pop().index;
@@ -157,6 +157,48 @@ Path Graph::dijkstra(int src, int dest) {
 }
 
 /**
+ * @brief computes the shortest distances from the source vertex to all others
+ * @complexity O(|E| * log|V|)
+ * @param src index of the source vertex
+ */
+void Graph::dijkstra(int src) {
+    if (autoReset) resetAll();
+
+    (*this)[src].valid = false;
+    (*this)[src].dist = 0;
+
+    DynamicPQ<Vertex> pq;
+    pq.push((*this)[src]);
+
+    vector<const Edge *> prev(countVertices() + 1, nullptr);
+
+    while (!pq.empty()) {
+        int curr = pq.pop().index;
+
+        for (const Edge *e: (*this)[curr].out) {
+            int next = e->dest;
+
+            if ((*this)[curr].dist + e->weight < (*this)[next].dist) {
+                // notify the PQ that we will alter an element
+                pq.notify((*this)[next]);
+
+                (*this)[next].dist = (*this)[curr].dist + e->weight;
+                prev[next] = e;
+
+                // update the PQ
+                pq.update();
+            }
+
+            if (!(*this)[next].valid || !e->valid) continue;
+            (*this)[next].valid = false;
+
+            pq.push((*this)[next]);
+        }
+    }
+}
+
+
+/**
  * @brief implementation of the Edmonds-Karp algorithm, which computes the maximum flow between two vertices
  * @complexity O(|V| * |E|^2)
  * @param src index of the source vertex
@@ -168,7 +210,7 @@ double Graph::edmondsKarp(int src, int sink, std::list<Path> *augPaths) {
     double flow = 0;
 
     while (true) {
-        std::vector<Edge *> prev(countVertices() + 1, nullptr);
+        vector<Edge *> prev(countVertices() + 1, nullptr);
 
         // BFS
         std::queue<int> q;
@@ -490,7 +532,7 @@ int Graph::countEdges() const {
  * @brief returns the vector which stores the vertices of the Graph
  * @return std::vector that stores the vertices of the Graph
  */
-std::vector<Vertex *> Graph::getVertices() const {
+vector<Vertex *> Graph::getVertices() const {
     return vertices;
 }
 
@@ -500,6 +542,36 @@ std::vector<Vertex *> Graph::getVertices() const {
  */
 std::set<Edge *> Graph::getEdges() const {
     return edges;
+}
+
+/**
+ * @brief creates the adjacency matrix of the Graph
+ * @param fillAll indicates if the matrix should be filled with all the distances (which involves computing the
+ * shortest paths for all non-adjacent vertices)
+ * @return adjacency matrix of the Graph
+ */
+vector<vector<double>> Graph::toMatrix(bool fillAll) {
+    // initialize the matrix
+    vector<vector<double>> matrix(countVertices() + 1);
+    for (int i = 1; i <= countVertices(); ++i)
+        matrix[i].resize(countVertices() + 1, INF);
+
+    // fill the matrix
+    for (int i = 1; i <= countVertices(); ++i){
+        if (!fillAll) {
+            for (const Edge *e: (*this)[i].out)
+                matrix[i][e->dest] = std::min(e->weight, matrix[i][e->dest]);
+
+            continue;
+        }
+
+        dijkstra(i);
+
+        for (int j = 1; j <= countVertices(); ++j)
+            matrix[i][j] = (*this)[j].dist;
+    }
+
+    return matrix;
 }
 
 /**
