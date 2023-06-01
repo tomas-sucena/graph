@@ -242,8 +242,10 @@ list<Edge *> UGraph::getMST() {
     // build the MST
     list<Edge *> MST;
 
-    for (int i = 2; i <= countVertices(); ++i)
+    for (int i = 2; i <= countVertices(); ++i) {
         MST.push_back(prev[i]);
+        MST.push_back(prev[i]->reverse);
+    }
 
     return MST;
 }
