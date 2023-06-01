@@ -197,15 +197,16 @@ int UGraph::countArticulationPoints() {
 /**
  * computes a Minimum Spanning Tree (MST) of the Graph, using an implementation of Prim's algorithm
  * @complexity O(|E| * log|V|)
+ * @param root index of the vertex which will be the root of the MST
  * @return list containing the edges that belong to the MST
  */
-list<Edge *> UGraph::getMST() {
+list<Edge *> UGraph::getMST(int root) {
     if (autoReset) resetAll();
 
     DynamicPQ<Vertex> pq;
     uSet<int> notInMST;
 
-    (*this)[1].dist = 0;
+    (*this)[root].dist = 0;
 
     for (int i = 1; i <= countVertices(); ++i) {
         notInMST.insert(i);
@@ -242,7 +243,9 @@ list<Edge *> UGraph::getMST() {
     // build the MST
     list<Edge *> MST;
 
-    for (int i = 2; i <= countVertices(); ++i) {
+    for (int i = 1; i <= countVertices(); ++i) {
+        if (i == root) continue;
+
         MST.push_back(prev[i]);
         MST.push_back(prev[i]->reverse);
     }

@@ -31,7 +31,7 @@ public:
     list<int> getArticulationPoints();
     int countArticulationPoints();
 
-    list<Edge *> getMST();
+    list<Edge *> getMST(int root = 1);
 };
 
 #endif //GRAPH_UGRAPH_H
