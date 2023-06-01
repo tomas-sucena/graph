@@ -554,7 +554,7 @@ vector<vector<double>> Graph::toMatrix(bool fillAll) {
     // initialize the matrix
     vector<vector<double>> matrix(countVertices() + 1);
     for (int i = 1; i <= countVertices(); ++i)
-        matrix[i].resize(countVertices() + 1, INF);
+        matrix[i].resize(countVertices() + 1, -1);
 
     // fill the matrix
     for (int i = 1; i <= countVertices(); ++i){
