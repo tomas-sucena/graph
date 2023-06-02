@@ -559,8 +559,10 @@ vector<vector<double>> Graph::toMatrix(bool fillAll) {
     // fill the matrix
     for (int i = 1; i <= countVertices(); ++i){
         if (!fillAll) {
-            for (const Edge *e: (*this)[i].out)
-                matrix[i][e->dest] = std::min(e->weight, matrix[i][e->dest]);
+            for (const Edge *e: (*this)[i].out) {
+                double currDistance = (matrix[i][e->dest] < 0) ? INF : matrix[i][e->dest];
+                matrix[i][e->dest] = std::min(e->weight, currDistance);
+            }
 
             continue;
         }
