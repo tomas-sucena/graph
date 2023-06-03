@@ -22,14 +22,6 @@ UGraph::UGraph(int n) : Graph(n) {}
 
 /* METHODS */
 /**
- * indicates if the Graph is directed
- * @return 'false' (because this is an undirected Graph)
- */
-bool UGraph::isDirected() const {
-    return false;
-}
-
-/**
  * @brief adds an edge to the Graph, that is, a connection between two vertices
  * @complexity O(log|E|)
  * @param e edge to be added
@@ -73,6 +65,45 @@ int UGraph::removeEdges(int src, int dest) {
     if (!removedEdges) return 0;
 
     return removedEdges + Graph::removeEdges(dest, src);
+}
+
+/**
+ * indicates if the Graph is directed
+ * @return 'false' (because this is an undirected Graph)
+ */
+bool UGraph::isDirected() const {
+    return false;
+}
+
+/**
+ * @brief creates the adjacency matrix of the Graph
+ * @complexity O(|V| * |E| * log|V|)
+ * @param fillAll indicates if the matrix should be filled with all the distances (which involves computing the
+ * shortest paths for all non-adjacent vertices)
+ * @return adjacency matrix of the Graph
+ */
+vector<vector<double>> UGraph::toMatrix(bool fillAll) {
+    // initialize the matrix
+    vector<vector<double>> matrix(countVertices() + 1);
+    for (int i = 1; i <= countVertices(); ++i)
+        matrix[i].resize(countVertices() + 1, -1);
+
+    // fill the matrix
+    if (!fillAll) {
+        for (const Edge *e: edges)
+            matrix[e->src][e->dest] = std::min(e->weight, matrix[e->src][e->dest]);
+
+        return matrix;
+    }
+
+    for (int i = 1; i <= countVertices(); ++i) {
+        dijkstra(i);
+
+        for (int j = i; j <= countVertices(); ++j)
+            matrix[i][j] = matrix[j][i] = (*this)[j].dist;
+    }
+
+    return matrix;
 }
 
 /**

@@ -23,6 +23,7 @@ public:
     int removeEdges(int src, int dest) override;
 
     bool isDirected() const override;
+    vector<vector<double>> toMatrix(bool fillAll = false) override;
     UGraph getSubgraph(list<int> vertexIndices);
 
     list<list<int>> getConnectedComponents();

@@ -60,7 +60,7 @@ public:
     virtual void addVertex(Vertex *v = nullptr);
     int removeVertex(int index);
     virtual bool addEdge(Edge *e);
-    virtual bool addEdge(int src, int dest, double weight, bool valid);
+    virtual bool addEdge(int src, int dest, double weight = 1, bool valid = true);
     virtual int removeEdges(int src, int dest);
 
     virtual bool isDirected() const = 0;
@@ -69,7 +69,7 @@ public:
     int countEdges() const;
     vector<Vertex *> getVertices() const;
     std::set<Edge *> getEdges() const;
-    vector<vector<double>> toMatrix(bool fillAll = false);
+    virtual vector<vector<double>> toMatrix(bool fillAll = false);
     virtual Vertex &operator[](int index);
 
     bool areConnected(int src, int dest) const;

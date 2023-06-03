@@ -52,40 +52,6 @@ bool DGraph::isDirected() const {
 }
 
 /**
- * @brief adds an edge to the Graph, that is, a connection between two vertices
- * @complexity O(log|E|)
- * @param e edge to be added
- * @return 'true' if the insertion occurs, 'false' otherwise
- */
-bool DGraph::addEdge(Edge *e) {
-    return Graph::addEdge(e);
-}
-
-/**
- * @brief adds an edge to the Graph, that is, a connection between two vertices
- * @complexity O(log|E|)
- * @param src index of the source vertex
- * @param dest index of the destination vertex
- * @param weight cost of the connection
- * @param valid bool that indicates if the edge should be considered in Graph traversals
- * @return 'true' if the insertion occurs, 'false' otherwise
- */
-bool DGraph::addEdge(int src, int dest, double weight, bool valid) {
-    return Graph::addEdge(src, dest, weight, valid);
-}
-
-/**
- * @brief removes all the edges that connect the source vertex to the destination vertex from the Graph
- * @complexity O(|E|)
- * @param src index of the source vertex
- * @param dest index of the destination vertex
- * @return number of edges removed
- */
-int DGraph::removeEdges(int src, int dest) {
-    return Graph::removeEdges(src, dest);
-}
-
-/**
  * @brief returns a subgraph that only contains specific vertices
  * @complexity O(|V| + |E|)
  * @param vertexIndices list containing indices of the vertices to be included in the subgraph

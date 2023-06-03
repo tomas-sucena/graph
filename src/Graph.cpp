@@ -546,6 +546,7 @@ std::set<Edge *> Graph::getEdges() const {
 
 /**
  * @brief creates the adjacency matrix of the Graph
+ * @complexity O(|V| * |E| * log|V|)
  * @param fillAll indicates if the matrix should be filled with all the distances (which involves computing the
  * shortest paths for all non-adjacent vertices)
  * @return adjacency matrix of the Graph
@@ -557,16 +558,14 @@ vector<vector<double>> Graph::toMatrix(bool fillAll) {
         matrix[i].resize(countVertices() + 1, -1);
 
     // fill the matrix
-    for (int i = 1; i <= countVertices(); ++i){
-        if (!fillAll) {
-            for (const Edge *e: (*this)[i].out) {
-                double currDistance = (matrix[i][e->dest] < 0) ? INF : matrix[i][e->dest];
-                matrix[i][e->dest] = std::min(e->weight, currDistance);
-            }
+    if (!fillAll) {
+        for (const Edge *e: edges)
+            matrix[e->src][e->dest] = std::min(e->weight, matrix[e->src][e->dest]);
 
-            continue;
-        }
+        return matrix;
+    }
 
+    for (int i = 1; i <= countVertices(); ++i) {
         dijkstra(i);
 
         for (int j = 1; j <= countVertices(); ++j)
