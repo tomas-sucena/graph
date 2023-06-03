@@ -260,12 +260,12 @@ list<Edge *> UGraph::getMST(int root) {
             if (!e->valid || !(*this)[next].valid || notInMST.find(next) == notInMST.end())
                 continue;
 
-            if ((*this)[curr].dist + e->weight >= (*this)[next].dist) continue;
+            if (e->weight >= (*this)[next].dist) continue;
 
             // notify the PQ that we will alter an element
             pq.notify((*this)[next]);
 
-            (*this)[next].dist = (*this)[curr].dist + e->weight;
+            (*this)[next].dist = e->weight;
             prev[next] = e;
 
             // update the PQ

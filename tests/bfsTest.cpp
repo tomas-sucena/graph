@@ -180,7 +180,7 @@ TEST(bfs, topological_sort) {
     EXPECT_TRUE(g11.topologicalSort().empty());
 
     // DAGs
-    /* TESTES DO PROF PEDRO RIBEIRO */
+    /* TESTS MADE BY PROF PEDRO RIBEIRO */
     DGraph g4 = TestGraphs::graph4();
     list<int> order = g4.topologicalSort();
 

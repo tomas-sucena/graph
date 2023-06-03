@@ -52,4 +52,48 @@ TEST(MST, Prim) {
         uSet<int> &edges = res[e->getSrc() - 1];
         EXPECT_NE(edges.find(e->getDest()), edges.end());
     }
+
+    UGraph g_1(5);
+
+    g_1.addEdge(1, 2, 2);
+    g_1.addEdge(1, 4, 5);
+    g_1.addEdge(2, 3, 14);
+    g_1.addEdge(2, 4, 5);
+    g_1.addEdge(2, 5, 4);
+    g_1.addEdge(3, 5, 34);
+    g_1.addEdge(4, 5, 58);
+
+    MST = g_1.getMST();
+    res = {{2, 4},
+           {1, 3, 5},
+           {2},
+           {1},
+           {2}};
+
+    for (const Edge *e : MST) {
+        uSet<int> &edges = res[e->getSrc() - 1];
+        EXPECT_NE(edges.find(e->getDest()), edges.end());
+    }
+
+    UGraph g_2(5);
+
+    g_2.addEdge(1, 2, 35);
+    g_2.addEdge(1, 3, 40);
+    g_2.addEdge(2, 3, 25);
+    g_2.addEdge(2, 4, 10);
+    g_2.addEdge(3, 4, 20);
+    g_2.addEdge(3, 5, 15);
+    g_2.addEdge(4, 5, 30);
+
+    MST = g_2.getMST();
+    res = {{2},
+           {1, 4},
+           {4, 5},
+           {2, 3},
+           {3}};
+
+    for (const Edge *e : MST) {
+        uSet<int> &edges = res[e->getSrc() - 1];
+        EXPECT_NE(edges.find(e->getDest()), edges.end());
+    }
 }
