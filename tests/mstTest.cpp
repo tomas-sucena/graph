@@ -15,7 +15,7 @@
 using testing::Eq;
 
 TEST(MST, Prim) {
-    // undirected and unweighted graphs
+    /* UNDIRECTED AND UNWEIGHTED GRAPHS */
     UGraph g1 = TestGraphs::graph1();
 
     std::list<Edge *> MST = g1.getMST();
@@ -34,7 +34,7 @@ TEST(MST, Prim) {
         EXPECT_NE(edges.find(e->getDest()), edges.end());
     }
 
-    // undirected and weighted graphs
+    /* UNDIRECTED AND WEIGHTED GRAPHS */
     UGraph g8 = TestGraphs::graph8();
 
     MST = g8.getMST();
@@ -91,6 +91,36 @@ TEST(MST, Prim) {
            {4, 5},
            {2, 3},
            {3}};
+
+    for (const Edge *e : MST) {
+        uSet<int> &edges = res[e->getSrc() - 1];
+        EXPECT_NE(edges.find(e->getDest()), edges.end());
+    }
+
+    // example from Wikipedia
+    UGraph g_3(4);
+
+    g_3.addEdge(1, 2, 2);
+    g_3.addEdge(1, 4, 1);
+    g_3.addEdge(2, 4, 2);
+    g_3.addEdge(3, 4, 3);
+
+    MST = g_3.getMST();
+    res = {{2, 4},
+           {1},
+           {4},
+           {1, 3}};
+
+    for (const Edge *e : MST) {
+        uSet<int> &edges = res[e->getSrc() - 1];
+        EXPECT_NE(edges.find(e->getDest()), edges.end());
+    }
+
+    MST = g_3.getMST(4);
+    res = {{4},
+           {4},
+           {4},
+           {1, 2, 3}};
 
     for (const Edge *e : MST) {
         uSet<int> &edges = res[e->getSrc() - 1];
