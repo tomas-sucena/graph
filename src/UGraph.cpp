@@ -90,8 +90,10 @@ vector<vector<double>> UGraph::toMatrix(bool fillAll) {
 
     // fill the matrix
     if (!fillAll) {
-        for (const Edge *e: edges)
-            matrix[e->src][e->dest] = std::min(e->weight, matrix[e->src][e->dest]);
+        for (const Edge *e: edges) {
+            double currDistance = (matrix[e->src][e->dest] < 0) ? INF : matrix[e->src][e->dest];
+            matrix[e->src][e->dest] = std::min(e->weight, currDistance);
+        }
 
         return matrix;
     }
