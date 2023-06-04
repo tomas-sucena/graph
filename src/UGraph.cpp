@@ -85,9 +85,11 @@ bool UGraph::isDirected() const {
 vector<vector<double>> UGraph::toMatrix(bool fillAll) {
     // initialize the matrix
     vector<vector<double>> matrix(countVertices() + 1);
-    for (int i = 1; i <= countVertices(); ++i)
+    for (int i = 1; i <= countVertices(); ++i) {
         matrix[i].resize(countVertices() + 1, -1);
-
+        matrix[i][i] = 0;
+    }
+    
     // fill the matrix
     if (!fillAll) {
         for (const Edge *e: edges) {
