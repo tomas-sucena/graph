@@ -6,7 +6,7 @@
 #include <string>
 #include <utility>
 
-#include "../src/DynamicPQ.hpp"
+#include "../src/implementation/DynamicPQ.hpp"
 
 using testing::Eq;
 

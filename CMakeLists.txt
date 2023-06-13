@@ -17,17 +17,17 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(PROJECT_HEADERS
-        include/DGraph.h
-        include/Edge.hpp
-        include/Vertex.hpp
-        include/UGraph.h
-        src/DynamicPQ.hpp
-        src/Graph.h
-        src/Path.hpp)
+        src/DGraph.h
+        src/implementation/DynamicPQ.hpp
+        src/implementation/Edge.hpp
+        src/implementation/Graph.h
+        src/implementation/Path.hpp
+        src/implementation/Vertex.hpp
+        src/UGraph.h)
 
 set(PROJECT_SOURCES
         src/DGraph.cpp
-        src/Graph.cpp
+        src/implementation/Graph.cpp
         src/UGraph.cpp)
 
 set(PROJECT_TESTS

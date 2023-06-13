@@ -2,7 +2,7 @@
 // Created by Tomás Sucena Lopes on 20/02/2023.
 //
 
-#include "../include/DGraph.h"
+#include "DGraph.h"
 
 #include <queue>
 #include <stdexcept>

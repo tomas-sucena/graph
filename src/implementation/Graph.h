@@ -9,8 +9,8 @@
 #include <set>
 #include <vector>
 
-#include "../include/Edge.hpp"
-#include "../include/Vertex.hpp"
+#include "Edge.hpp"
+#include "Vertex.hpp"
 #include "Path.hpp"
 
 using std::vector;

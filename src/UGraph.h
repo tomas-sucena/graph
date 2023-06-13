@@ -6,10 +6,12 @@
 #define GRAPH_UGRAPH_H
 
 #include <list>
+#include <vector>
 
-#include "../src/Graph.h"
+#include "implementation/Graph.h"
 
 using std::list;
+using std::vector;
 
 class UGraph : public Graph {
 /* CONSTRUCTOR */

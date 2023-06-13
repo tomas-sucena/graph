@@ -7,8 +7,8 @@
 #include <unordered_set>
 #include <unordered_map>
 
-#include "../include/DGraph.h"
-#include "../include/UGraph.h"
+#include "../src/DGraph.h"
+#include "../src/UGraph.h"
 #include "TestGraphs.h"
 
 #define uSet std::unordered_set

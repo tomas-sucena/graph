@@ -2,14 +2,14 @@
 // Created by Tomás Sucena Lopes on 20/02/2023.
 //
 
-#include "../include/UGraph.h"
+#include "UGraph.h"
 
 #include <stack>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
 
-#include "DynamicPQ.hpp"
+#include "implementation/DynamicPQ.hpp"
 
 #define uMap std::unordered_map
 #define uSet std::unordered_set

@@ -5,8 +5,8 @@
 #ifndef GRAPH_TESTGRAPHS_H
 #define GRAPH_TESTGRAPHS_H
 
-#include "../include/DGraph.h"
-#include "../include/UGraph.h"
+#include "../src/DGraph.h"
+#include "../src/UGraph.h"
 
 using namespace std;
 
